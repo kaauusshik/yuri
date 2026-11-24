@@ -4,6 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "dev": "powershell -ExecutionPolicy Bypass -File ./web/server.ps1",
+    "build": "echo 'Static build ready'",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",

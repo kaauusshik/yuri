@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/sen-jersey.webp",
+      "dest": "/sen-jersey.webp"
+    },
+    {
+      "src": "/web/sen-jersey.webp",
+      "dest": "/web/sen-jersey.webp"
+    },
+    {
+      "src": "/web/?(.*)",
+      "dest": "/web/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
