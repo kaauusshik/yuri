@@ -1,22 +1,11 @@
 {
-  "version": 2,
+  "buildCommand": "node build.js",
+  "outputDirectory": "public",
   "cleanUrls": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/sen-jersey.webp",
-      "dest": "/sen-jersey.webp"
-    },
-    {
-      "src": "/web/sen-jersey.webp",
-      "dest": "/web/sen-jersey.webp"
-    },
-    {
-      "src": "/web/?(.*)",
-      "dest": "/web/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
