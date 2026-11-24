@@ -1301,403 +1301,699 @@
             <button onclick="filterBrand('shein', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-emerald-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span> SHEIN
             </button>
-            <button onclick="filterBrand('zara', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-white whitespace-nowrap flex items-center gap-1.5 transition">
-              <span class="w-2 h-2 rounded-full bg-stone-300"></span> Zara
-            </button>
-            <button onclick="filterBrand('snitch', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-lavender whitespace-nowrap flex items-center gap-1.5 transition">
-              <span class="w-2 h-2 rounded-full bg-lavender"></span> Snitch
-            </button>
-            <button onclick="filterBrand('sentinels', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-rose-500 whitespace-nowrap flex items-center gap-1.5 transition">
-              <span class="w-2 h-2 rounded-full bg-rose-500"></span> Sentinels
+            <button onclick="filterBrand('d2c', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-rose-500 whitespace-nowrap flex items-center gap-1.5 transition">
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span> D2C & Sentinels
             </button>
           </div>
 
-          <div id="shop-product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
-            
-            <!-- Sentinels Pro 2026 Jersey Card (NEW) -->
-            <div data-brand="sentinels" class="rounded-2xl bg-surface border-2 border-rose-500/50 hover:border-rose-400 p-2.5 flex flex-col justify-between group shadow-lg transition">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-black/60 mb-2 flex items-center justify-center p-1">
-                  <img src="./sen-jersey.webp" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">
-                    SEN 2026 VCT
-                  </span>
-                  <button onclick="tryInLiveAR('sen_jersey', 'Sentinels Pro Jersey 2026')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-rose-500 text-white font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> Live AR
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 1: H&M (Hennes & Mauritz)                         -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-2" data-store="hm">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-red-600 text-white font-black text-xs flex items-center justify-center shadow-md">
+                  H&M
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-rose-400">MAXESPORT · SEN</span>
-                  <span class="text-emerald-400 font-mono font-bold">In Stock</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-rose-300">Sentinels Jersey Pro 2026</h4>
-              </div>
-              <div class="flex items-center justify-between mt-2 pt-1 border-t border-border">
-                <span class="text-xs font-bold text-white font-mono">$85 · ₹6,999</span>
-                <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-rose-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
-            </div>
-            <!-- Item 1: Snitch -->
-            <div class="rounded-2xl bg-surface border border-border p-2.5 flex flex-col justify-between group" data-brand="snitch">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                  <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-black/80 text-lavender uppercase tracking-wider">Snitch D2C</span>
-                </div>
-                <span class="text-[9px] uppercase font-bold text-stone-400">Snitch India</span>
-                <h4 class="text-xs font-semibold text-ivory truncate">Cuban Collar Relaxed Shirt</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-lavender">₹999</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹1,999</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    H&M Trending Fits
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">Official</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">Fast-fashion essentials & linen resort drops</p>
                 </div>
               </div>
-              <div class="flex gap-1.5 mt-2">
-                <button onclick="tryInLiveAR('shirt', 'Snitch Relaxed Shirt')" class="flex-1 py-1.5 bg-sage/20 border border-sage/40 text-sage rounded-xl text-[10px] font-bold hover:bg-sage hover:text-midnight transition flex items-center justify-center gap-1">
-                  <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                </button>
-                <button onclick="tryOnMyTwin('shirt', 'Snitch Relaxed Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-              </div>
+              <a href="https://www2.hm.com/en_in/index.html" target="_blank" class="text-[11px] text-red-400 hover:text-red-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit H&M Store <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- Item 2: Bonkers -->
-            <div class="rounded-2xl bg-surface border border-border p-2.5 flex flex-col justify-between group" data-brand="bonkers">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                  <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-400 text-black uppercase tracking-wider">Bonkers</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- H&M Fit 1 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-red-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">H&M</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=500&q=80', 'H&M Relaxed Linen Resort Shirt', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-red-400">H&M Men · Linen</span>
+                    <span class="text-emerald-400 font-mono font-bold">Trending</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Relaxed Resort Linen Shirt</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,499</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,299</span>
+                  </div>
                 </div>
-                <span class="text-[9px] uppercase font-bold text-stone-400">Bonkers Streetwear</span>
-                <h4 class="text-xs font-semibold text-ivory truncate">Heavyweight Tech Hoodie</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-lavender">₹1,499</span>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('shirt', 'H&M Relaxed Linen Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www2.hm.com/en_in/men/shop-by-product/shirts.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex gap-1.5 mt-2">
-                <button onclick="tryInLiveAR('hoodie', 'Bonkers Tech Hoodie')" class="flex-1 py-1.5 bg-sage/20 border border-sage/40 text-sage rounded-xl text-[10px] font-bold hover:bg-sage hover:text-midnight transition flex items-center justify-center gap-1">
-                  <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                </button>
-                <button onclick="tryOnMyTwin('hoodie', 'Bonkers Tech Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
+
+              <!-- H&M Fit 2 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-red-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">H&M</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80', 'H&M Ribbed Bodycon Midi Dress', 'dress_emerald')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-red-400">H&M Ladies</span>
+                    <span class="text-amber-400 font-mono font-bold">Hot Drop</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Ribbed Bodycon Midi Dress</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹2,299</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('dress_emerald', 'H&M Ribbed Bodycon Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www2.hm.com/en_in/ladies/shop-by-product/dresses.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- H&M Fit 3 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-red-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">H&M</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=500&q=80', 'H&M Regular Fit Denim Trucker Jacket', 'hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-red-400">H&M Denim</span>
+                    <span class="text-blue-400 font-mono font-bold">Classic</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Denim Trucker Jacket</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹2,999</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹3,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('hoodie', 'H&M Denim Jacket')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www2.hm.com/en_in/men/shop-by-product/jackets-and-coats.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- ============================================================= -->
-            <!-- 🛍️ 1. H&M TRENDING FITS                                        -->
-            <!-- ============================================================= -->
-            <!-- H&M Fit 1 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-red-500/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="hm">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">H&M</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=500&q=80', 'H&M Relaxed Linen Resort Shirt', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 2: MYNTRA (India's Fashion Hub)                  -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-4" data-store="myntra">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-pink-600 via-rose-500 to-amber-500 text-white font-black text-xs flex items-center justify-center shadow-md">
+                  M
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-red-400">H&M India</span>
-                  <span class="text-emerald-400 font-mono font-bold">Trending</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Relaxed Resort Linen Shirt</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹1,499</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹2,299</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    Myntra Curated Fits
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">Top Deals</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">India's #1 fashion catalog with 50% off top labels</p>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('shirt', 'H&M Relaxed Linen Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www2.hm.com/en_in/men/shop-by-product/shirts.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
+              <a href="https://www.myntra.com/" target="_blank" class="text-[11px] text-pink-400 hover:text-pink-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit Myntra Store <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- H&M Fit 2 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-red-500/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="hm">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">H&M</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80', 'H&M Ribbed Bodycon Midi Dress', 'dress_emerald')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- Myntra Fit 1 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-pink-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80', 'Mast & Harbour Tailored Blazer (Myntra)', 'blazer')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-pink-400">Mast & Harbour</span>
+                    <span class="text-emerald-400 font-mono font-bold">50% OFF</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Oversized Tailored Blazer</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹2,499</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('blazer', 'Mast & Harbour Blazer')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-red-400">H&M Ladies</span>
-                  <span class="text-amber-400 font-mono font-bold">Hot Drop</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Ribbed Bodycon Midi Dress</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹2,299</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹2,999</span>
+                  <a href="https://www.myntra.com/blazers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('dress_emerald', 'H&M Ribbed Bodycon Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www2.hm.com/en_in/ladies/shop-by-product/dresses.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
+
+              <!-- Myntra Fit 2 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-pink-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80', 'Anouk Embroidered Chanderi Kurta Set', 'dress_anarkali')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-pink-400">Anouk Ethnic</span>
+                    <span class="text-amber-400 font-mono font-bold">Festive</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Embroidered Chanderi Kurta</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,899</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹3,499</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('dress_anarkali', 'Anouk Kurta Set')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.myntra.com/kurta-sets" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Myntra Fit 3 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-pink-500/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=500&q=80', 'Roadster Streetwear Baggy Cargo Trousers', 'pants')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-pink-400">Roadster Street</span>
+                    <span class="text-emerald-400 font-mono font-bold">Viral</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Utility Baggy Cargo Pants</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,199</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,499</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('pants', 'Roadster Cargo Pants')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.myntra.com/trousers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- ============================================================= -->
-            <!-- 🛍️ 2. MYNTRA TRENDING FITS                                    -->
-            <!-- ============================================================= -->
-            <!-- Myntra Fit 1 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-pink-500/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="myntra">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80', 'Mast & Harbour Tailored Blazer (Myntra)', 'blazer')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 3: ZUDIO (Tata Trent Gen-Z Phenomenon)           -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-4" data-store="zudio">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-black text-amber-300 border border-amber-400/40 font-black text-xs flex items-center justify-center shadow-md">
+                  Z
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-pink-400">Mast & Harbour</span>
-                  <span class="text-emerald-400 font-mono font-bold">50% OFF</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Oversized Tailored Blazer</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹2,499</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    Zudio Viral Gen-Z Fits
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">Under ₹999</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">Tata Trent's viral high-street collection</p>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('blazer', 'Mast & Harbour Blazer')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.myntra.com/blazers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
+              <a href="https://www.zudio.com/" target="_blank" class="text-[11px] text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit Zudio Store <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- Myntra Fit 2 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-pink-500/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="myntra">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80', 'Anouk Embroidered Chanderi Kurta Set', 'dress_anarkali')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- Zudio Fit 1 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-amber-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-amber-300 border border-amber-400/40 uppercase tracking-wider">ZUDIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80', 'Zudio Oversized Graphic Drop-Shoulder Tee', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-amber-400">Zudio India</span>
+                    <span class="text-rose-400 font-mono font-bold">Viral Gen-Z</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Drop-Shoulder Graphic Tee</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-amber-300 font-mono">₹499 Only</span>
+                    <span class="text-[9px] text-stone-400">Tata Trent</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('shirt', 'Zudio Graphic Tee')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-pink-400">Anouk Ethnic</span>
-                  <span class="text-amber-400 font-mono font-bold">Festive</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Embroidered Chanderi Kurta Set</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹1,899</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹3,499</span>
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('dress_anarkali', 'Anouk Kurta Set')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.myntra.com/kurta-sets" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
+
+              <!-- Zudio Fit 2 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-amber-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-amber-300 border border-amber-400/40 uppercase tracking-wider">ZUDIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=500&q=80', 'Zudio Streetwear Cropped Puffer Vest', 'hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-amber-400">Zudio Winter</span>
+                    <span class="text-emerald-400 font-mono font-bold">Under ₹1k</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Streetwear Puffer Vest</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹899</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('hoodie', 'Zudio Puffer Vest')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Zudio Fit 3 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-amber-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-amber-300 border border-amber-400/40 uppercase tracking-wider">ZUDIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80', 'Zudio Relaxed Utility Cargo Joggers', 'pants')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-amber-400">Zudio Bottoms</span>
+                    <span class="text-blue-400 font-mono font-bold">Trending</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Utility Cargo Joggers</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹799</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹1,199</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('pants', 'Zudio Cargo Joggers')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- ============================================================= -->
-            <!-- 🛍️ 3. ZUDIO TRENDING FITS (Tata Trent Viral Gen-Z)            -->
-            <!-- ============================================================= -->
-            <!-- Zudio Fit 1 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-amber-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="zudio">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-amber-300 border border-amber-400/40 uppercase tracking-wider">ZUDIO</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80', 'Zudio Oversized Graphic Drop-Shoulder Tee', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 4: AJIO (Reliance Luxe & International)          -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-4" data-store="ajio">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-blue-700 text-white font-black text-xs flex items-center justify-center shadow-md">
+                  AJIO
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-amber-400">Zudio India</span>
-                  <span class="text-rose-400 font-mono font-bold">Viral Gen-Z</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Drop-Shoulder Graphic Tee</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-amber-300 font-mono">₹499 Only</span>
-                  <span class="text-[9px] text-stone-400">Tata Trent</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    AJIO Luxe & Originals
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Reliance</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">GAP, Marks & Spencer, Superdry premium selections</p>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('shirt', 'Zudio Graphic Tee')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
+              <a href="https://www.ajio.com/" target="_blank" class="text-[11px] text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit AJIO Store <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- Zudio Fit 2 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-amber-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="zudio">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-amber-300 border border-amber-400/40 uppercase tracking-wider">ZUDIO</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=500&q=80', 'Zudio Streetwear Cropped Puffer Vest', 'hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- AJIO Fit 1 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-blue-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-blue-700 text-white uppercase tracking-wider">AJIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=500&q=80', 'GAP Arch Logo Fleece Hoodie (Ajio)', 'hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-blue-400">GAP · AJIO Luxe</span>
+                    <span class="text-emerald-400 font-mono font-bold">Trending</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Arch Logo Fleece Hoodie</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹2,999</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('hoodie', 'GAP Arch Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-amber-400">Zudio Winter</span>
-                  <span class="text-emerald-400 font-mono font-bold">Under ₹1k</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Streetwear Puffer Vest</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹899</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                  <a href="https://www.ajio.com/s/gap" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('hoodie', 'Zudio Puffer Vest')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
+
+              <!-- AJIO Fit 2 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-blue-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-blue-700 text-white uppercase tracking-wider">AJIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80', 'Marks & Spencer Floral Pure Cotton Dress (Ajio)', 'dress_floral')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-blue-400">Marks & Spencer</span>
+                    <span class="text-rose-400 font-mono font-bold">Premium</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Floral Pure Cotton Midi Dress</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹3,499</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('dress_floral', 'M&S Floral Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.ajio.com/s/marks-and-spencer" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- AJIO Fit 3 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-blue-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-blue-700 text-white uppercase tracking-wider">AJIO</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80', 'Superdry Vintage Athletic Graphic Crew (Ajio)', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-blue-400">Superdry · Luxe</span>
+                    <span class="text-amber-400 font-mono font-bold">Original</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Vintage Athletic Graphic Tee</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,899</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('shirt', 'Superdry Graphic Tee')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.ajio.com/s/superdry" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- ============================================================= -->
-            <!-- 🛍️ 4. AJIO TRENDING FITS (Reliance Luxe & International)       -->
-            <!-- ============================================================= -->
-            <!-- AJIO Fit 1 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-blue-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="ajio">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-blue-700 text-white uppercase tracking-wider">AJIO</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=500&q=80', 'GAP Arch Logo Fleece Hoodie (Ajio)', 'hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 5: SHEIN (TikTok Viral & Y2K Streetwear)         -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-4" data-store="shein">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-black text-white border border-white/20 font-black text-xs flex items-center justify-center shadow-md">
+                  S
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-blue-400">GAP · AJIO Luxe</span>
-                  <span class="text-emerald-400 font-mono font-bold">Trending</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Arch Logo Fleece Hoodie</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹2,999</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    SHEIN TikTok Viral Drops
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Viral Y2K</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">Global aesthetics, corset halters & parachute streetwear</p>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('hoodie', 'GAP Arch Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.ajio.com/s/gap" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
+              <a href="https://us.shein.com/" target="_blank" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit SHEIN Store <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- AJIO Fit 2 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-blue-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="ajio">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-blue-700 text-white uppercase tracking-wider">AJIO</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80', 'Marks & Spencer Floral Pure Cotton Dress (Ajio)', 'dress_floral')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- SHEIN Fit 1 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-white border border-white/20 uppercase tracking-wider">SHEIN</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80', 'SHEIN ICON Y2K Rhinestone Corset Top', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-emerald-400">SHEIN ICON</span>
+                    <span class="text-rose-400 font-mono font-bold">TikTok Viral</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">Y2K Rhinestone Corset Top</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹850 · $9.99</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('shirt', 'SHEIN Y2K Corset Top')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-blue-400">Marks & Spencer</span>
-                  <span class="text-rose-400 font-mono font-bold">Premium</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Floral Pure Cotton Midi Dress</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹3,499</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                  <a href="https://us.shein.com/women-tops-c-1766.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('dress_floral', 'M&S Floral Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://www.ajio.com/s/marks-and-spencer" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
+
+              <!-- SHEIN Fit 2 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-white border border-white/20 uppercase tracking-wider">SHEIN</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80', 'SHEIN EZwear High-Waist Parachute Cargo Pants', 'pants')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-emerald-400">SHEIN EZwear</span>
+                    <span class="text-amber-400 font-mono font-bold">Best Seller</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">High-Waist Parachute Cargo</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,350 · $16.00</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,100</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('pants', 'SHEIN Cargo Pants')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://us.shein.com/women-pants-c-1740.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- SHEIN Fit 3 -->
+              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-white border border-white/20 uppercase tracking-wider">SHEIN</span>
+                    <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80', 'SHEIN Modely Cowl Neck Satin Evening Gown', 'dress_emerald')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-emerald-400">SHEIN Modely</span>
+                    <span class="text-purple-400 font-mono font-bold">Satin Gown</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">Cowl Neck Satin Slip Gown</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">₹1,899 · $22.00</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,800</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('dress_emerald', 'SHEIN Satin Slip Gown')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://us.shein.com/women-dresses-c-1727.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- ============================================================= -->
-            <!-- 🛍️ 5. SHEIN TRENDING FITS (Viral Y2K & Streetwear)             -->
-            <!-- ============================================================= -->
-            <!-- SHEIN Fit 1 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="shein">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-white border border-white/20 uppercase tracking-wider">SHEIN</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80', 'SHEIN ICON Y2K Rhinestone Corset Top', 'shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
-                  </button>
+          <!-- ================================================================= -->
+          <!-- 🏬 STORE SECTION 6: D2C & ESPORTS EXCLUSIVES                      -->
+          <!-- ================================================================= -->
+          <div class="store-brand-section space-y-3 pt-4" data-store="d2c" data-alt-store="sentinels snitch bonkers">
+            <div class="flex items-center justify-between pb-1.5 border-b border-border/80">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-rose-600 text-white font-black text-xs flex items-center justify-center shadow-md">
+                  SEN
                 </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-emerald-400">SHEIN ICON</span>
-                  <span class="text-rose-400 font-mono font-bold">TikTok Viral</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">Y2K Rhinestone Corset Top</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹850 · $9.99</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    D2C & Esports Special Editions
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">Limited</span>
+                  </h3>
+                  <p class="text-[10px] text-stone-400">Maxesport Sentinels Pro 2026, Snitch India, Bonkers Corner</p>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('shirt', 'SHEIN Y2K Corset Top')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://us.shein.com/women-tops-c-1766.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
-              </div>
+              <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1 hover:underline">
+                Visit Maxesport <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
             </div>
 
-            <!-- SHEIN Fit 2 -->
-            <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/40 p-2.5 flex flex-col justify-between group transition shadow-md" data-brand="shein">
-              <div>
-                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
-                  <img src="https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                  <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-black text-white border border-white/20 uppercase tracking-wider">SHEIN</span>
-                  <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80', 'SHEIN EZwear High-Waist Parachute Cargo Pants', 'pants')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
-                    <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+              <!-- Sentinels Pro 2026 Jersey Card -->
+              <div class="rounded-2xl bg-surface border-2 border-rose-500/50 hover:border-rose-400 p-2.5 flex flex-col justify-between group shadow-lg transition" data-brand="sentinels">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-black/60 mb-2 flex items-center justify-center p-1">
+                    <img src="./sen-jersey.webp" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">
+                      SEN 2026 VCT
+                    </span>
+                    <button onclick="tryInLiveAR('sen_jersey', 'Sentinels Pro Jersey 2026')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-rose-500 text-white font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> Live AR
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-rose-400">MAXESPORT · SEN</span>
+                    <span class="text-emerald-400 font-mono font-bold">In Stock</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-rose-300">Sentinels Jersey Pro 2026</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-white font-mono">$85 · ₹6,999</span>
+                    <span class="text-[9px] text-rose-400">Official VCT</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('sen_jersey', 'Sentinels Pro Jersey 2026')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                </div>
-                <div class="flex items-center justify-between text-[9px]">
-                  <span class="uppercase font-bold text-emerald-400">SHEIN EZwear</span>
-                  <span class="text-amber-400 font-mono font-bold">Best Seller</span>
-                </div>
-                <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">High-Waist Parachute Cargo</h4>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <span class="text-xs font-bold text-white font-mono">₹1,350 · $16.00</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹2,100</span>
+                  <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-rose-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
                 </div>
               </div>
-              <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
-                <button onclick="tryOnMyTwin('pants', 'SHEIN Cargo Pants')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
-                  <i data-lucide="user" class="w-3 h-3"></i> AI Twin
-                </button>
-                <a href="https://us.shein.com/women-pants-c-1740.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
-                  Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
-                </a>
+
+              <!-- Snitch Relaxed Shirt -->
+              <div class="rounded-2xl bg-surface border border-border p-2.5 flex flex-col justify-between group hover:border-lavender/50 transition" data-brand="snitch">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-black/80 text-lavender uppercase tracking-wider">Snitch D2C</span>
+                    <button onclick="tryInLiveAR('shirt', 'Snitch Relaxed Shirt')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-stone-400">Snitch India</span>
+                    <span class="text-emerald-400 font-mono font-bold">50% Off</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-lavender">Cuban Collar Relaxed Shirt</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-lavender">₹999</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹1,999</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('shirt', 'Snitch Relaxed Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.snitch.co.in/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Bonkers Tech Hoodie -->
+              <div class="rounded-2xl bg-surface border border-border p-2.5 flex flex-col justify-between group hover:border-amber-400/50 transition" data-brand="bonkers">
+                <div>
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-400 text-black uppercase tracking-wider">Bonkers</span>
+                    <button onclick="tryInLiveAR('hoodie', 'Bonkers Tech Hoodie')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                      <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px]">
+                    <span class="uppercase font-bold text-stone-400">Bonkers Streetwear</span>
+                    <span class="text-amber-400 font-mono font-bold">Oversized</span>
+                  </div>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Heavyweight Tech Hoodie</h4>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs font-bold text-lavender">₹1,499</span>
+                    <span class="text-[10px] text-stone-500 line-through">₹2,499</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
+                  <button onclick="tryOnMyTwin('hoodie', 'Bonkers Tech Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
+                    <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+                  </button>
+                  <a href="https://www.bonkerscorner.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                    Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -3456,12 +3752,14 @@
       if (activeBtn) {
         activeBtn.className = 'brand-filter-btn px-3.5 py-1.5 rounded-xl bg-lavender text-midnight font-bold whitespace-nowrap flex items-center gap-1.5 shadow-sm text-xs';
       }
-      const items = document.querySelectorAll('#shop-product-grid > div');
-      items.forEach(item => {
-        if (brand === 'all' || item.getAttribute('data-brand') === brand) {
-          item.style.display = 'flex';
+      const sections = document.querySelectorAll('.store-brand-section');
+      sections.forEach(sec => {
+        const store = sec.getAttribute('data-store');
+        const altStore = sec.getAttribute('data-alt-store') || '';
+        if (brand === 'all' || store === brand || altStore.includes(brand)) {
+          sec.style.display = 'block';
         } else {
-          item.style.display = 'none';
+          sec.style.display = 'none';
         }
       });
       if (typeof lucide !== 'undefined') lucide.createIcons();
