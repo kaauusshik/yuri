@@ -83,77 +83,79 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start p-2 sm:p-6 bg-gradient-to-b from-[#0e1017] via-[#111318] to-[#0a0b0e]">
+<body class="min-h-screen w-full bg-[#0b0c10] text-[#F3F0EA] flex flex-col selection:bg-lavender selection:text-midnight overflow-x-hidden antialiased">
 
-  <!-- Top Global Bar -->
-  <header class="w-full max-w-6xl mx-auto flex items-center justify-between py-3 px-4 mb-4 glass-card rounded-2xl">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lavender to-sage flex items-center justify-center shadow-lg shadow-lavender/20">
-        <span class="text-midnight font-extrabold text-xl tracking-tighter">Y</span>
+  <!-- ========================================================================= -->
+  <!-- 🌐 PROPER RESPONSIVE WEBSITE NAVIGATION (Sticky, Universal for All Devices)-->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-50 w-full bg-[#0e1017]/95 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lavender via-purple-300 to-sage flex items-center justify-center shadow-lg shadow-lavender/25 ring-1 ring-white/15">
+          <span class="text-midnight font-extrabold text-xl tracking-tighter">Y</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-serif italic font-bold text-xl text-ivory tracking-tight">YURI</span>
+            <span class="text-[10px] bg-lavender/20 text-lavender px-2 py-0.5 rounded-full font-mono font-semibold border border-lavender/30">AI</span>
+          </div>
+          <p class="hidden sm:block text-[11px] text-stone-400">Try it. Style it. Wear it. Buy it.</p>
+        </div>
       </div>
-      <div>
-        <h1 class="text-lg font-bold tracking-wider text-ivory flex items-center gap-1.5">
-          YURI <span class="text-xs bg-lavender/20 text-lavender px-2 py-0.5 rounded-full font-mono font-semibold border border-lavender/30">AI v1.0</span>
-        </h1>
-        <p class="text-xs text-stone-400">Try it. Style it. Wear it. Buy it.</p>
-      </div>
-    </div>
 
-    <!-- View Mode Switcher & Twin Matrix Pill -->
-    <div class="flex items-center gap-2">
-      <button onclick="openTwinComparisonModal()" class="px-3 py-1.5 rounded-xl bg-lavender/10 hover:bg-lavender/20 border border-lavender/30 text-xs text-lavender font-semibold flex items-center gap-1.5 transition">
-        <i data-lucide="split" class="w-3.5 h-3.5"></i>
-        <span>Yuri vs Twin!</span>
-      </button>
-      <div class="hidden sm:flex bg-surface-light p-1 rounded-xl border border-border text-xs">
-        <button id="btn-mode-phone" onclick="setViewMode('phone')" class="px-3 py-1.5 rounded-lg font-medium text-midnight bg-lavender transition-all">Mobile Studio</button>
-        <button id="btn-mode-desktop" onclick="setViewMode('desktop')" class="px-3 py-1.5 rounded-lg font-medium text-stone-300 hover:text-white transition-all">Full Dashboard</button>
+      <!-- Desktop Center Navigation Bar -->
+      <nav class="hidden md:flex items-center gap-1 bg-surface-light/80 p-1 rounded-2xl border border-white/10 text-xs shadow-inner">
+        <button onclick="switchTab('home')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-lavender hover:text-white transition flex items-center gap-1.5" data-tab="home">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Home</span>
+        </button>
+        <button onclick="switchTab('tryon')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="tryon">
+          <i data-lucide="wand-2" class="w-4 h-4"></i>
+          <span>3D Studio</span>
+        </button>
+        <button onclick="switchTab('wardrobe')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="wardrobe">
+          <i data-lucide="shirt" class="w-4 h-4"></i>
+          <span>Wardrobe</span>
+        </button>
+        <button onclick="switchTab('shop')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="shop">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>Shop</span>
+        </button>
+        <button onclick="switchTab('stylist')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="stylist">
+          <i data-lucide="sparkles" class="w-4 h-4 text-lavender"></i>
+          <span>AI Stylist</span>
+        </button>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="openTwinComparisonModal()" class="px-3 py-1.5 rounded-xl bg-lavender/10 hover:bg-lavender/20 border border-lavender/30 text-xs text-lavender font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="split" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Yuri vs Twin!</span>
+          <span class="sm:hidden">Twin!</span>
+        </button>
+        
+        <div class="flex items-center gap-1.5 bg-surface px-3 py-1.5 rounded-xl border border-white/10 text-xs text-lavender font-mono font-semibold">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-lavender"></i>
+          <span id="credit-count">25</span>
+          <span class="hidden sm:inline">Credits</span>
+        </div>
+
+        <button onclick="switchTab('profile')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-lavender/30 to-sage/30 border border-lavender/40 flex items-center justify-center font-bold text-xs text-lavender hover:scale-105 transition" title="User Profile">
+          KM
+        </button>
       </div>
-      <div class="flex items-center gap-1 bg-surface px-3 py-1.5 rounded-xl border border-border text-xs text-lavender font-mono font-semibold">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-        <span id="credit-count">25 Credits</span>
-      </div>
+
     </div>
   </header>
 
-  <!-- Container for the App Frame -->
-  <main id="app-wrapper" class="w-full flex justify-center transition-all duration-300">
-    
-    <!-- Phone Mockup Container -->
-    <div id="phone-frame" class="w-full max-w-[430px] h-[890px] rounded-[52px] bg-midnight border-[10px] border-[#22242e] shadow-2xl shadow-lavender/10 flex flex-col relative overflow-hidden ring-1 ring-white/10">
-      
-      <!-- Dynamic Island / Top Notch -->
-      <div class="w-full h-8 flex justify-between items-center px-7 pt-3 z-50 select-none">
-        <span id="live-clock" class="text-xs font-semibold text-ivory tracking-tight">20:20</span>
-        <div class="w-24 h-5 bg-black rounded-full mx-auto flex items-center justify-end px-2">
-          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 animate-pulse mr-1"></div>
-        </div>
-        <div class="flex items-center space-x-1.5 text-ivory">
-          <i data-lucide="signal" class="w-3.5 h-3.5"></i>
-          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-          <i data-lucide="battery" class="w-4 h-4 text-sage"></i>
-        </div>
-      </div>
-
-      <!-- App Header Bar -->
-      <div class="flex items-center justify-between px-5 pt-3 pb-2 z-40 bg-midnight/90 backdrop-blur-md">
-        <div class="flex items-center space-x-2">
-          <span class="font-serif italic font-bold text-xl text-ivory">Yuri</span>
-          <span class="text-[10px] font-bold tracking-widest text-lavender px-1.5 py-0.5 rounded bg-lavender/10 border border-lavender/20 uppercase">AI</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button onclick="switchTab('stylist')" class="relative p-2 rounded-full bg-surface-light border border-border text-ivory hover:text-lavender transition">
-            <i data-lucide="sparkles" class="w-4 h-4 text-lavender"></i>
-            <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-sage ring-2 ring-midnight"></span>
-          </button>
-          <button onclick="switchTab('profile')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-lavender/30 to-sage/30 border border-lavender/40 flex items-center justify-center font-bold text-xs text-lavender">
-            KM
-          </button>
-        </div>
-      </div>
-
-      <!-- Screens Container (Scrollable) -->
-      <div id="screen-container" class="flex-1 overflow-y-auto pb-24 scrollbar-hide px-4 pt-1">
+  <!-- ========================================================================= -->
+  <!-- 💻 MAIN CONTAINER: RESPONSIVE ACROSS ALL DESKTOPS, TABLETS & PHONES       -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 md:pb-12">
+    <div id="screen-container" class="w-full space-y-4">
         
         <!-- ========================================== -->
         <!-- SCREEN 1: HOME TAB                         -->
@@ -393,7 +395,7 @@
                 </button>
               </div>
             </div>
-            <div class="relative w-full h-[380px] rounded-3xl overflow-hidden bg-black border-2 border-border shadow-2xl relative select-none">
+            <div class="relative w-full h-[380px] sm:h-[460px] md:h-[520px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-black border-2 border-border shadow-2xl relative select-none">
               <video id="live-webcam" autoplay playsinline muted class="hidden"></video>
               <canvas id="ar-canvas"></canvas>
 
@@ -1009,7 +1011,7 @@
           <div id="subtab-mannequin" class="hidden space-y-3.5">
             
             <!-- Mannequin Studio Viewport (Interactive 360 View) -->
-            <div class="relative w-full h-[390px] rounded-3xl overflow-hidden bg-gradient-to-b from-[#14161f] via-[#101217] to-[#0a0b0e] border-2 border-border shadow-2xl relative select-none flex flex-col justify-between p-3.5">
+            <div class="relative w-full h-[390px] sm:h-[460px] md:h-[520px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-b from-[#14161f] via-[#101217] to-[#0a0b0e] border-2 border-border shadow-2xl relative select-none flex flex-col justify-between p-3.5">
               
               <!-- Top Mannequin Controls HUD -->
               <div class="flex items-center justify-between z-20">
@@ -1175,7 +1177,7 @@
             <button class="px-3 py-1 rounded-xl bg-surface-light text-stone-300">Jackets (2)</button>
           </div>
 
-          <div id="wardrobe-grid" class="grid grid-cols-2 gap-3">
+          <div id="wardrobe-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             <div class="rounded-2xl bg-surface border border-border p-2 group">
               <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                 <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
@@ -1198,7 +1200,7 @@
         <!-- ========================================== -->
         <!-- SCREEN 4: AI STYLIST TAB                   -->
         <!-- ========================================== -->
-        <div id="tab-stylist" class="tab-pane hidden flex flex-col h-[700px] justify-between pb-6">
+        <div id="tab-stylist" class="tab-pane hidden flex flex-col min-h-[520px] max-h-[80vh] justify-between pb-6">
           <div class="space-y-3 overflow-y-auto pr-1">
             <div class="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
               <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-lavender to-sage text-midnight flex items-center justify-center font-bold">
@@ -1291,7 +1293,7 @@
             <button onclick="filterBrand('zara')" class="brand-filter-btn px-2.5 py-1 rounded-xl bg-surface-light text-stone-300 hover:text-white whitespace-nowrap">Zara</button>
           </div>
 
-          <div id="shop-product-grid" class="grid grid-cols-2 gap-2.5">
+          <div id="shop-product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
             
             <!-- Sentinels Pro 2026 Jersey Card (NEW) -->
             <div data-brand="sentinels" class="rounded-2xl bg-surface border-2 border-rose-500/50 hover:border-rose-400 p-2.5 flex flex-col justify-between group shadow-lg transition">
@@ -1392,32 +1394,34 @@
 
       </div>
 
-      <!-- Bottom Floating Tab Bar -->
-      <nav class="absolute bottom-0 inset-x-0 h-20 glass-nav flex items-center justify-around px-2 z-50">
-        <button onclick="switchTab('home')" class="nav-item flex flex-col items-center text-lavender transition py-1" data-tab="home">
-          <i data-lucide="home" class="w-5 h-5"></i>
-          <span class="text-[10px] font-semibold mt-1">Home</span>
-        </button>
-        <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="tryon">
-          <i data-lucide="wand-2" class="w-5 h-5"></i>
-          <span class="text-[10px] font-semibold mt-1">Try-On</span>
-        </button>
-        <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="wardrobe">
-          <i data-lucide="shirt" class="w-5 h-5"></i>
-          <span class="text-[10px] font-semibold mt-1">Wardrobe</span>
-        </button>
-        <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="shop">
-          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-          <span class="text-[10px] font-semibold mt-1">Shop</span>
-        </button>
-        <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="profile">
-          <i data-lucide="user" class="w-5 h-5"></i>
-          <span class="text-[10px] font-semibold mt-1">Profile</span>
-        </button>
-      </nav>
-
     </div>
   </main>
+
+  <!-- ========================================================================= -->
+  <!-- 📱 MOBILE BOTTOM DOCK (Visible on Phones, Hidden on Desktop)              -->
+  <!-- ========================================================================= -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 h-16 glass-nav flex items-center justify-around px-2 z-50 pb-[env(safe-area-inset-bottom,0px)] bg-[#0e1017]/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-8px_30px_rgba(0,0,0,0.7)]">
+    <button onclick="switchTab('home')" class="nav-item flex flex-col items-center text-lavender transition py-1" data-tab="home">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold mt-0.5">Home</span>
+    </button>
+    <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="tryon">
+      <i data-lucide="wand-2" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold mt-0.5">Try-On</span>
+    </button>
+    <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="wardrobe">
+      <i data-lucide="shirt" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold mt-0.5">Wardrobe</span>
+    </button>
+    <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="shop">
+      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold mt-0.5">Shop</span>
+    </button>
+    <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="profile">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold mt-0.5">Profile</span>
+    </button>
+  </nav>
 
   <!-- ========================================================================= -->
   <!-- ⚡ MODAL 1: YURI AI vs TWIN! APP DIFFERENTIATION MATRIX                   -->
@@ -1551,11 +1555,13 @@
   <script>
     lucide.createIcons();
 
-    // Clock
+    // Clock (safe fallback)
     function updateClock() {
-      const now = new Date();
-      document.getElementById('live-clock').textContent = 
-        String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('live-clock');
+      if (el) {
+        const now = new Date();
+        el.textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      }
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -1579,25 +1585,7 @@
     }
 
     function setViewMode(mode) {
-      const phoneFrame = document.getElementById('phone-frame');
-      const btnPhone = document.getElementById('btn-mode-phone');
-      const btnDesktop = document.getElementById('btn-mode-desktop');
-
-      if (mode === 'desktop') {
-        phoneFrame.classList.remove('max-w-[430px]', 'rounded-[52px]', 'border-[10px]', 'h-[890px]');
-        phoneFrame.classList.add('max-w-4xl', 'rounded-2xl', 'border', 'h-[820px]');
-        btnDesktop.classList.add('bg-lavender', 'text-midnight');
-        btnDesktop.classList.remove('text-stone-300');
-        btnPhone.classList.remove('bg-lavender', 'text-midnight');
-        btnPhone.classList.add('text-stone-300');
-      } else {
-        phoneFrame.classList.add('max-w-[430px]', 'rounded-[52px]', 'border-[10px]', 'h-[890px]');
-        phoneFrame.classList.remove('max-w-4xl', 'rounded-2xl', 'border', 'h-[820px]');
-        btnPhone.classList.add('bg-lavender', 'text-midnight');
-        btnPhone.classList.remove('text-stone-300');
-        btnDesktop.classList.remove('bg-lavender', 'text-midnight');
-        btnDesktop.classList.add('text-stone-300');
-      }
+      // Responsive web application - automatically adapts to screen width
     }
 
     function openStudio(mode) {
