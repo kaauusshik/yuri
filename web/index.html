@@ -3,114 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YURI AI — The 3D Real-Time Fashion Ecosystem</title>
-  
-  <!-- High-Impact Fonts: Syne (Ultra Bold Display) + Space Grotesk (Tech Monospace) + Plus Jakarta Sans -->
+  <title>YURI AI — Try it. Style it. Wear it. Buy it.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- MediaPipe Pose for Live AR Tracking -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
-  
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            midnight: '#07080C',
-            obsidian: '#0C0E15',
-            'titanium-dark': '#131620',
-            'titanium-light': '#1C2130',
+            midnight: '#111318',
             lavender: '#C8B4FF',
-            'lavender-neon': '#A78BFA',
-            emerald: {
-              400: '#00F59B',
-              500: '#10B981',
-              900: '#064e3b',
-              950: '#022c22'
-            },
-            ivory: '#F8F9FC',
+            'lavender-dark': '#9b7bf7',
+            ivory: '#F3F0EA',
             sage: '#A4C9B2',
-            surface: '#11131B',
-            'surface-light': '#1A1E2B',
-            'surface-elevated': '#232839',
-            border: '#232838',
-            'border-light': '#2F364B'
+            surface: '#1A1B23',
+            'surface-light': '#242530',
+            'surface-elevated': '#2D2E3A',
+            border: '#2A2B35'
           },
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            display: ['"Syne"', 'sans-serif'],
-            mono: ['"Space Grotesk"', 'monospace'],
+            serif: ['"Playfair Display"', 'serif'],
           }
         }
       }
     }
   </script>
-
   <style>
     body {
-      background: radial-gradient(circle at 50% -15%, #181c2c 0%, #0a0c12 40%, #040508 100%);
-      color: #F8F9FC;
+      background-color: #0b0c10;
+      color: #F3F0EA;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
-      min-height: 100vh;
     }
-    
-    .font-display { font-family: 'Syne', sans-serif; }
-    .font-mono-tech { font-family: 'Space Grotesk', monospace; }
-
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* Ultra-Sleek Glassmorphic Panels */
     .glass-card {
-      background: rgba(15, 18, 26, 0.75);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      background: rgba(26, 27, 35, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(200, 180, 255, 0.12);
     }
-    
     .glass-nav {
-      background: rgba(11, 13, 20, 0.88);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
-    }
-
-    .sleek-panel {
-      background: linear-gradient(145deg, rgba(22, 26, 38, 0.85), rgba(12, 14, 22, 0.90));
+      background: rgba(17, 19, 24, 0.90);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.7);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
-
-    .sleek-card-hover {
-      transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .sleek-card-hover:hover {
-      transform: translateY(-2px);
-      border-color: rgba(200, 180, 255, 0.35);
-      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(167, 139, 250, 0.18);
-    }
-
-    /* Glow Effects */
-    .glow-emerald {
-      box-shadow: 0 0 25px rgba(0, 245, 155, 0.35);
-    }
-    .glow-violet {
-      box-shadow: 0 0 25px rgba(167, 139, 250, 0.35);
-    }
-    .glow-rose {
-      box-shadow: 0 0 25px rgba(244, 63, 94, 0.40);
-    }
-
     .gradient-border { position: relative; }
     .gradient-border::before {
       content: '';
@@ -118,19 +64,17 @@
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(200, 180, 255, 0.6), rgba(0, 245, 155, 0.3), transparent 60%);
+      background: linear-gradient(135deg, rgba(200, 180, 255, 0.5), rgba(164, 201, 178, 0.2), transparent);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
     }
-
-    /* Futuristic HUD Reticle Corners */
-    .reticle-corner-tl { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; border-top: 2px solid #00F59B; border-left: 2px solid #00F59B; pointer-events: none; z-index: 25; }
-    .reticle-corner-tr { position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; border-top: 2px solid #00F59B; border-right: 2px solid #00F59B; pointer-events: none; z-index: 25; }
-    .reticle-corner-bl { position: absolute; bottom: 10px; left: 10px; width: 14px; height: 14px; border-bottom: 2px solid #00F59B; border-left: 2px solid #00F59B; pointer-events: none; z-index: 25; }
-    .reticle-corner-br { position: absolute; bottom: 10px; right: 10px; width: 14px; height: 14px; border-bottom: 2px solid #00F59B; border-right: 2px solid #00F59B; pointer-events: none; z-index: 25; }
-
+    .pulse-glow { animation: pulseGlow 3s infinite ease-in-out; }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(200, 180, 255, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(200, 180, 255, 0.45); }
+    }
     #ar-canvas {
       position: absolute;
       top: 0; left: 0;
@@ -141,37 +85,32 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-2 sm:p-6 bg-gradient-to-b from-[#0e1017] via-[#111318] to-[#0a0b0e]">
 
-  <!-- Top Global Bar (Ultra-Bold & Sleek Luxury) -->
-  <header class="w-full max-w-6xl mx-auto flex items-center justify-between py-3 px-5 mb-5 glass-card rounded-2xl">
-    <div class="flex items-center space-x-3.5">
-      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-400 via-teal-300 to-lavender flex items-center justify-center shadow-lg shadow-emerald-500/20 ring-1 ring-white/20">
-        <span class="text-midnight font-display font-black text-2xl tracking-tighter">Y</span>
+  <!-- Top Global Bar -->
+  <header class="w-full max-w-6xl mx-auto flex items-center justify-between py-3 px-4 mb-4 glass-card rounded-2xl">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lavender to-sage flex items-center justify-center shadow-lg shadow-lavender/20">
+        <span class="text-midnight font-extrabold text-xl tracking-tighter">Y</span>
       </div>
       <div>
-        <div class="flex items-center gap-2">
-          <h1 class="font-display font-black text-xl tracking-wider bg-gradient-to-r from-white via-slate-100 to-lavender bg-clip-text text-transparent">
-            YURI
-          </h1>
-          <span class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full font-mono font-bold border border-emerald-500/30 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> 3D LIVE AR
-          </span>
-        </div>
-        <p class="text-[11px] text-stone-400 tracking-wide font-medium">Try it. Style it. Wear it. Buy it.</p>
+        <h1 class="text-lg font-bold tracking-wider text-ivory flex items-center gap-1.5">
+          YURI <span class="text-xs bg-lavender/20 text-lavender px-2 py-0.5 rounded-full font-mono font-semibold border border-lavender/30">AI v1.0</span>
+        </h1>
+        <p class="text-xs text-stone-400">Try it. Style it. Wear it. Buy it.</p>
       </div>
     </div>
 
     <!-- View Mode Switcher & Twin Matrix Pill -->
-    <div class="flex items-center gap-2.5">
-      <button onclick="openTwinComparisonModal()" class="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-stone-200 font-semibold flex items-center gap-1.5 transition hover:border-lavender/40">
-        <i data-lucide="split" class="w-3.5 h-3.5 text-lavender"></i>
-        <span class="font-medium">Yuri vs Twin!</span>
+    <div class="flex items-center gap-2">
+      <button onclick="openTwinComparisonModal()" class="px-3 py-1.5 rounded-xl bg-lavender/10 hover:bg-lavender/20 border border-lavender/30 text-xs text-lavender font-semibold flex items-center gap-1.5 transition">
+        <i data-lucide="split" class="w-3.5 h-3.5"></i>
+        <span>Yuri vs Twin!</span>
       </button>
-      <div class="hidden sm:flex bg-obsidian p-1 rounded-xl border border-white/10 text-xs shadow-inner">
-        <button id="btn-mode-phone" onclick="setViewMode('phone')" class="px-3.5 py-1.5 rounded-lg font-bold text-midnight bg-gradient-to-r from-emerald-400 to-teal-300 transition-all shadow-md">Mobile Studio</button>
-        <button id="btn-mode-desktop" onclick="setViewMode('desktop')" class="px-3.5 py-1.5 rounded-lg font-medium text-stone-400 hover:text-white transition-all">Cinema Studio</button>
+      <div class="hidden sm:flex bg-surface-light p-1 rounded-xl border border-border text-xs">
+        <button id="btn-mode-phone" onclick="setViewMode('phone')" class="px-3 py-1.5 rounded-lg font-medium text-midnight bg-lavender transition-all">Mobile Studio</button>
+        <button id="btn-mode-desktop" onclick="setViewMode('desktop')" class="px-3 py-1.5 rounded-lg font-medium text-stone-300 hover:text-white transition-all">Full Dashboard</button>
       </div>
-      <div class="flex items-center gap-1.5 bg-obsidian px-3.5 py-1.5 rounded-xl border border-white/10 text-xs text-lavender font-mono font-bold shadow-inner">
-        <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+      <div class="flex items-center gap-1 bg-surface px-3 py-1.5 rounded-xl border border-border text-xs text-lavender font-mono font-semibold">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
         <span id="credit-count">25 Credits</span>
       </div>
     </div>
@@ -181,7 +120,7 @@
   <main id="app-wrapper" class="w-full flex justify-center transition-all duration-300">
     
     <!-- Phone Mockup Container -->
-    <div id="phone-frame" class="w-full max-w-[430px] h-[890px] rounded-[54px] bg-[#07080B] border-[8px] border-[#161822] shadow-[0_30px_100px_rgba(0,0,0,0.95),0_0_50px_rgba(139,92,246,0.14)] flex flex-col relative overflow-hidden ring-1 ring-white/10">
+    <div id="phone-frame" class="w-full max-w-[430px] h-[890px] rounded-[52px] bg-midnight border-[10px] border-[#22242e] shadow-2xl shadow-lavender/10 flex flex-col relative overflow-hidden ring-1 ring-white/10">
       
       <!-- Dynamic Island / Top Notch -->
       <div class="w-full h-8 flex justify-between items-center px-7 pt-3 z-50 select-none">
@@ -221,33 +160,24 @@
         <!-- ========================================== -->
         <div id="tab-home" class="tab-pane space-y-3.5">
           
-          <!-- Editorial Hero Banner (Bold & Sleek Cyber Luxury) -->
-          <div class="relative rounded-3xl overflow-hidden p-5 sleek-panel gradient-border mt-1 shadow-2xl">
-            <div class="absolute -right-8 -top-8 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-8 -bottom-8 w-44 h-44 bg-violet-600/15 rounded-full blur-3xl pointer-events-none"></div>
-            
+          <!-- Editorial Hero Banner -->
+          <div class="relative rounded-3xl overflow-hidden p-5 glass-card gradient-border mt-1">
+            <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-lavender/10 rounded-full blur-2xl"></div>
             <div class="relative z-10">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded-full flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> DECART 3D V-TON ENGINE
-                </span>
-                <span class="text-[10px] font-mono text-stone-400">60 FPS</span>
-              </div>
-              
-              <h2 class="font-display font-black text-2xl text-white tracking-tight leading-[1.1] mt-1 mb-2">
-                THE 3D FASHION <br>
-                <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-lavender bg-clip-text text-transparent">ECOSYSTEM.</span>
+              <span class="text-[11px] font-semibold tracking-widest uppercase text-sage flex items-center gap-1">
+                <i data-lucide="flame" class="w-3.5 h-3.5"></i> Live AR · Mannequin · AI Twin
+              </span>
+              <h2 class="text-2xl font-serif italic text-ivory mt-1 mb-2 font-normal leading-tight">
+                Try Outfits in <br><span class="text-lavender font-sans not-italic font-bold">Real-Time AR & 3D.</span>
               </h2>
-              
-              <p class="text-xs text-stone-300 max-w-[270px] leading-relaxed mb-4">
-                Wear any garment with real-world 3D cloth inertia, hand occlusion, and ambient room lighting.
+              <p class="text-xs text-stone-300 max-w-[240px] leading-relaxed mb-4">
+                Fit garments on your moving camera stream, your personal AI Twin, or a 3D studio mannequin.
               </p>
-              
-              <div class="flex items-center gap-2.5">
-                <button onclick="openStudio('live')" class="px-5 py-2.5 bg-gradient-to-r from-emerald-400 via-teal-300 to-lavender text-midnight font-display font-extrabold rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/25 hover:scale-[1.02] active:scale-95 transition-all">
-                  <i data-lucide="video" class="w-4 h-4"></i> Live 3D Fit Now
+              <div class="flex items-center gap-2">
+                <button onclick="openStudio('live')" class="px-4 py-2 bg-gradient-to-r from-lavender to-sage text-midnight font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-lg shadow-lavender/25 hover:bg-white transition-all">
+                  <i data-lucide="video" class="w-3.5 h-3.5"></i> Live AR Fit
                 </button>
-                <button onclick="openStudio('mannequin')" class="px-3.5 py-2.5 bg-surface-light border border-white/10 text-stone-200 font-semibold rounded-xl text-xs hover:border-amber-400/50 hover:text-white transition">
+                <button onclick="openStudio('mannequin')" class="px-3 py-2 bg-surface-light border border-border text-ivory font-medium rounded-xl text-xs hover:border-amber-400/50 transition">
                   3D Mannequin
                 </button>
               </div>
@@ -463,13 +393,7 @@
                 </button>
               </div>
             </div>
-            <div class="relative w-full h-[390px] rounded-3xl overflow-hidden bg-black border-2 border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(0,245,155,0.12)] relative select-none">
-              <!-- Futuristic 3D Viewfinder Reticle Corners -->
-              <div class="reticle-corner-tl"></div>
-              <div class="reticle-corner-tr"></div>
-              <div class="reticle-corner-bl"></div>
-              <div class="reticle-corner-br"></div>
-
+            <div class="relative w-full h-[380px] rounded-3xl overflow-hidden bg-black border-2 border-border shadow-2xl relative select-none">
               <video id="live-webcam" autoplay playsinline muted class="hidden"></video>
               <canvas id="ar-canvas"></canvas>
 
@@ -683,11 +607,11 @@
 
             <!-- Instant Garment Switcher Strip (Dresses First + Tops) -->
             <div>
-              <div class="flex items-center justify-between mb-2 px-1">
-                <span class="text-xs font-bold font-display uppercase tracking-wider text-ivory flex items-center gap-1.5">
-                  <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-400"></i> Instant 3D Wardrobe Switcher
+              <div class="flex items-center justify-between mb-1.5 px-1">
+                <span class="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sage"></i> Instant AR Garment Switcher
                 </span>
-                <span id="current-ar-garment-name" class="text-[11px] text-emerald-400 font-mono font-bold bg-emerald-950/80 px-2 py-0.5 rounded-lg border border-emerald-500/30 truncate max-w-[170px]">Sentinels Pro Jersey 2026</span>
+                <span id="current-ar-garment-name" class="text-[11px] text-emerald-400 font-medium truncate max-w-[170px]">Emerald Silk Slip Dress</span>
               </div>
               <div class="grid grid-cols-5 sm:grid-cols-9 gap-1.5">
 
@@ -1468,27 +1392,27 @@
 
       </div>
 
-      <!-- Bottom Floating Tab Bar (Ultra-Sleek Cyber Floating Island) -->
-      <nav class="absolute bottom-2 inset-x-3 h-16 rounded-2xl bg-[#0B0D15]/95 backdrop-blur-2xl border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.85)] flex items-center justify-around px-2 z-50">
-        <button onclick="switchTab('home')" class="nav-item flex flex-col items-center text-emerald-400 transition py-1 group" data-tab="home">
-          <i data-lucide="home" class="w-5 h-5 mb-0.5 group-hover:scale-110 transition"></i>
-          <span class="text-[9px] font-bold font-display uppercase tracking-wider">Home</span>
+      <!-- Bottom Floating Tab Bar -->
+      <nav class="absolute bottom-0 inset-x-0 h-20 glass-nav flex items-center justify-around px-2 z-50">
+        <button onclick="switchTab('home')" class="nav-item flex flex-col items-center text-lavender transition py-1" data-tab="home">
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold mt-1">Home</span>
         </button>
-        <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-stone-400 hover:text-emerald-400 transition py-1 group" data-tab="tryon">
-          <i data-lucide="wand-2" class="w-5 h-5 mb-0.5 group-hover:scale-110 transition"></i>
-          <span class="text-[9px] font-bold font-display uppercase tracking-wider">Try-On</span>
+        <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="tryon">
+          <i data-lucide="wand-2" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold mt-1">Try-On</span>
         </button>
-        <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-stone-400 hover:text-emerald-400 transition py-1 group" data-tab="wardrobe">
-          <i data-lucide="shirt" class="w-5 h-5 mb-0.5 group-hover:scale-110 transition"></i>
-          <span class="text-[9px] font-bold font-display uppercase tracking-wider">Wardrobe</span>
+        <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="wardrobe">
+          <i data-lucide="shirt" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold mt-1">Wardrobe</span>
         </button>
-        <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-stone-400 hover:text-emerald-400 transition py-1 group" data-tab="shop">
-          <i data-lucide="shopping-bag" class="w-5 h-5 mb-0.5 group-hover:scale-110 transition"></i>
-          <span class="text-[9px] font-bold font-display uppercase tracking-wider">Shop</span>
+        <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="shop">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold mt-1">Shop</span>
         </button>
-        <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-stone-400 hover:text-emerald-400 transition py-1 group" data-tab="profile">
-          <i data-lucide="user" class="w-5 h-5 mb-0.5 group-hover:scale-110 transition"></i>
-          <span class="text-[9px] font-bold font-display uppercase tracking-wider">Profile</span>
+        <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="profile">
+          <i data-lucide="user" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold mt-1">Profile</span>
         </button>
       </nav>
 
