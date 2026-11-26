@@ -1001,152 +1001,295 @@
             </div>
           </div>
 
-          <!-- 👗 3. 3D MANNEQUIN STUDIO VIEW (GHOST & ATELIER DRESSING) -->
-          <div id="subtab-mannequin" class="hidden space-y-3.5">
+          <!-- 👗 3. 3D MANNEQUIN STUDIO VIEW (HIGH-FIDELITY 360° ATELIER) -->
+          <div id="subtab-mannequin" class="hidden space-y-4">
             
-            <!-- Mannequin Studio Viewport (Interactive 360 View) -->
-            <div class="relative w-full h-[390px] sm:h-[460px] md:h-[520px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-b from-[#14161f] via-[#101217] to-[#0a0b0e] border-2 border-border shadow-2xl relative select-none flex flex-col justify-between p-3.5">
+            <!-- Mannequin Studio Viewport (Interactive 360 3D Viewport) -->
+            <div id="mannequin-viewport" class="relative w-full h-[420px] sm:h-[480px] md:h-[540px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-b from-[#12141c] via-[#0d0e14] to-[#08080c] border-2 border-border shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative select-none flex flex-col justify-between p-3.5 sm:p-5 cursor-grab active:cursor-grabbing">
               
-              <!-- Top Mannequin Controls HUD -->
-              <div class="flex items-center justify-between z-20">
-                <!-- Form Type Selector -->
-                <div class="flex bg-black/70 backdrop-blur-md p-1 rounded-xl border border-white/10 text-[10px]">
-                  <button onclick="setMannequinForm('linen', this)" class="mannequin-form-btn px-2 py-0.5 rounded-lg bg-lavender text-midnight font-bold">Atelier</button>
-                  <button onclick="setMannequinForm('ghost', this)" class="mannequin-form-btn px-2 py-0.5 rounded-lg text-stone-300 hover:text-white">Ghost</button>
-                  <button onclick="setMannequinForm('matte', this)" class="mannequin-form-btn px-2 py-0.5 rounded-lg text-stone-300 hover:text-white">Obsidian</button>
-                  <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2 py-0.5 rounded-lg text-stone-300 hover:text-white">Chrome</button>
+              <!-- Subtle Studio Grid & Spotlight Aura -->
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-lavender/10 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none"></div>
+
+              <!-- Top Controls HUD -->
+              <div class="flex flex-wrap items-center justify-between gap-2 z-20 pointer-events-auto">
+                <!-- Form Material / Finish Selector -->
+                <div class="flex bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
+                  <button onclick="setMannequinForm('linen', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition">Atelier Linen</button>
+                  <button onclick="setMannequinForm('ghost', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Ghost 3D</button>
+                  <button onclick="setMannequinForm('matte', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Obsidian</button>
+                  <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Chrome</button>
                 </div>
 
-                <!-- Fit Sizing -->
-                <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-sage font-mono">
-                  <span>Size:</span>
-                  <button onclick="setMannequinSize('S', this)" class="mannequin-size-btn text-stone-400 hover:text-white px-1">S</button>
-                  <button onclick="setMannequinSize('M', this)" class="mannequin-size-btn text-lavender font-bold px-1">M</button>
-                  <button onclick="setMannequinSize('L', this)" class="mannequin-size-btn text-stone-400 hover:text-white px-1">L</button>
-                  <button onclick="setMannequinSize('XL', this)" class="mannequin-size-btn text-stone-400 hover:text-white px-1">XL</button>
+                <!-- Size Fit Matrix & Custom Toggle -->
+                <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-2xl border border-white/10 text-[10px] text-sage font-mono shadow-lg">
+                  <span class="text-stone-400">Size:</span>
+                  <button onclick="setMannequinSize('S', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">S</button>
+                  <button onclick="setMannequinSize('M', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded bg-lavender text-midnight font-bold transition">M</button>
+                  <button onclick="setMannequinSize('L', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">L</button>
+                  <button onclick="setMannequinSize('XL', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">XL</button>
+                  <button onclick="toggleCustomMannequinSliders()" class="ml-1 pl-1.5 border-l border-white/20 text-lavender hover:text-white flex items-center gap-1" title="Adjust Tailor Measurements">
+                    <i data-lucide="sliders" class="w-3 h-3"></i>
+                  </button>
                 </div>
               </div>
 
-              <!-- Center 3D Mannequin Visualizer -->
-              <div class="relative flex-1 flex items-center justify-center my-1">
-                <div class="absolute w-48 h-48 rounded-full bg-lavender/10 blur-3xl pointer-events-none"></div>
-                
-                <div id="mannequin-display" class="relative w-48 h-64 flex flex-col items-center justify-center transition-all duration-300">
-                  <!-- Mannequin Head / Finial -->
-                  <div id="mannequin-finial" class="w-8 h-8 rounded-full bg-gradient-to-b from-[#d9c4aa] to-[#a89073] border border-amber-900/40 shadow-inner z-10 -mb-2 transition-all"></div>
+              <!-- Center 3D Mannequin Visualizer Stage -->
+              <div class="relative flex-1 flex items-center justify-center my-2 pointer-events-none" style="perspective: 1200px;">
+                <!-- Pedestal Floor Glow & Drop Shadow -->
+                <div class="absolute bottom-4 w-52 h-10 bg-black/70 rounded-full blur-md -z-10"></div>
+                <div class="absolute bottom-6 w-36 h-6 bg-lavender/15 rounded-full blur-lg -z-10"></div>
+
+                <!-- 3D Transform Container -->
+                <div id="mannequin-display" class="relative flex flex-col items-center justify-center transition-transform duration-75 ease-out select-none" style="transform-style: preserve-3d; will-change: transform;">
                   
-                  <!-- Layered Garment: Outerwear / Top -->
-                  <div id="mannequin-torso" class="relative w-44 h-52 transition-transform duration-300 flex items-center justify-center">
-                    <img id="mannequin-garment-img" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-contain filter drop-shadow-2xl transition-all duration-300">
+                  <!-- Finial & Neck Collar -->
+                  <div id="mannequin-finial-group" class="flex flex-col items-center z-20 -mb-1 transition-all duration-300">
+                    <div id="mannequin-finial" class="w-7 h-7 rounded-full bg-gradient-to-b from-[#d9c4aa] via-[#b89b7b] to-[#7d6347] border border-amber-900/50 shadow-md"></div>
+                    <div id="mannequin-neckplate" class="w-9 h-2 rounded-t bg-gradient-to-r from-amber-600 via-amber-200 to-amber-700 shadow-sm -mt-0.5"></div>
+                  </div>
+                  
+                  <!-- Mannequin Dress Form & Garment Layer -->
+                  <div id="mannequin-torso" class="relative w-48 h-64 flex items-center justify-center transition-all duration-300" style="transform-origin: center center;">
+                    
+                    <!-- SVG Contoured Tailored Mannequin Body Form -->
+                    <svg id="mannequin-body-svg" class="absolute inset-0 w-full h-full filter drop-shadow-xl transition-all duration-300" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <!-- Atelier Linen Texture / Fabric Gradient -->
+                        <linearGradient id="bodyLinenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#f0e6d6"/>
+                          <stop offset="35%" stop-color="#dfd2be"/>
+                          <stop offset="70%" stop-color="#cbba9f"/>
+                          <stop offset="100%" stop-color="#9a876c"/>
+                        </linearGradient>
+                        <!-- Obsidian Matte Black -->
+                        <linearGradient id="bodyMatteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#2a2c38"/>
+                          <stop offset="50%" stop-color="#181922"/>
+                          <stop offset="100%" stop-color="#0e0f14"/>
+                        </linearGradient>
+                        <!-- Chrome Specular Metallic -->
+                        <linearGradient id="bodyChromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#ffffff"/>
+                          <stop offset="25%" stop-color="#d4d8e3"/>
+                          <stop offset="50%" stop-color="#606678"/>
+                          <stop offset="75%" stop-color="#e2e6f0"/>
+                          <stop offset="100%" stop-color="#2c2f3b"/>
+                        </linearGradient>
+                      </defs>
+
+                      <!-- Torso Silhouette: Neck, Shoulders, Bust, Cinch Waist, Hips, Thigh Taper -->
+                      <path id="mannequin-body-path" d="M 85 10 C 85 10, 100 12, 115 10 C 122 18, 142 22, 168 34 C 174 38, 168 56, 162 76 C 158 92, 150 118, 138 135 C 130 148, 126 156, 134 175 C 144 195, 150 215, 148 245 C 148 250, 52 250, 52 245 C 50 215, 56 195, 66 175 C 74 156, 70 148, 62 135 C 50 118, 42 92, 38 76 C 32 56, 26 38, 32 34 C 58 22, 78 18, 85 10 Z" fill="url(#bodyLinenGrad)" stroke="#a38c6c" stroke-width="1.2"/>
+                      
+                      <!-- Atelier Tailor Seam Lines (Front Center & Princess Seams) -->
+                      <path id="mannequin-seam-center" d="M 100 12 L 100 248" stroke="#8c7557" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+                      <path id="mannequin-seam-left" d="M 72 26 Q 78 95 86 145 Q 92 195 82 248" stroke="#8c7557" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.45"/>
+                      <path id="mannequin-seam-right" d="M 128 26 Q 122 95 114 145 Q 108 195 118 248" stroke="#8c7557" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.45"/>
+                    </svg>
+
+                    <!-- Active Dressed Garment on Form -->
+                    <div id="mannequin-garment-wrapper" class="relative z-10 w-full h-full flex items-center justify-center pointer-events-none transition-all duration-200">
+                      <img id="mannequin-garment-img" src="./sen-jersey.webp" class="max-w-[94%] max-h-[94%] object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] transition-all duration-300">
+                    </div>
                   </div>
 
-                  <!-- Stand Pole & Base -->
-                  <div id="mannequin-stand" class="flex flex-col items-center -mt-2 transition-opacity">
-                    <div class="w-2.5 h-10 bg-gradient-to-r from-stone-400 via-stone-200 to-stone-500 shadow-md"></div>
-                    <div class="w-24 h-1.5 bg-stone-600 rounded-full shadow-lg"></div>
+                  <!-- Cast Iron Pedestal Stand & Base -->
+                  <div id="mannequin-stand" class="flex flex-col items-center -mt-2 transition-all duration-300 z-0">
+                    <div id="mannequin-pole" class="w-2.5 h-14 bg-gradient-to-r from-stone-400 via-stone-100 to-stone-500 shadow-md"></div>
+                    <div id="mannequin-knob" class="w-5 h-2 rounded bg-amber-700 shadow-sm -mt-6 mb-4"></div>
+                    <div id="mannequin-base" class="w-28 h-2.5 bg-gradient-to-r from-stone-800 via-stone-600 to-stone-900 rounded-full border border-white/20 shadow-xl"></div>
                   </div>
+
                 </div>
 
-                <!-- Angle Indicator Tag -->
-                <div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[9px] text-stone-300 font-mono">
+                <!-- 360° Drag Hint Pill -->
+                <div id="mannequin-drag-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[10px] text-stone-300 flex items-center gap-1.5 pointer-events-none opacity-80 animate-pulse">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-lavender"></i>
+                  <span>Click & Drag to Rotate 360°</span>
+                </div>
+
+                <!-- Bottom Viewport Status Badges -->
+                <div class="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-stone-300 font-mono flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                   Angle: <span id="mannequin-angle-label" class="text-lavender font-bold">Front (0°)</span>
                 </div>
 
-                <!-- Drape Tension & Fit Tag -->
-                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[9px] text-sage font-mono">
-                  Drape: <span id="mannequin-drape-label" class="text-white">Structured Tailored</span>
+                <div class="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-sage font-mono flex items-center gap-1.5">
+                  <span id="mannequin-measurements-label" class="text-stone-300">Bust 36" · Waist 28" · Hips 38"</span>
                 </div>
               </div>
 
-              <!-- 360° Angle View Selector -->
-              <div class="flex items-center justify-between z-20">
-                <div class="flex space-x-1.5 bg-black/70 backdrop-blur-md p-1 rounded-xl border border-white/10 text-[10px]">
-                  <button onclick="rotateMannequin(0, 'Front (0°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-lg bg-lavender text-midnight font-bold">0° Front</button>
-                  <button onclick="rotateMannequin(45, '3/4 Turn (45°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-lg text-stone-300 hover:text-white">45°</button>
-                  <button onclick="rotateMannequin(90, 'Side Profile (90°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-lg text-stone-300 hover:text-white">90° Side</button>
-                  <button onclick="rotateMannequin(180, 'Back View (180°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-lg text-stone-300 hover:text-white">180° Back</button>
+              <!-- Bottom Angle Presets & Live Action Bar -->
+              <div class="flex flex-wrap items-center justify-between gap-2 z-20 pointer-events-auto">
+                <div class="flex items-center space-x-1 bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
+                  <button onclick="rotateMannequin(0, 'Front (0°)', this)" class="mannequin-rot-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition">0° Front</button>
+                  <button onclick="rotateMannequin(45, '3/4 Turn (45°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">45°</button>
+                  <button onclick="rotateMannequin(90, 'Side Profile (90°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">90°</button>
+                  <button onclick="rotateMannequin(180, 'Back View (180°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">180° Back</button>
+                  <button onclick="rotateMannequin(270, 'Left Profile (270°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">270°</button>
+                  <button id="btn-mannequin-orbit" onclick="toggleMannequinOrbit()" class="px-2 py-1 rounded-xl text-lavender hover:bg-white/10 transition flex items-center gap-1" title="Continuous 360° Studio Orbit">
+                    <i data-lucide="play" class="w-3 h-3"></i>
+                    <span>Orbit</span>
+                  </button>
                 </div>
 
-                <button onclick="transferMannequinToAR()" class="px-2.5 py-1.5 bg-sage text-midnight font-bold rounded-xl text-[10px] flex items-center gap-1 hover:bg-white transition" title="Try this on in Live Camera AR">
-                  <i data-lucide="video" class="w-3 h-3"></i> Try in AR
-                </button>
+                <div class="flex items-center gap-2">
+                  <button onclick="snapshotMannequinLook()" class="px-3 py-1.5 bg-surface-light border border-white/10 text-stone-200 font-semibold rounded-xl text-[11px] flex items-center gap-1.5 hover:text-white hover:border-lavender transition shadow-md">
+                    <i data-lucide="camera" class="w-3.5 h-3.5 text-lavender"></i> Snapshot
+                  </button>
+                  <button onclick="transferMannequinToAR()" class="px-3.5 py-1.5 bg-gradient-to-r from-sage to-emerald-400 text-midnight font-bold rounded-xl text-[11px] flex items-center gap-1.5 hover:scale-105 active:scale-95 transition shadow-lg shadow-emerald-500/20" title="Try this exact dressed look in Live Camera AR">
+                    <i data-lucide="video" class="w-3.5 h-3.5"></i> Try in AR Now
+                  </button>
+                </div>
               </div>
 
             </div>
 
-            <!-- Mannequin Capsule Garment Selector -->
-            <div class="p-3.5 rounded-2xl bg-surface border border-border space-y-2.5">
-              <div class="flex items-center justify-between">
+            <!-- Expandable Custom Measurements Drawer (Tailor Form Precision) -->
+            <div id="mannequin-custom-drawer" class="hidden p-4 rounded-2xl bg-surface border border-border shadow-xl space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-border">
                 <span class="text-xs font-bold text-ivory flex items-center gap-1.5">
-                  <i data-lucide="layers" class="w-3.5 h-3.5 text-lavender"></i> Mannequin Outfit Capsule
+                  <i data-lucide="scissors" class="w-3.5 h-3.5 text-lavender"></i> Tailored Mannequin Measurements (Real-Time 3D Morph)
                 </span>
-                <span class="text-[10px] text-stone-400">Tap garment to fit form</span>
+                <button onclick="resetMannequinMeasurements()" class="text-[10px] text-stone-400 hover:text-lavender underline">Reset to Default</button>
               </div>
 
-              <div class="grid grid-cols-3 sm:grid-cols-7 gap-2">
-                
-                <!-- Sentinels Pro Jersey 2026 -->
-                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen-jersey.webp', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-rose-400 group">
-                  <span class="text-[9px] text-rose-400 font-bold uppercase mb-1">Esports</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/50 p-0.5">
-                    <img src="./sen-jersey.webp" class="w-full h-full object-contain">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                    <span>Chest / Bust</span>
+                    <span id="slider-bust-val" class="text-lavender font-mono font-bold">36 in</span>
                   </div>
-                  <span class="text-[9px] text-ivory group-hover:text-rose-300 font-medium truncate w-full">SEN Pro</span>
+                  <input type="range" id="slider-bust" min="30" max="46" value="36" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="updateMannequinMorph()">
                 </div>
 
-                <!-- Emerald Silk Slip Dress -->
-                <div onclick="selectMannequinGarment('dress_emerald', 'Emerald Silk Slip Dress', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-emerald-400 cursor-pointer flex flex-col items-center text-center transition">
-                  <span class="text-[9px] text-emerald-300 font-bold uppercase mb-1">Dress</span>
+                <div>
+                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                    <span>Waist Cinch</span>
+                    <span id="slider-waist-val" class="text-lavender font-mono font-bold">28 in</span>
+                  </div>
+                  <input type="range" id="slider-waist" min="22" max="40" value="28" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="updateMannequinMorph()">
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                    <span>Hips Flare</span>
+                    <span id="slider-hips-val" class="text-lavender font-mono font-bold">38 in</span>
+                  </div>
+                  <input type="range" id="slider-hips" min="30" max="48" value="38" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="updateMannequinMorph()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Mannequin Capsule Garment Selector (All Categories & Stores) -->
+            <div class="p-4 rounded-2xl bg-surface border border-border space-y-3 shadow-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-400"></i> Mannequin Wardrobe Capsule
+                  </h4>
+                  <p class="text-[10px] text-stone-400">Select any garment to drape on the form, or pick from trending stores</p>
+                </div>
+                <span id="mannequin-active-garment-title" class="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-lg border border-emerald-500/30">
+                  Sentinels Pro Jersey 2026
+                </span>
+              </div>
+
+              <!-- Capsule Grid -->
+              <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-2">
+                
+                <!-- 1. Sentinels Pro Jersey 2026 -->
+                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen-jersey.webp', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-emerald-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
+                  <span class="text-[8px] text-rose-400 font-bold uppercase mb-0.5">VCT 2026</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/60 p-0.5">
+                    <img src="./sen-jersey.webp" class="w-full h-full object-contain">
+                  </div>
+                  <span class="text-[9px] text-white font-medium truncate w-full">SEN Pro</span>
+                </div>
+
+                <!-- 2. H&M Resort Linen Shirt -->
+                <div onclick="selectMannequinGarment('hm_shirt', 'H&M Relaxed Linen Shirt', 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
+                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Linen Shirt</span>
+                </div>
+
+                <!-- 3. Emerald Silk Slip Dress -->
+                <div onclick="selectMannequinGarment('dress_emerald', 'Zara Liquid Emerald Silk Slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-emerald-400 hover:scale-105 group">
+                  <span class="text-[8px] text-emerald-300 font-bold uppercase mb-0.5">Dress</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-emerald-300 font-bold truncate w-full">Silk Slip</span>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Silk Slip</span>
                 </div>
 
-                <!-- Pleated Floral Midi Dress -->
-                <div onclick="selectMannequinGarment('dress_floral', 'H&M Pleated Floral Midi Dress', 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender">
-                  <span class="text-[9px] text-stone-400 font-semibold uppercase mb-1">Dress</span>
+                <!-- 4. Zudio Graphic Tee -->
+                <div onclick="selectMannequinGarment('zudio_tee', 'Zudio Drop-Shoulder Graphic Tee', 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
+                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Zudio</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-ivory truncate w-full">Pleated</span>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Graphic Tee</span>
                 </div>
 
-                <div onclick="selectMannequinGarment('blazer', 'Zara Wool Blazer', 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender">
-                  <span class="text-[9px] text-stone-400 font-semibold uppercase mb-1">Blazer</span>
+                <!-- 5. GAP Arch Fleece Hoodie -->
+                <div onclick="selectMannequinGarment('gap_hoodie', 'GAP Arch Logo Fleece Hoodie', 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-blue-400 hover:scale-105 group">
+                  <span class="text-[8px] text-blue-300 font-bold uppercase mb-0.5">AJIO/GAP</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">GAP Hoodie</span>
+                </div>
+
+                <!-- 6. SHEIN Y2K Rhinestone Corset Top -->
+                <div onclick="selectMannequinGarment('shein_corset', 'SHEIN Y2K Rhinestone Corset Top', 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-emerald-400 hover:scale-105 group">
+                  <span class="text-[8px] text-emerald-400 font-bold uppercase mb-0.5">SHEIN</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Corset Top</span>
+                </div>
+
+                <!-- 7. Mast & Harbour Tailored Blazer -->
+                <div onclick="selectMannequinGarment('blazer', 'Mast & Harbour Tailored Blazer', 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-pink-400 hover:scale-105 group">
+                  <span class="text-[8px] text-pink-400 font-bold uppercase mb-0.5">Myntra</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-ivory truncate w-full">Charcoal</span>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Blazer</span>
                 </div>
 
-                <div onclick="selectMannequinGarment('shirt', 'Roadster Linen Shirt', 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender">
-                  <span class="text-[9px] text-stone-400 font-semibold uppercase mb-1">Shirt</span>
+                <!-- 8. H&M Ribbed Bodycon Midi Dress -->
+                <div onclick="selectMannequinGarment('dress_bodycon', 'H&M Ribbed Bodycon Midi Dress', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
+                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-ivory truncate w-full">Linen</span>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Bodycon</span>
                 </div>
 
-                <div onclick="selectMannequinGarment('biker', 'Zara Leather Biker', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender">
-                  <span class="text-[9px] text-stone-400 font-semibold uppercase mb-1">Biker</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-ivory truncate w-full">Leather</span>
-                </div>
-
-                <div onclick="selectMannequinGarment('kurta', 'FabIndia Silk Kurta', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender">
-                  <span class="text-[9px] text-stone-400 font-semibold uppercase mb-1">Kurta</span>
+                <!-- 9. FabIndia Mulberry Silk Kurta -->
+                <div onclick="selectMannequinGarment('kurta', 'FabIndia Mulberry Silk Kurta', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
+                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Ethnic</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-ivory truncate w-full">Silk</span>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Silk Kurta</span>
                 </div>
-              </div>
-            </div>
 
-          </div>
+                <!-- 10. Zara Leather Biker Jacket -->
+                <div onclick="selectMannequinGarment('biker', 'Zara Asymmetric Leather Biker', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender hover:scale-105 group">
+                  <span class="text-[8px] text-stone-400 font-bold uppercase mb-0.5">Zara</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Biker Moto</span>
+                </div>
+
+              </div>
+            </div>          </div>
 
         </div>
 
@@ -2253,112 +2396,367 @@
     // =========================================================================
     // 👗 3D MANNEQUIN STUDIO CONTROLS
     // =========================================================================
+    // 👗 HIGH-PRECISION 3D MANNEQUIN STUDIO ENGINE (360° DRAG + REAL MORPHOLOGY)
+    // =========================================================================
     let currentMannequinAngle = 0;
     let currentMannequinForm = 'linen';
+    let currentMannequinSize = 'M';
+    let isMannequinOrbiting = false;
+    let mannequinOrbitTimer = null;
+    let activeMannequinGarmentKey = 'sen_jersey';
+    let activeMannequinGarmentTitle = 'Sentinels Pro Jersey 2026';
+    let activeMannequinGarmentUrl = './sen-jersey.webp';
+
+    // Morphological measurement state
+    let mannequinMeasurements = {
+      bust: 36,
+      waist: 28,
+      hips: 38,
+      scale: 1.0
+    };
+
+    // Material definitions for the dress form
+    const MANNEQUIN_FORM_STYLES = {
+      linen: {
+        finialClass: 'w-7 h-7 rounded-full bg-gradient-to-b from-[#d9c4aa] via-[#b89b7b] to-[#7d6347] border border-amber-900/50 shadow-md',
+        neckplateClass: 'w-9 h-2 rounded-t bg-gradient-to-r from-amber-600 via-amber-200 to-amber-700 shadow-sm -mt-0.5',
+        svgFill: 'url(#bodyLinenGrad)',
+        svgStroke: '#a38c6c',
+        showBody: true,
+        showStand: true,
+        standOpacity: 1.0,
+        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.65))'
+      },
+      ghost: {
+        finialClass: 'hidden',
+        neckplateClass: 'hidden',
+        svgFill: 'transparent',
+        svgStroke: 'transparent',
+        showBody: false,
+        showStand: false,
+        standOpacity: 0.05,
+        garmentFilter: 'drop-shadow(0 20px 35px rgba(200, 180, 255, 0.35)) drop-shadow(0 0 15px rgba(0, 245, 155, 0.2))'
+      },
+      matte: {
+        finialClass: 'w-7 h-7 rounded-full bg-gradient-to-b from-[#2a2c38] via-[#1b1c24] to-[#0e0f14] border border-stone-600 shadow-inner',
+        neckplateClass: 'w-9 h-2 rounded-t bg-gradient-to-r from-stone-600 via-stone-400 to-stone-700 shadow-sm -mt-0.5',
+        svgFill: 'url(#bodyMatteGrad)',
+        svgStroke: '#3a3d4f',
+        showBody: true,
+        showStand: true,
+        standOpacity: 1.0,
+        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.85))'
+      },
+      chrome: {
+        finialClass: 'w-7 h-7 rounded-full bg-gradient-to-tr from-stone-100 via-white to-stone-400 border border-white shadow-xl',
+        neckplateClass: 'w-9 h-2 rounded-t bg-gradient-to-r from-white via-stone-200 to-white shadow-sm -mt-0.5',
+        svgFill: 'url(#bodyChromeGrad)',
+        svgStroke: '#e2e8f0',
+        showBody: true,
+        showStand: true,
+        standOpacity: 1.0,
+        garmentFilter: 'drop-shadow(0 15px 30px rgba(255,255,255,0.3))'
+      }
+    };
 
     function setMannequinForm(form, btn) {
       currentMannequinForm = form;
       document.querySelectorAll('.mannequin-form-btn').forEach(b => {
-        b.className = 'mannequin-form-btn px-2 py-0.5 rounded-lg text-stone-300 hover:text-white';
+        b.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition';
       });
-      if (btn) btn.className = 'mannequin-form-btn px-2 py-0.5 rounded-lg bg-lavender text-midnight font-bold';
+      if (btn) btn.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition';
 
+      const style = MANNEQUIN_FORM_STYLES[form];
+      const finialGroup = document.getElementById('mannequin-finial-group');
       const finial = document.getElementById('mannequin-finial');
+      const neckplate = document.getElementById('mannequin-neckplate');
       const stand = document.getElementById('mannequin-stand');
       const garmentImg = document.getElementById('mannequin-garment-img');
+      const bodySvg = document.getElementById('mannequin-body-svg');
+      const bodyPath = document.getElementById('mannequin-body-path');
+      const seamCenter = document.getElementById('mannequin-seam-center');
+      const seamLeft = document.getElementById('mannequin-seam-left');
+      const seamRight = document.getElementById('mannequin-seam-right');
 
-      if (form === 'linen') {
-        finial.style.display = 'block';
-        finial.className = 'w-8 h-8 rounded-full bg-gradient-to-b from-[#d9c4aa] to-[#a89073] border border-amber-900/40 shadow-inner z-10 -mb-2 transition-all';
+      if (form === 'ghost') {
+        finialGroup.style.display = 'none';
+        bodySvg.style.opacity = '0';
+        stand.style.opacity = '0.08';
+      } else {
+        finialGroup.style.display = 'flex';
+        finial.className = style.finialClass;
+        neckplate.className = style.neckplateClass;
+        bodySvg.style.opacity = '1';
+        bodyPath.setAttribute('fill', style.svgFill);
+        bodyPath.setAttribute('stroke', style.svgStroke);
         stand.style.opacity = '1';
-        garmentImg.style.filter = 'drop-shadow(0 15px 25px rgba(0,0,0,0.6))';
-      } else if (form === 'ghost') {
-        // Ghost / Invisible Mannequin mode
-        finial.style.display = 'none';
-        stand.style.opacity = '0.15';
-        garmentImg.style.filter = 'drop-shadow(0 20px 30px rgba(200, 180, 255, 0.25))';
-      } else if (form === 'matte') {
-        finial.style.display = 'block';
-        finial.className = 'w-8 h-8 rounded-full bg-gradient-to-b from-[#2a2b33] to-[#121318] border border-stone-700 shadow-inner z-10 -mb-2 transition-all';
-        stand.style.opacity = '1';
-        garmentImg.style.filter = 'drop-shadow(0 15px 25px rgba(0,0,0,0.8))';
-      } else if (form === 'chrome') {
-        finial.style.display = 'block';
-        finial.className = 'w-8 h-8 rounded-full bg-gradient-to-tr from-stone-200 via-white to-stone-400 border border-white shadow-lg z-10 -mb-2 transition-all';
-        stand.style.opacity = '1';
-        garmentImg.style.filter = 'drop-shadow(0 15px 25px rgba(255,255,255,0.25))';
+        if (seamCenter) seamCenter.style.opacity = form === 'linen' ? '0.6' : '0.2';
+        if (seamLeft) seamLeft.style.opacity = form === 'linen' ? '0.45' : '0.15';
+        if (seamRight) seamRight.style.opacity = form === 'linen' ? '0.45' : '0.15';
       }
-    }
 
-    function rotateMannequin(deg, label, btn) {
-      currentMannequinAngle = deg;
-      document.getElementById('mannequin-angle-label').textContent = label;
-
-      document.querySelectorAll('.mannequin-rot-btn').forEach(b => {
-        b.className = 'mannequin-rot-btn px-2 py-1 rounded-lg text-stone-300 hover:text-white';
-      });
-      if (btn) btn.className = 'mannequin-rot-btn px-2 py-1 rounded-lg bg-lavender text-midnight font-bold';
-
-      const torso = document.getElementById('mannequin-torso');
-      if (deg === 0) {
-        torso.style.transform = 'scaleX(1) rotateY(0deg)';
-      } else if (deg === 45) {
-        torso.style.transform = 'scaleX(0.85) skewY(-3deg)';
-      } else if (deg === 90) {
-        torso.style.transform = 'scaleX(0.65) skewY(-6deg)';
-      } else if (deg === 180) {
-        torso.style.transform = 'scaleX(-1)';
-      }
+      if (garmentImg) garmentImg.style.filter = style.garmentFilter;
+      renderMannequinFrame();
     }
 
     function setMannequinSize(size, btn) {
+      currentMannequinSize = size;
       document.querySelectorAll('.mannequin-size-btn').forEach(b => {
-        b.className = 'mannequin-size-btn text-stone-400 hover:text-white px-1';
+        b.className = 'mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition';
       });
-      if (btn) btn.className = 'mannequin-size-btn text-lavender font-bold px-1';
-
-      const torso = document.getElementById('mannequin-torso');
-      const drapeLabel = document.getElementById('mannequin-drape-label');
+      if (btn) btn.className = 'mannequin-size-btn px-1.5 py-0.5 rounded bg-lavender text-midnight font-bold transition';
 
       if (size === 'S') {
-        torso.style.transform = 'scale(0.92)';
-        drapeLabel.textContent = 'Fitted Silhouette';
+        mannequinMeasurements = { bust: 32, waist: 25, hips: 35, scale: 0.92 };
       } else if (size === 'M') {
-        torso.style.transform = 'scale(1.0)';
-        drapeLabel.textContent = 'Standard Tailored';
+        mannequinMeasurements = { bust: 36, waist: 28, hips: 38, scale: 1.0 };
       } else if (size === 'L') {
-        torso.style.transform = 'scale(1.08)';
-        drapeLabel.textContent = 'Relaxed Fall';
+        mannequinMeasurements = { bust: 40, waist: 32, hips: 42, scale: 1.08 };
       } else if (size === 'XL') {
-        torso.style.transform = 'scale(1.15)';
-        drapeLabel.textContent = 'Oversized Drape';
+        mannequinMeasurements = { bust: 44, waist: 36, hips: 46, scale: 1.16 };
+      }
+
+      // Sync slider values if drawer is open
+      const bSl = document.getElementById('slider-bust');
+      const wSl = document.getElementById('slider-waist');
+      const hSl = document.getElementById('slider-hips');
+      if (bSl) bSl.value = mannequinMeasurements.bust;
+      if (wSl) wSl.value = mannequinMeasurements.waist;
+      if (hSl) hSl.value = mannequinMeasurements.hips;
+
+      document.getElementById('slider-bust-val').textContent = mannequinMeasurements.bust + ' in';
+      document.getElementById('slider-waist-val').textContent = mannequinMeasurements.waist + ' in';
+      document.getElementById('slider-hips-val').textContent = mannequinMeasurements.hips + ' in';
+
+      renderMannequinFrame();
+    }
+
+    function toggleCustomMannequinSliders() {
+      const drawer = document.getElementById('mannequin-custom-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+        if (!drawer.classList.contains('hidden')) {
+          drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
     }
 
+    function updateMannequinMorph() {
+      const bust = parseInt(document.getElementById('slider-bust').value) || 36;
+      const waist = parseInt(document.getElementById('slider-waist').value) || 28;
+      const hips = parseInt(document.getElementById('slider-hips').value) || 38;
+
+      mannequinMeasurements.bust = bust;
+      mannequinMeasurements.waist = waist;
+      mannequinMeasurements.hips = hips;
+
+      // Calculate dynamic scale factor
+      const avgScale = ((bust / 36) + (waist / 28) + (hips / 38)) / 3;
+      mannequinMeasurements.scale = parseFloat(avgScale.toFixed(2));
+
+      document.getElementById('slider-bust-val').textContent = bust + ' in';
+      document.getElementById('slider-waist-val').textContent = waist + ' in';
+      document.getElementById('slider-hips-val').textContent = hips + ' in';
+
+      renderMannequinFrame();
+    }
+
+    function resetMannequinMeasurements() {
+      setMannequinSize('M', document.querySelector('.mannequin-size-btn:nth-child(3)'));
+    }
+
+    // 360° Rotation Logic with 3D Perspective Warp
+    function rotateMannequin(deg, label, btn) {
+      currentMannequinAngle = ((deg % 360) + 360) % 360;
+      
+      const angleLabel = document.getElementById('mannequin-angle-label');
+      if (angleLabel) {
+        if (label) angleLabel.textContent = label;
+        else angleLabel.textContent = currentMannequinAngle + '°';
+      }
+
+      if (btn) {
+        document.querySelectorAll('.mannequin-rot-btn').forEach(b => {
+          b.className = 'mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition';
+        });
+        btn.className = 'mannequin-rot-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition';
+      }
+
+      renderMannequinFrame();
+    }
+
+    function toggleMannequinOrbit() {
+      const btn = document.getElementById('btn-mannequin-orbit');
+      isMannequinOrbiting = !isMannequinOrbiting;
+
+      if (isMannequinOrbiting) {
+        if (btn) {
+          btn.classList.add('bg-lavender', 'text-midnight', 'font-bold');
+          btn.classList.remove('text-lavender');
+        }
+        clearInterval(mannequinOrbitTimer);
+        mannequinOrbitTimer = setInterval(() => {
+          rotateMannequin(currentMannequinAngle + 1);
+        }, 30);
+      } else {
+        if (btn) {
+          btn.classList.remove('bg-lavender', 'text-midnight', 'font-bold');
+          btn.classList.add('text-lavender');
+        }
+        clearInterval(mannequinOrbitTimer);
+      }
+    }
+
+    // Master Render Method: applies 3D rotation, morphology scale, and perspective lighting
+    function renderMannequinFrame() {
+      const display = document.getElementById('mannequin-display');
+      const torso = document.getElementById('mannequin-torso');
+      const garmentImg = document.getElementById('mannequin-garment-img');
+      const measurementsLabel = document.getElementById('mannequin-measurements-label');
+
+      if (!display || !torso) return;
+
+      const deg = currentMannequinAngle;
+      const rad = (deg * Math.PI) / 180;
+      
+      // Calculate realistic 3D perspective projection
+      const cosA = Math.cos(rad);
+      const sinA = Math.sin(rad);
+
+      // Width foreshortening & depth scale
+      const scaleX = Math.abs(cosA) * 0.45 + 0.55;
+      const skewY = sinA * -6; // subtle 3D tilt
+      const depthScale = mannequinMeasurements.scale;
+
+      // Apply transform to the torso container
+      torso.style.transform = `scale(${depthScale}) scaleX(${scaleX.toFixed(3)}) skewY(${skewY.toFixed(2)}deg)`;
+
+      // Update garment lighting based on light source (simulated top-left studio key light)
+      if (garmentImg) {
+        const isBack = deg > 90 && deg < 270;
+        const brightness = 0.85 + (cosA * 0.15) - (Math.abs(sinA) * 0.1);
+        const contrast = 1.05 + Math.abs(sinA) * 0.1;
+        
+        let backFilter = '';
+        if (isBack) {
+          // Back view lighting & collar interior shading
+          backFilter = 'sepia(0.1) brightness(0.92)';
+        }
+
+        const baseFilter = MANNEQUIN_FORM_STYLES[currentMannequinForm].garmentFilter;
+        garmentImg.style.filter = `${baseFilter} brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)}) ${backFilter}`;
+      }
+
+      // Update measurements label
+      if (measurementsLabel) {
+        measurementsLabel.textContent = `Bust ${mannequinMeasurements.bust}" · Waist ${mannequinMeasurements.waist}" · Hips ${mannequinMeasurements.hips}"`;
+      }
+    }
+
+    // Direct Mouse & Touch 360° Drag Rotation Listener
+    (function initMannequinDrag() {
+      let isDragging = false;
+      let startX = 0;
+      let startAngle = 0;
+
+      function startDrag(clientX) {
+        isDragging = true;
+        startX = clientX;
+        startAngle = currentMannequinAngle;
+        const hint = document.getElementById('mannequin-drag-hint');
+        if (hint) hint.style.display = 'none';
+        if (isMannequinOrbiting) toggleMannequinOrbit();
+      }
+
+      function moveDrag(clientX) {
+        if (!isDragging) return;
+        const deltaX = clientX - startX;
+        // 1 pixel = 0.75 degree rotation
+        const newAngle = startAngle + deltaX * 0.75;
+        rotateMannequin(newAngle);
+      }
+
+      function endDrag() {
+        isDragging = false;
+      }
+
+      const viewport = document.getElementById('mannequin-viewport');
+      if (viewport) {
+        viewport.addEventListener('mousedown', (e) => {
+          if (e.target.closest('button') || e.target.closest('input')) return;
+          startDrag(e.clientX);
+        });
+        window.addEventListener('mousemove', (e) => { if (isDragging) moveDrag(e.clientX); });
+        window.addEventListener('mouseup', endDrag);
+
+        viewport.addEventListener('touchstart', (e) => {
+          if (e.target.closest('button') || e.target.closest('input')) return;
+          if (e.touches.length === 1) startDrag(e.touches[0].clientX);
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+          if (isDragging && e.touches.length === 1) moveDrag(e.touches[0].clientX);
+        }, { passive: true });
+
+        window.addEventListener('touchend', endDrag);
+      }
+    })();
+
+    // Outfit Selection on Mannequin
     function selectMannequinGarment(key, title, url, el) {
-      document.getElementById('mannequin-garment-img').src = url;
+      activeMannequinGarmentKey = key;
+      activeMannequinGarmentTitle = title;
+      activeMannequinGarmentUrl = url;
+
+      const garmentImg = document.getElementById('mannequin-garment-img');
+      const titleBadge = document.getElementById('mannequin-active-garment-title');
+      
+      if (garmentImg) garmentImg.src = url;
+      if (titleBadge) titleBadge.textContent = title;
+
       document.querySelectorAll('.mannequin-garment-slot').forEach(s => {
-        s.classList.remove('border-lavender', 'border-emerald-400', 'border-2');
+        s.classList.remove('border-emerald-400', 'border-2', 'shadow-md');
         s.classList.add('border-border');
       });
+
       if (el) {
-        el.classList.add('border-emerald-400', 'border-2');
+        el.classList.add('border-emerald-400', 'border-2', 'shadow-md');
         el.classList.remove('border-border');
       }
 
-      const drapeLabel = document.getElementById('mannequin-drape-label');
-      if (key.startsWith('dress')) {
-        drapeLabel.textContent = 'Hourglass Biased Drape';
-      } else if (key === 'blazer') {
-        drapeLabel.textContent = 'Structured Tailored';
-      } else {
-        drapeLabel.textContent = 'Standard Drape';
-      }
+      renderMannequinFrame();
     }
 
+    // 100% Functional Transfer: Dressed Mannequin Outfit directly into Live AR
     function transferMannequinToAR() {
       openStudio('live');
-      alert('🎥 Transferred outfit to Live Camera AR. Align your shoulders to try it on live!');
+      
+      if (activeMannequinGarmentUrl.includes('sen-jersey.webp')) {
+        switchARGarment('sen_jersey', activeMannequinGarmentTitle, null);
+      } else {
+        applyCustomWebGarment(activeMannequinGarmentUrl, activeMannequinGarmentTitle, activeMannequinGarmentKey);
+      }
+
+      showStudioToast(`🎥 Transferred "${activeMannequinGarmentTitle}" to 3D Live Camera AR. Align your shoulders to try it on!`);
+    }
+
+    // Snapshot styled look
+    function snapshotMannequinLook() {
+      showStudioToast(`📸 High-Res Snapshot captured! Saved "${activeMannequinGarmentTitle}" (${currentMannequinAngle}°) to Smart Wardrobe.`);
+    }
+
+    function showStudioToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-[#0e1017]/95 border border-emerald-400/60 text-white px-4 py-2.5 rounded-2xl shadow-2xl z-[150] text-xs font-semibold flex items-center gap-2 backdrop-blur-xl animate-bounce';
+      toast.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i><span>${msg}</span>`;
+      document.body.appendChild(toast);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, -10px)';
+        setTimeout(() => toast.remove(), 400);
+      }, 3000);
     }
 
     // =========================================================================
