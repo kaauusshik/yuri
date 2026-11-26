@@ -2668,84 +2668,139 @@
       pulseBoost: 0
     };
 
-    // Build an elliptical anatomical torso or shirt shell with realistic chest/back proportions
+    // Catmull-Rom 1D spline helper for organic, smooth dress-form curves
+    function catmullRom1D(p0, p1, p2, p3, t) {
+      const t2 = t * t;
+      const t3 = t2 * t;
+      return 0.5 * (
+        (2 * p1) +
+        (-p0 + p2) * t +
+        (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
+        (-p0 + 3 * p1 - 3 * p2 + p3) * t3
+      );
+    }
+
+    function sampleProfileCatmullRom(profile, v) {
+      const n = profile.length;
+      const scaled = Math.max(0, Math.min(1, v)) * (n - 1);
+      const i = Math.min(Math.floor(scaled), n - 2);
+      const t = scaled - i;
+      const i0 = Math.max(i - 1, 0);
+      const i1 = i;
+      const i2 = i + 1;
+      const i3 = Math.min(i + 2, n - 1);
+      return [
+        catmullRom1D(profile[i0][0], profile[i1][0], profile[i2][0], profile[i3][0], t),
+        catmullRom1D(profile[i0][1], profile[i1][1], profile[i2][1], profile[i3][1], t),
+        catmullRom1D(profile[i0][2], profile[i1][2], profile[i2][2], profile[i3][2], t),
+        catmullRom1D(profile[i0][3], profile[i1][3], profile[i2][3], profile[i3][3], t)
+      ];
+    }
+
+    // Build high-resolution, spline-smoothed dress-form or tailored jersey torso mesh
     function createAnatomicalShellGeometry(options) {
       const {
         isShirt = false,
         offset = 0,
-        radialSegs = 64,
-        heightSegs = 36
+        radialSegs = 96,
+        heightSegs = 56
       } = options;
 
-      // Profile: [y, rx (width), rz (front-back depth)]
-      const profile = [
-        [ 1.38, 0.30, 0.28 ], // neck base
-        [ 1.24, 0.72, 0.36 ], // upper trapezius
-        [ 1.06, 1.08, 0.44 ], // shoulder breadth
-        [ 0.85, 0.98, 0.46 ], // upper chest / armhole
-        [ 0.56, 0.94, 0.50 ], // chest / bust apex
-        [ 0.24, 0.84, 0.44 ], // ribcage
-        [-0.12, 0.72, 0.38 ], // waist cinch
-        [-0.48, 0.82, 0.43 ], // high hip
-        [-0.86, 0.96, 0.50 ], // hip flare
-        [-1.18, 0.92, 0.48 ], // lower hip
-        [-1.38, 0.78, 0.40 ]  // bottom hem / thigh taper
+      // Profile: [y, rx (half-width), rz (half-depth), zCenterOffset]
+      const dressFormProfile = [
+        [ 1.56, 0.215, 0.205, -0.020 ], // top neck collar seat
+        [ 1.44, 0.220, 0.210, -0.015 ], // mid neck
+        [ 1.32, 0.255, 0.235, -0.005 ], // neck base flare
+        [ 1.22, 0.440, 0.275,  0.005 ], // inner trapezius
+        [ 1.10, 0.720, 0.335,  0.012 ], // shoulder slope
+        [ 0.96, 0.935, 0.390,  0.018 ], // shoulder acromion
+        [ 0.74, 0.895, 0.435,  0.025 ], // upper chest / armhole
+        [ 0.48, 0.870, 0.465,  0.035 ], // chest apex
+        [ 0.16, 0.785, 0.415,  0.020 ], // ribcage
+        [-0.18, 0.705, 0.380,  0.000 ], // natural waist
+        [-0.56, 0.785, 0.415, -0.010 ], // high hip
+        [-0.96, 0.860, 0.455, -0.010 ], // hip apex
+        [-1.30, 0.840, 0.440,  0.000 ], // lower dress form
+        [-1.46, 0.820, 0.425,  0.000 ], // bottom chamfer start
+        [-1.49, 0.775, 0.395,  0.000 ]  // bottom chamfer edge
       ];
 
+      // Jersey drapes naturally from chest over waist & hip rather than clinging like spandex
+      const shirtProfile = [
+        [ 1.25, 0.290, 0.260,  0.000 ], // neckline collar seat
+        [ 1.19, 0.500, 0.310,  0.008 ], // upper trapezius
+        [ 1.09, 0.785, 0.365,  0.015 ], // shoulder slope
+        [ 0.96, 0.975, 0.420,  0.022 ], // shoulder seam
+        [ 0.74, 0.945, 0.470,  0.030 ], // upper chest
+        [ 0.46, 0.925, 0.505,  0.040 ], // chest apex
+        [ 0.12, 0.865, 0.465,  0.024 ], // athletic ribcage drape
+        [-0.24, 0.835, 0.445,  0.010 ], // relaxed waist drape
+        [-0.64, 0.865, 0.460,  0.000 ], // lower torso drape
+        [-1.02, 0.895, 0.475,  0.000 ], // upper hip drape
+        [-1.25, 0.905, 0.480,  0.000 ], // bottom hem outer edge
+        [-1.26, 0.870, 0.455,  0.000 ]  // inward fabric hem thickness lip
+      ];
+
+      const profile = isShirt ? shirtProfile : dressFormProfile;
       const positions = [];
       const uvs = [];
       const indices = [];
+      const neckRing = [];
 
       for (let iy = 0; iy <= heightSegs; iy++) {
         const v = iy / heightSegs; // 0 (top) to 1 (bottom)
-        const pFloat = v * (profile.length - 1);
-        const i0 = Math.floor(pFloat);
-        const i1 = Math.min(i0 + 1, profile.length - 1);
-        const t = pFloat - i0;
-
-        const yBase = profile[i0][0] * (1 - t) + profile[i1][0] * t;
-        let rx = (profile[i0][1] * (1 - t) + profile[i1][1] * t) + offset;
-        let rz = (profile[i0][2] * (1 - t) + profile[i1][2] * t) + offset;
+        const sampled = sampleProfileCatmullRom(profile, v);
+        const yBase = sampled[0];
+        const rx = sampled[1] + offset;
+        const rz = sampled[2] + offset;
+        const zCenter = sampled[3];
 
         for (let ix = 0; ix <= radialSegs; ix++) {
           const u = ix / radialSegs;
-          // Angle: u=0.25 is +Z (Front), u=0.75 is -Z (Back)
+          // u=0.25 is +Z (Front), u=0.75 is -Z (Back)
           const theta = u * Math.PI * 2;
           const cosT = Math.cos(theta);
           const sinT = Math.sin(theta);
 
+          // Slightly flatter back / fuller chest super-ellipse shaping
           let x = rx * cosT;
-          let z = rz * sinT;
+          let z = zCenter + rz * sinT;
           let y = yBase;
 
-          // Subtle chest & spine anatomical sculpting
-          if (sinT > 0 && v > 0.15 && v < 0.45) {
-            // Forward chest contour
-            z += 0.05 * Math.sin((v - 0.15) / 0.30 * Math.PI) * sinT;
+          // Anatomical pectoral & spine shaping (smooth, subtle)
+          if (sinT > 0 && v > 0.18 && v < 0.48) {
+            const chestEnv = Math.sin(((v - 0.18) / 0.30) * Math.PI);
+            const pecSplit = 0.85 + 0.15 * Math.sin(Math.abs(cosT) * Math.PI);
+            z += 0.032 * chestEnv * Math.pow(sinT, 1.4) * pecSplit;
           }
-          if (sinT < 0 && Math.abs(cosT) < 0.35 && v > 0.15 && v < 0.7) {
-            // Subtle spine indentation on back
-            z += 0.03 * (1 - Math.abs(cosT) / 0.35);
+          if (sinT < 0 && Math.abs(cosT) < 0.40 && v > 0.16 && v < 0.72) {
+            const spineEnv = Math.sin(((v - 0.16) / 0.56) * Math.PI);
+            z += 0.024 * spineEnv * Math.pow(1 - Math.abs(cosT) / 0.40, 1.5);
           }
 
           if (isShirt) {
-            // Cloth drape ripples near waist & hem
-            const drapeAmp = 0.014 * Math.pow(v, 1.3);
-            const ripple = Math.sin(theta * 7 + v * 3) * drapeAmp;
+            // Subtle natural gravity folds near lower chest & hem
+            const drapeEnv = Math.pow(Math.max(0, (v - 0.25) / 0.75), 1.35);
+            const ripple = (Math.sin(theta * 8 + v * 2.5) * 0.008 + Math.cos(theta * 5 - v * 2.0) * 0.005) * drapeEnv;
             x += cosT * ripple;
             z += sinT * ripple;
 
-            // Sculpted V-neck dip at front center (sinT > 0, cosT near 0)
-            if (v < 0.16 && sinT > 0.4) {
-              const centerFactor = Math.max(0, 1 - Math.abs(cosT) / 0.42);
-              y -= centerFactor * (1 - v / 0.16) * 0.24;
+            // Tailored V-neck opening at front center (+Z)
+            if (v < 0.14 && sinT > 0.20) {
+              const frontAngle = Math.abs(Math.atan2(cosT, sinT));
+              if (frontAngle < 0.72) {
+                const vFactor = 1 - frontAngle / 0.72;
+                const neckDecay = 1 - v / 0.14;
+                y -= Math.pow(vFactor, 1.25) * neckDecay * 0.22;
+              }
+            }
+
+            if (iy === 0) {
+              neckRing.push({ x, y, z, cosT, sinT });
             }
           }
 
           positions.push(x, y, z);
-          // Map UV so Front (+Z) is on left half (0..0.5) and Back (-Z) is on right half (0.5..1.0)
-          // Standard theta: 0 is +X, PI/2 is +Z (front), PI is -X, 3PI/2 is -Z (back)
-          // Shift so front center (+Z, theta=PI/2) is at U=0.25, and back center (-Z, theta=3PI/2) is at U=0.75
           uvs.push(1 - u, 1 - v);
         }
       }
@@ -2762,6 +2817,75 @@
         }
       }
 
+      // Close bottom of charcoal dress form cleanly so it looks solid from below
+      if (!isShirt) {
+        const lastRowStart = heightSegs * rowStride;
+        const centerIdx = positions.length / 3;
+        const bottomSample = sampleProfileCatmullRom(profile, 1.0);
+        positions.push(0, bottomSample[0] - 0.01, bottomSample[3]);
+        uvs.push(0.5, 0);
+        for (let ix = 0; ix < radialSegs; ix++) {
+          indices.push(lastRowStart + ix, lastRowStart + ix + 1, centerIdx);
+        }
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      geo.userData = { neckRing };
+      return geo;
+    }
+
+    // Build a custom ribbed V-neck collar ribbon flush along the exact shirt neckline curve
+    function createVNeckCollarGeometry(neckRing) {
+      const radialSegs = neckRing.length - 1;
+      // Cross-section offsets: [radialOutward, verticalUp]
+      const ribSection = [
+        [-0.022,  0.036], // inner top edge hugging dress-form neck
+        [ 0.008,  0.044], // top crest
+        [ 0.022,  0.026], // outer top bevel
+        [ 0.024, -0.018], // outer bottom overlapping shirt neckline
+        [ 0.004, -0.026], // inner bottom tuck
+        [-0.022,  0.005]  // back to inner wall
+      ];
+      const secCount = ribSection.length;
+      const positions = [];
+      const uvs = [];
+      const indices = [];
+
+      for (let ix = 0; ix <= radialSegs; ix++) {
+        const pt = neckRing[ix];
+        const lenXZ = Math.hypot(pt.x, pt.z) || 1;
+        const nx = pt.x / lenXZ;
+        const nz = pt.z / lenXZ;
+        const u = ix / radialSegs;
+
+        for (let is = 0; is < secCount; is++) {
+          const rOff = ribSection[is][0];
+          const yOff = ribSection[is][1];
+          positions.push(
+            pt.x + nx * rOff,
+            pt.y + yOff,
+            pt.z + nz * rOff
+          );
+          uvs.push(u, is / (secCount - 1));
+        }
+      }
+
+      for (let ix = 0; ix < radialSegs; ix++) {
+        for (let is = 0; is < secCount; is++) {
+          const nextIs = (is + 1) % secCount;
+          const a = ix * secCount + is;
+          const b = (ix + 1) * secCount + is;
+          const c = (ix + 1) * secCount + nextIs;
+          const d = ix * secCount + nextIs;
+          indices.push(a, b, d);
+          indices.push(b, c, d);
+        }
+      }
+
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
       geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
@@ -2770,7 +2894,163 @@
       return geo;
     }
 
-    // Create procedural woven athletic mesh bumpMap for 3D fabric realism
+    // Build a seamless, naturally draping 3D short sleeve with tucked shoulder root & folded cuff lip
+    function createTailoredSleeveGeometry(isLeft) {
+      const lenSegs = 24;
+      const circSegs = 40;
+      const positions = [];
+      const uvs = [];
+      const indices = [];
+
+      // Local centerline in pivot space (pivot placed inside shoulder at (+-0.76, 0.80, 0.02))
+      function centerAt(t) {
+        if (t <= 1.0) {
+          return {
+            x: 0.49 * Math.pow(t, 0.90),
+            y: -0.57 * Math.pow(t, 1.12),
+            z: 0.015 * t
+          };
+        }
+        // Cuff turn-in & hollow interior return (t in 1.0..1.18)
+        const back = (t - 1.0) / 0.18;
+        return {
+          x: 0.49 - back * 0.16,
+          y: -0.57 + back * 0.18,
+          z: 0.015 - back * 0.005
+        };
+      }
+
+      // Generate outer sleeve rings (0..lenSegs) plus 3 inward cuff-return rings
+      const totalRings = lenSegs + 4;
+      for (let it = 0; it <= totalRings; it++) {
+        let t = it <= lenSegs
+          ? it / lenSegs
+          : 1.0 + ((it - lenSegs) / 4) * 0.18;
+
+        const c = centerAt(t);
+        const tClamped = Math.min(t, 0.99);
+        const c0 = centerAt(Math.max(0, tClamped - 0.02));
+        const c1 = centerAt(Math.min(1.0, tClamped + 0.02));
+        let tx = c1.x - c0.x;
+        let ty = c1.y - c0.y;
+        let tz = c1.z - c0.z;
+        const tLen = Math.hypot(tx, ty, tz) || 1;
+        tx /= tLen; ty /= tLen; tz /= tLen;
+
+        // Orthonormal frame: U points up-outward perpendicular to T, F points forward (+Z)
+        let ux = -ty;
+        let uy = tx;
+        const uLen = Math.hypot(ux, uy) || 1;
+        ux /= uLen; uy /= uLen;
+        const fx = 0, fy = 0, fz = 1;
+
+        // Natural sleeve radius & slight fabric relax toward the cuff
+        const tNorm = Math.min(t, 1.0);
+        let rU = 0.228 + 0.015 * Math.sin(tNorm * Math.PI * 0.7) - 0.012 * tNorm;
+        let rF = 0.242 + 0.012 * Math.sin(tNorm * Math.PI * 0.6) - 0.016 * tNorm;
+
+        if (it > lenSegs) {
+          // Taper cleanly inside sleeve cuff for realistic hollow dark interior
+          const inRatio = (it - lenSegs) / 4;
+          const shrink = 1.0 - inRatio * 0.22;
+          rU *= shrink;
+          rF *= shrink;
+        }
+
+        const vCoord = it <= lenSegs ? tNorm : 0.985;
+
+        for (let ip = 0; ip <= circSegs; ip++) {
+          const u = ip / circSegs;
+          const phi = u * Math.PI * 2; // 0 = top outer shoulder, PI = underarm
+          const cosP = Math.cos(phi);
+          const sinP = Math.sin(phi);
+
+          // Subtle fabric drape fold near underarm & cuff
+          const fold = (it <= lenSegs)
+            ? (Math.sin(phi * 4 + tNorm * 3.5) * 0.005 + Math.cos(phi * 6 - tNorm * 2.0) * 0.003) * (0.35 + 0.65 * tNorm)
+            : 0;
+
+          const radU = rU + fold;
+          const radF = rF + fold;
+
+          let px = c.x + radU * cosP * ux + radF * sinP * fx;
+          let py = c.y + radU * cosP * uy + radF * sinP * fy;
+          let pz = c.z + radF * sinP * fz;
+
+          if (isLeft) px = -px;
+
+          positions.push(px, py, pz);
+          // Map V=0..1 from shoulder to cuff, U=0..1 around sleeve (0/1 top, 0.5 underarm)
+          uvs.push(u, vCoord);
+        }
+      }
+
+      const rowStride = circSegs + 1;
+      for (let it = 0; it < totalRings; it++) {
+        for (let ip = 0; ip < circSegs; ip++) {
+          const a = it * rowStride + ip;
+          const b = a + rowStride;
+          const c = b + 1;
+          const d = a + 1;
+          if (isLeft) {
+            indices.push(a, b, d);
+            indices.push(b, c, d);
+          } else {
+            indices.push(a, d, b);
+            indices.push(b, d, c);
+          }
+        }
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // Subtle charcoal tailor-linen canvas texture with princess seams for dress-form realism
+    function createDressFormLinenTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#1e2025';
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Fine linen weave cross-hatch
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 512; i += 4) {
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+      for (let i = 2; i < 512; i += 4) {
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+      }
+
+      // Tailored vertical princess-seam stitching
+      const seamXs = [64, 128, 192, 320, 384, 448];
+      ctx.strokeStyle = 'rgba(10, 10, 14, 0.75)';
+      ctx.setLineDash([4, 3]);
+      ctx.lineWidth = 1.5;
+      seamXs.forEach(sx => {
+        ctx.beginPath();
+        ctx.moveTo(sx, 0);
+        ctx.lineTo(sx, 512);
+        ctx.stroke();
+      });
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    // Procedural athletic mesh bumpMap for 3D fabric realism
     function createFabricBumpMap() {
       const canvas = document.createElement('canvas');
       canvas.width = 256;
@@ -2778,18 +3058,76 @@
       const ctx = canvas.getContext('2d');
       ctx.fillStyle = '#808080';
       ctx.fillRect(0, 0, 256, 256);
-      ctx.fillStyle = '#c8c8c8';
+      ctx.fillStyle = '#bdbdbd';
       for (let y = 0; y < 256; y += 6) {
         for (let x = 0; x < 256; x += 6) {
           ctx.beginPath();
-          ctx.arc(x + (y % 12 === 0 ? 0 : 3), y, 1.3, 0, Math.PI * 2);
+          ctx.arc(x + (y % 12 === 0 ? 0 : 3), y, 1.2, 0, Math.PI * 2);
           ctx.fill();
         }
       }
       const tex = new THREE.CanvasTexture(canvas);
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(16, 12);
+      tex.repeat.set(18, 14);
+      return tex;
+    }
+
+    // Authentic Sentinels 2026 Jersey Sleeve UV Texture (crimson satin shoulder + black underarm + black cuff)
+    function createJerseySleeveTexture(isLeft) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      // Deep Sentinels crimson base
+      const baseGrad = ctx.createLinearGradient(0, 0, 0, 512);
+      baseGrad.addColorStop(0.0, '#b91c1c');
+      baseGrad.addColorStop(0.45, '#991b1b');
+      baseGrad.addColorStop(0.85, '#881313');
+      ctx.fillStyle = baseGrad;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Subtle satin upper shoulder sheen (around U=0/1 top outer shoulder)
+      const topSheen = ctx.createLinearGradient(0, 0, 0, 220);
+      topSheen.addColorStop(0, 'rgba(239, 68, 68, 0.35)');
+      topSheen.addColorStop(1, 'rgba(153, 27, 27, 0)');
+      ctx.fillStyle = topSheen;
+      ctx.fillRect(0, 0, 512, 220);
+
+      // Crisp Black Underarm Athletic Panel (centered at U = 0.5 -> X = 256)
+      ctx.fillStyle = '#0d0e12';
+      ctx.fillRect(150, 0, 212, 445);
+
+      // Soft seam edge along black underarm panel
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(146, 0, 6, 445);
+      ctx.fillRect(360, 0, 6, 445);
+
+      // Diagonal black shoulder seam accent near top root
+      ctx.fillStyle = '#0e0f13';
+      ctx.fillRect(0, 0, 512, 24);
+
+      // Subtle sleeve sponsor graphic on outer arm
+      ctx.save();
+      ctx.fillStyle = '#09090b';
+      ctx.font = 'bold 26px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(isLeft ? 'STARFORGE' : 'REDBULL', isLeft ? 74 : 438, 260);
+      ctx.restore();
+
+      // Clean Black Satin Sleeve Cuff Band (V = 0.85 .. 1.0)
+      ctx.fillStyle = '#0c0d11';
+      ctx.fillRect(0, 434, 512, 78);
+
+      // Subtle dark inside shadow right at top edge of hem return
+      ctx.fillStyle = '#050507';
+      ctx.fillRect(0, 496, 512, 16);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.ClampToEdgeWrapping;
+      tex.anisotropy = 8;
       return tex;
     }
 
@@ -2801,39 +3139,31 @@
       const ctx = canvas.getContext('2d');
 
       function drawBaseDesign() {
-        // Rich crimson athletic mesh base
-        ctx.fillStyle = '#b91c1c';
+        // Rich Sentinels crimson base
+        ctx.fillStyle = '#991b1b';
         ctx.fillRect(0, 0, 2048, 1024);
 
-        // Front Center is at U = 0.25 -> X = 512
-        // Back Center is at U = 0.75 -> X = 1536
-        // Left/Right Side Seams at U = 0.0/1.0 (X=0/2048) and U = 0.5 (X=1024)
-
-        // Satin top yoke sheen
         const yokeGrad = ctx.createLinearGradient(0, 0, 0, 320);
-        yokeGrad.addColorStop(0, '#dc2626');
-        yokeGrad.addColorStop(1, '#991b1b');
+        yokeGrad.addColorStop(0, '#b91c1c');
+        yokeGrad.addColorStop(1, '#881313');
         ctx.fillStyle = yokeGrad;
         ctx.fillRect(0, 0, 2048, 320);
 
-        // Black side athletic mesh panels
-        ctx.fillStyle = '#111216';
-        ctx.fillRect(0, 220, 120, 804);
-        ctx.fillRect(904, 220, 240, 804);
-        ctx.fillRect(1928, 220, 120, 804);
+        // Soft black side mesh panels
+        ctx.fillStyle = '#0d0e12';
+        ctx.fillRect(0, 220, 140, 804);
+        ctx.fillRect(884, 220, 280, 804);
+        ctx.fillRect(1908, 220, 140, 804);
 
         // Front details (X = 1536, U = 0.75)
         ctx.fillStyle = '#09090b';
-        ctx.fillRect(1544, 230, 210, 85); // VCT crest bar
+        ctx.fillRect(1544, 230, 210, 85);
         ctx.fillStyle = '#ef4444';
         ctx.beginPath();
         ctx.moveTo(1599, 250); ctx.lineTo(1616, 275); ctx.lineTo(1599, 298); ctx.lineTo(1582, 275);
         ctx.closePath(); ctx.fill();
 
-        // SEN Crest
         ctx.fillStyle = '#09090b';
-        ctx.strokeStyle = '#dc2626';
-        ctx.lineWidth = 4;
         ctx.font = '900 105px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -2849,7 +3179,7 @@
         ctx.fillText('OPTIMUS', 512, 430);
 
         // Black bottom satin hem
-        ctx.fillStyle = '#0f1014';
+        ctx.fillStyle = '#0c0d11';
         ctx.fillRect(0, 945, 2048, 79);
       }
 
@@ -2857,7 +3187,7 @@
       const texture = new THREE.CanvasTexture(canvas);
       texture.anisotropy = 16;
 
-      // Overlay the user's real jersey photos cleanly onto the front & back panels
+      // Composite user's real front & back jersey photos seamlessly
       const frontImg = new Image();
       const backImg = new Image();
       let loadedCount = 0;
@@ -2866,30 +3196,40 @@
         loadedCount++;
         if (loadedCount < 2) return;
 
-        // Draw Front jersey torso crop onto U = 0.75 (X: 1184..1888)
+        // Wider shoulder-inclusive torso crops so RedBull crest & shoulder stripes show cleanly
         const fw = frontImg.naturalWidth;
         const fh = frontImg.naturalHeight;
         ctx.drawImage(
           frontImg,
-          fw * 0.28, fh * 0.13, fw * 0.44, fh * 0.82,
-          1184, 0, 704, 1024
+          fw * 0.24, fh * 0.11, fw * 0.52, fh * 0.86,
+          1144, 0, 784, 1024
         );
 
-        // Draw Back jersey torso crop onto U = 0.25 (X: 160..864)
         const bw = backImg.naturalWidth;
         const bh = backImg.naturalHeight;
         ctx.drawImage(
           backImg,
-          bw * 0.26, bh * 0.12, bw * 0.48, bh * 0.82,
-          160, 0, 704, 1024
+          bw * 0.24, bh * 0.11, bw * 0.52, bh * 0.86,
+          120, 0, 784, 1024
         );
 
-        // Re-apply clean black side seams & bottom hem band for seamless 3D wrap
-        ctx.fillStyle = '#101115';
-        ctx.fillRect(0, 180, 175, 844);
-        ctx.fillRect(849, 180, 350, 844);
-        ctx.fillRect(1873, 180, 175, 844);
-        ctx.fillRect(0, 955, 2048, 69);
+        // Clean feathered black side seams & bottom hem band
+        function drawSidePanel(xStart, width) {
+          const grad = ctx.createLinearGradient(xStart, 0, xStart + width, 0);
+          grad.addColorStop(0.0, 'rgba(13, 14, 18, 0.92)');
+          grad.addColorStop(0.18, '#0c0d11');
+          grad.addColorStop(0.82, '#0c0d11');
+          grad.addColorStop(1.0, 'rgba(13, 14, 18, 0.92)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(xStart, 175, width, 849);
+        }
+        drawSidePanel(0, 155);
+        drawSidePanel(869, 310);
+        drawSidePanel(1893, 155);
+
+        // Crisp black bottom satin hem band + inner hem shadow
+        ctx.fillStyle = '#0d0e12';
+        ctx.fillRect(0, 946, 2048, 78);
 
         texture.needsUpdate = true;
         if (onReady) onReady(texture);
@@ -2914,8 +3254,8 @@
       Mannequin3D.scene = scene;
       Mannequin3D.clock = new THREE.Clock();
 
-      const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-      camera.position.set(0, 0.15, 5.9);
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+      camera.position.set(0, 0.10, 6.0);
       Mannequin3D.camera = camera;
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -2924,7 +3264,7 @@
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.15;
+      renderer.toneMappingExposure = 1.02;
       container.appendChild(renderer.domElement);
       Mannequin3D.renderer = renderer;
 
@@ -2953,23 +3293,23 @@
         updateMannequinAngleHUD(deg);
       });
 
-      // Studio Lighting
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.72);
+      // Calibrated Fashion Studio Lighting (preserves deep crimson & brushed charcoal/gunmetal)
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.58);
       scene.add(ambientLight);
 
-      const keyLight = new THREE.DirectionalLight(0xfff8f0, 1.25);
-      keyLight.position.set(3.5, 5.5, 5.0);
+      const keyLight = new THREE.DirectionalLight(0xfffaf2, 1.15);
+      keyLight.position.set(3.2, 5.2, 5.2);
       keyLight.castShadow = true;
       keyLight.shadow.mapSize.width = 1024;
       keyLight.shadow.mapSize.height = 1024;
       scene.add(keyLight);
 
-      const fillLight = new THREE.DirectionalLight(0xfef08a, 0.55);
-      fillLight.position.set(-4.5, 2.5, 3.0);
+      const fillLight = new THREE.DirectionalLight(0xe2e8f0, 0.48);
+      fillLight.position.set(-4.2, 2.2, 3.5);
       scene.add(fillLight);
 
-      const rimLight = new THREE.PointLight(0xfacc15, 1.25, 14);
-      rimLight.position.set(0, 2.8, -4.5);
+      const rimLight = new THREE.PointLight(0xfef3c7, 0.72, 16);
+      rimLight.position.set(0, 3.4, -4.6);
       scene.add(rimLight);
 
       const mannequinGroup = new THREE.Group();
@@ -2978,9 +3318,9 @@
 
       buildArticulatedMannequinAnd3DShirt(mannequinGroup);
 
-      // Floor Shadow Plane
+      // Soft Floor Contact Shadow
       const shadowGeo = new THREE.CircleGeometry(1.75, 48);
-      const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.45, depthWrite: false });
+      const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.5, depthWrite: false });
       const shadowDisc = new THREE.Mesh(shadowGeo, shadowMat);
       shadowDisc.rotation.x = -Math.PI / 2;
       shadowDisc.position.y = -2.45;
@@ -2997,7 +3337,7 @@
 
       renderer.domElement.addEventListener('pointerup', (e) => {
         const dist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
-        if (dist > 6) return; // Ignore drags
+        if (dist > 6) return;
 
         const rect = renderer.domElement.getBoundingClientRect();
         pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -3019,47 +3359,43 @@
         }
       });
 
-      // Main Animation Loop (drives articulated mannequin movement & breathing)
+      // Smooth Animation Loop (tailored form micro-motion without detaching sleeves)
       function animate() {
         Mannequin3D.animId = requestAnimationFrame(animate);
         const t = Mannequin3D.clock.getElapsedTime();
 
         if (Mannequin3D.upperBodyGroup && Mannequin3D.leftArmPivot && Mannequin3D.rightArmPivot) {
-          // Decay click pulse
           if (Mannequin3D.pulseBoost > 0) {
             Mannequin3D.pulseBoost = Math.max(0, Mannequin3D.pulseBoost - 0.05);
           }
 
           if (currentMannequinPose === 'walk') {
-            // Dynamic Runway Walk Motion
-            const swing = Math.sin(t * 3.4);
-            Mannequin3D.leftArmPivot.rotation.x = swing * 0.14;
-            Mannequin3D.rightArmPivot.rotation.x = -swing * 0.14;
-            Mannequin3D.leftArmPivot.rotation.z = -0.04 + Math.abs(swing) * 0.03;
-            Mannequin3D.rightArmPivot.rotation.z = 0.04 - Math.abs(swing) * 0.03;
-            Mannequin3D.upperBodyGroup.rotation.y = swing * 0.16;
-            Mannequin3D.upperBodyGroup.rotation.z = swing * 0.03;
-            Mannequin3D.upperBodyGroup.position.y = Math.abs(Math.sin(t * 3.4)) * 0.06;
+            const swing = Math.sin(t * 3.0);
+            Mannequin3D.leftArmPivot.rotation.x = swing * 0.035;
+            Mannequin3D.rightArmPivot.rotation.x = -swing * 0.035;
+            Mannequin3D.leftArmPivot.rotation.z = -0.015;
+            Mannequin3D.rightArmPivot.rotation.z = 0.015;
+            Mannequin3D.upperBodyGroup.rotation.y = swing * 0.14;
+            Mannequin3D.upperBodyGroup.rotation.z = swing * 0.022;
+            Mannequin3D.upperBodyGroup.position.y = Math.abs(Math.sin(t * 3.0)) * 0.045;
           } else if (currentMannequinPose === 'runway') {
-            // Confident Runway Stance with subtle sway
-            const sway = Math.sin(t * 1.6);
-            Mannequin3D.leftArmPivot.rotation.x = -0.05 + sway * 0.04;
-            Mannequin3D.rightArmPivot.rotation.x = 0.05 - sway * 0.04;
-            Mannequin3D.leftArmPivot.rotation.z = -0.03;
-            Mannequin3D.rightArmPivot.rotation.z = 0.03;
-            Mannequin3D.upperBodyGroup.rotation.y = 0.12 + sway * 0.06;
-            Mannequin3D.upperBodyGroup.rotation.z = 0.035;
-            Mannequin3D.upperBodyGroup.position.y = Math.sin(t * 2.0) * 0.02;
+            const sway = Math.sin(t * 1.5);
+            Mannequin3D.leftArmPivot.rotation.x = sway * 0.02;
+            Mannequin3D.rightArmPivot.rotation.x = -sway * 0.02;
+            Mannequin3D.leftArmPivot.rotation.z = 0;
+            Mannequin3D.rightArmPivot.rotation.z = 0;
+            Mannequin3D.upperBodyGroup.rotation.y = 0.10 + sway * 0.05;
+            Mannequin3D.upperBodyGroup.rotation.z = 0.025;
+            Mannequin3D.upperBodyGroup.position.y = Math.sin(t * 1.8) * 0.018;
           } else {
-            // Natural Idle Breathing & Micro-Motion
-            const breath = Math.sin(t * 1.8);
-            Mannequin3D.leftArmPivot.rotation.x = breath * 0.02;
-            Mannequin3D.rightArmPivot.rotation.x = -breath * 0.02;
-            Mannequin3D.leftArmPivot.rotation.z = breath * 0.015;
-            Mannequin3D.rightArmPivot.rotation.z = -breath * 0.015;
-            Mannequin3D.upperBodyGroup.rotation.y = Math.sin(t * 0.7) * 0.04;
+            const breath = Math.sin(t * 1.6);
+            Mannequin3D.leftArmPivot.rotation.x = breath * 0.01;
+            Mannequin3D.rightArmPivot.rotation.x = -breath * 0.01;
+            Mannequin3D.leftArmPivot.rotation.z = 0;
+            Mannequin3D.rightArmPivot.rotation.z = 0;
+            Mannequin3D.upperBodyGroup.rotation.y = Math.sin(t * 0.65) * 0.035;
             Mannequin3D.upperBodyGroup.rotation.z = 0;
-            Mannequin3D.upperBodyGroup.position.y = breath * 0.015 + Mannequin3D.pulseBoost * 0.04;
+            Mannequin3D.upperBodyGroup.position.y = breath * 0.012 + Mannequin3D.pulseBoost * 0.035;
           }
         }
 
@@ -3084,72 +3420,75 @@
     }
 
     function buildArticulatedMannequinAnd3DShirt(rootGroup) {
-      // Dark charcoal tailored dress-form fabric material (matches reference mannequin)
+      // Tailored charcoal linen dress-form material
+      const linenTex = createDressFormLinenTexture();
+      Mannequin3D.textures.linen = linenTex;
       const bodyMat = new THREE.MeshStandardMaterial({
-        color: 0x1c1d22,
-        roughness: 0.85,
-        metalness: 0.05,
+        color: 0xffffff,
+        map: linenTex,
+        roughness: 0.88,
+        metalness: 0.04,
         side: THREE.DoubleSide
       });
       Mannequin3D.materials.body = bodyMat;
 
-      // Brushed dark gunmetal steel for finial, neck cap, and stand
+      // Brushed gunmetal steel hardware for turned finial, neck cap & pedestal
       const jointMat = new THREE.MeshStandardMaterial({
         color: 0x52525b,
-        roughness: 0.25,
-        metalness: 0.85
+        roughness: 0.28,
+        metalness: 0.86
       });
       Mannequin3D.materials.joint = jointMat;
 
-      // Upper body articulated group (moves with breathing / runway / walk)
       const upperBodyGroup = new THREE.Group();
       rootGroup.add(upperBodyGroup);
       Mannequin3D.upperBodyGroup = upperBodyGroup;
 
-      // 1. Sculpted Mannequin Torso (underneath shirt)
+      // 1. Seamless Sculpted Charcoal Atelier Dress Form (Neck -> Shoulders -> Hip Base)
       const torsoGeo = createAnatomicalShellGeometry({ isShirt: false, offset: 0 });
       const torsoMesh = new THREE.Mesh(torsoGeo, bodyMat);
       torsoMesh.castShadow = true;
       torsoMesh.receiveShadow = true;
-      torsoMesh.userData = { partLabel: 'Tailored Charcoal Atelier Dress Form' };
+      torsoMesh.userData = { partLabel: 'Tailored Charcoal Linen Atelier Dress Form' };
       upperBodyGroup.add(torsoMesh);
       Mannequin3D.torsoMesh = torsoMesh;
 
-      // Exposed Charcoal Dress-Form Hip Base below jersey hem
-      const hipBaseGeo = new THREE.CylinderGeometry(0.80, 0.77, 0.24, 48);
-      hipBaseGeo.scale(1.0, 1.0, 0.51);
-      const hipBaseMesh = new THREE.Mesh(hipBaseGeo, bodyMat);
-      hipBaseMesh.position.y = -1.46;
-      hipBaseMesh.castShadow = true;
+      // Subtle dark brushed bottom plate flush under dress-form base
+      const hipBaseGeo = new THREE.CylinderGeometry(0.76, 0.74, 0.04, 64);
+      hipBaseGeo.scale(1.0, 1.0, 0.50);
+      const hipBaseMesh = new THREE.Mesh(hipBaseGeo, jointMat);
+      hipBaseMesh.position.y = -1.50;
       upperBodyGroup.add(hipBaseMesh);
       Mannequin3D.hipBaseMesh = hipBaseMesh;
 
-      // 2. Tailored Charcoal Neck + Brushed Steel Neck Cap + Tapered Finial Handle (No Head)
+      // 2. Lathe-Turned Brushed Steel Neck Collar Plate & Atelier Finial (No Head)
       const headGroup = new THREE.Group();
-      headGroup.position.set(0, 1.36, 0);
+      headGroup.position.set(0, 1.54, -0.02);
       upperBodyGroup.add(headGroup);
       Mannequin3D.headGroup = headGroup;
 
-      const neckMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.30, 0.34, 32), bodyMat);
-      neckMesh.position.y = 0.14;
-      neckMesh.castShadow = true;
-      headGroup.add(neckMesh);
+      const finialPoints = [
+        new THREE.Vector2(0.00, 0.00),
+        new THREE.Vector2(0.232, 0.00),
+        new THREE.Vector2(0.235, 0.025),
+        new THREE.Vector2(0.222, 0.052),
+        new THREE.Vector2(0.070, 0.058),
+        new THREE.Vector2(0.036, 0.075),
+        new THREE.Vector2(0.026, 0.14),
+        new THREE.Vector2(0.032, 0.24),
+        new THREE.Vector2(0.046, 0.34),
+        new THREE.Vector2(0.042, 0.37),
+        new THREE.Vector2(0.022, 0.39),
+        new THREE.Vector2(0.000, 0.395)
+      ];
+      const finialGeo = new THREE.LatheGeometry(finialPoints, 48);
+      finialGeo.scale(1.0, 1.0, 0.94);
+      const finialMesh = new THREE.Mesh(finialGeo, jointMat);
+      finialMesh.castShadow = true;
+      finialMesh.userData = { partLabel: 'Turned Brushed-Steel Atelier Finial & Collar Plate' };
+      headGroup.add(finialMesh);
 
-      const neckCapMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.255, 0.255, 0.05, 32), jointMat);
-      neckCapMesh.position.y = 0.32;
-      headGroup.add(neckCapMesh);
-
-      const finialStem = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.032, 0.26, 20), jointMat);
-      finialStem.position.y = 0.47;
-      finialStem.castShadow = true;
-      finialStem.userData = { partLabel: 'Brushed Steel Atelier Finial' };
-      headGroup.add(finialStem);
-
-      const finialTop = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16), jointMat);
-      finialTop.position.y = 0.60;
-      headGroup.add(finialTop);
-
-      // 3. REAL 3D T-SHIRT MESH (Torso Shell + 3D Collar + 3D Hem + 3D Sleeves)
+      // 3. REAL 3D T-SHIRT MESH (Draped Torso + Swept Ribbed V-Neck + Seamless Sleeves)
       const shirtGroup = new THREE.Group();
       upperBodyGroup.add(shirtGroup);
       Mannequin3D.shirtGroup = shirtGroup;
@@ -3161,33 +3500,25 @@
       const shirtBodyMat = new THREE.MeshStandardMaterial({
         map: jerseyAtlas,
         bumpMap: fabricBump,
-        bumpScale: 0.015,
-        roughness: 0.58,
-        metalness: 0.08,
+        bumpScale: 0.014,
+        roughness: 0.62,
+        metalness: 0.06,
         side: THREE.DoubleSide
       });
       Mannequin3D.materials.shirtBody = shirtBodyMat;
 
       const blackTrimMat = new THREE.MeshStandardMaterial({
-        color: 0x0e0f13,
+        color: 0x0d0e12,
         bumpMap: fabricBump,
-        bumpScale: 0.008,
-        roughness: 0.38,
-        metalness: 0.18
+        bumpScale: 0.010,
+        roughness: 0.52,
+        metalness: 0.12,
+        side: THREE.DoubleSide
       });
       Mannequin3D.materials.blackTrim = blackTrimMat;
 
-      const crimsonSleeveMat = new THREE.MeshStandardMaterial({
-        color: 0xb91c1c,
-        bumpMap: fabricBump,
-        bumpScale: 0.018,
-        roughness: 0.55,
-        metalness: 0.10
-      });
-      Mannequin3D.materials.sleeve = crimsonSleeveMat;
-
-      // 3A. 3D Shirt Torso Shell
-      const shirtGeo = createAnatomicalShellGeometry({ isShirt: true, offset: 0.045 });
+      // 3A. Tailored 3D Jersey Torso Shell
+      const shirtGeo = createAnatomicalShellGeometry({ isShirt: true, offset: 0 });
       const shirtBodyMesh = new THREE.Mesh(shirtGeo, shirtBodyMat);
       shirtBodyMesh.castShadow = true;
       shirtBodyMesh.receiveShadow = true;
@@ -3195,76 +3526,54 @@
       shirtGroup.add(shirtBodyMesh);
       Mannequin3D.shirtBodyMesh = shirtBodyMesh;
 
-      // 3B. 3D Black V-Neck Ribbed Collar
-      const collarBack = new THREE.Mesh(new THREE.TorusGeometry(0.35, 0.045, 14, 32, Math.PI * 1.15), blackTrimMat);
-      collarBack.rotation.x = Math.PI / 2 + 0.15;
-      collarBack.rotation.z = -0.22;
-      collarBack.position.set(0, 1.36, 0.0);
-      shirtGroup.add(collarBack);
+      // 3B. Seamless Sculpted Ribbed V-Neck Collar (follows exact torso neckline)
+      const collarGeo = createVNeckCollarGeometry(shirtGeo.userData.neckRing);
+      const collarMesh = new THREE.Mesh(collarGeo, blackTrimMat);
+      collarMesh.castShadow = true;
+      collarMesh.userData = { partLabel: 'Tailored Ribbed V-Neck Collar' };
+      shirtGroup.add(collarMesh);
 
-      // V-neck front rib lines
-      const vLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.032, 0.42, 12), blackTrimMat);
-      vLeft.position.set(-0.15, 1.21, 0.31);
-      vLeft.rotation.z = -0.62;
-      vLeft.rotation.x = 0.25;
-      shirtGroup.add(vLeft);
+      // 3C. Seamless Sculpted 3D Short Sleeves with Authentic Sleeve Atlas & Folded Cuff
+      const leftSleeveTex = createJerseySleeveTexture(true);
+      const rightSleeveTex = createJerseySleeveTexture(false);
+      Mannequin3D.textures.leftSleeve = leftSleeveTex;
+      Mannequin3D.textures.rightSleeve = rightSleeveTex;
 
-      const vRight = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.032, 0.42, 12), blackTrimMat);
-      vRight.position.set(0.15, 1.21, 0.31);
-      vRight.rotation.z = 0.62;
-      vRight.rotation.x = 0.25;
-      shirtGroup.add(vRight);
-
-      // 3C. 3D Bottom Satin Hem Ring
-      const hemGeo = new THREE.CylinderGeometry(0.84, 0.85, 0.11, 48, 1, true);
-      hemGeo.scale(1.0, 1.0, 0.54);
-      const hemMesh = new THREE.Mesh(hemGeo, blackTrimMat);
-      hemMesh.position.y = -1.34;
-      shirtGroup.add(hemMesh);
-
-      // 4. Tailored Short-Sleeve Dress Form Caps (No bare arms/hands)
-      const sleeveInteriorMat = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.95 });
+      const leftSleeveMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        map: leftSleeveTex,
+        bumpMap: fabricBump,
+        bumpScale: 0.014,
+        roughness: 0.60,
+        metalness: 0.08,
+        side: THREE.DoubleSide
+      });
+      const rightSleeveMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        map: rightSleeveTex,
+        bumpMap: fabricBump,
+        bumpScale: 0.014,
+        roughness: 0.60,
+        metalness: 0.08,
+        side: THREE.DoubleSide
+      });
+      Mannequin3D.materials.sleeve = rightSleeveMat;
+      Mannequin3D.materials.leftSleeve = leftSleeveMat;
+      Mannequin3D.materials.rightSleeve = rightSleeveMat;
 
       function createDressFormSleeve(isLeft) {
         const sign = isLeft ? -1 : 1;
         const armPivot = new THREE.Group();
-        armPivot.position.set(sign * 1.02, 1.06, -0.02);
+        // Seated cleanly inside upper shoulder curve so sleeve flows organically out of shoulder
+        armPivot.position.set(sign * 0.76, 0.80, 0.02);
         upperBodyGroup.add(armPivot);
 
-        // 3D T-Shirt Short Sleeve angled naturally off the shoulder
-        const sleeveGeo = new THREE.CylinderGeometry(0.28, 0.26, 0.72, 28, 8, false);
-        sleeveGeo.scale(1.0, 1.0, 0.88);
-        const sleeveMesh = new THREE.Mesh(sleeveGeo, crimsonSleeveMat);
-        sleeveMesh.position.set(sign * 0.12, -0.28, 0);
-        sleeveMesh.rotation.z = sign * 0.38;
+        const sleeveGeo = createTailoredSleeveGeometry(isLeft);
+        const sleeveMesh = new THREE.Mesh(sleeveGeo, isLeft ? leftSleeveMat : rightSleeveMat);
         sleeveMesh.castShadow = true;
-        sleeveMesh.userData = { partLabel: (isLeft ? 'Left' : 'Right') + ' 3D Athletic Mesh Sleeve + Black Cuff' };
+        sleeveMesh.receiveShadow = true;
+        sleeveMesh.userData = { partLabel: (isLeft ? 'Left' : 'Right') + ' Tailored Short Sleeve + Ribbed Cuff' };
         armPivot.add(sleeveMesh);
-
-        // Black Sleeve Cuff Band
-        const cuffGeo = new THREE.CylinderGeometry(0.262, 0.272, 0.11, 28);
-        cuffGeo.scale(1.0, 1.0, 0.88);
-        const cuffMesh = new THREE.Mesh(cuffGeo, blackTrimMat);
-        cuffMesh.position.set(sign * 0.24, -0.58, 0);
-        cuffMesh.rotation.z = sign * 0.38;
-        armPivot.add(cuffMesh);
-
-        // Dark hollow interior cap at sleeve opening
-        const capGeo = new THREE.CircleGeometry(0.25, 24);
-        capGeo.scale(1.0, 0.88, 1.0);
-        const capMesh = new THREE.Mesh(capGeo, sleeveInteriorMat);
-        capMesh.position.set(sign * 0.26, -0.63, 0);
-        capMesh.rotation.x = Math.PI / 2;
-        capMesh.rotation.y = sign * -0.38;
-        armPivot.add(capMesh);
-
-        // Black Underarm Panel Accent
-        const underarmGeo = new THREE.CylinderGeometry(0.24, 0.22, 0.56, 16, 1, false, 0, Math.PI * 0.7);
-        const underarmMesh = new THREE.Mesh(underarmGeo, blackTrimMat);
-        underarmMesh.position.set(sign * 0.08, -0.30, 0);
-        underarmMesh.rotation.z = sign * 0.38;
-        underarmMesh.rotation.y = isLeft ? 0 : Math.PI;
-        armPivot.add(underarmMesh);
 
         return { armPivot, forearmPivot: null };
       }
@@ -3276,22 +3585,33 @@
       Mannequin3D.rightArmPivot = rightArm.armPivot;
       Mannequin3D.rightForearmPivot = null;
 
-      // 5. Tall Brushed-Steel Pedestal Stand Assembly (matches reference stand)
+      // 4. Brushed-Steel Pedestal Stand Assembly (matches retail atelier stand)
       const standGroup = new THREE.Group();
       rootGroup.add(standGroup);
       Mannequin3D.standGroup = standGroup;
 
-      const standMat = new THREE.MeshStandardMaterial({ color: 0x3f3f46, metalness: 0.85, roughness: 0.28 });
-      const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.05, 24), standMat);
-      poleMesh.position.y = -1.90;
+      const standMat = new THREE.MeshStandardMaterial({ color: 0x3b3d44, metalness: 0.84, roughness: 0.28 });
+      const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.044, 0.044, 0.96, 28), standMat);
+      poleMesh.position.y = -1.96;
       standGroup.add(poleMesh);
 
-      const collarRing = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.08, 20), jointMat);
-      collarRing.position.y = -1.62;
+      const collarRing = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.075, 24), jointMat);
+      collarRing.position.y = -1.55;
       standGroup.add(collarRing);
 
-      const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.88, 0.94, 0.09, 40), standMat);
-      baseMesh.position.y = -2.40;
+      // Lathe chamfered circular pedestal disc base
+      const basePoints = [
+        new THREE.Vector2(0.00, 0.00),
+        new THREE.Vector2(0.86, 0.00),
+        new THREE.Vector2(0.86, 0.035),
+        new THREE.Vector2(0.80, 0.065),
+        new THREE.Vector2(0.11, 0.072),
+        new THREE.Vector2(0.07, 0.11),
+        new THREE.Vector2(0.00, 0.11)
+      ];
+      const baseGeo = new THREE.LatheGeometry(basePoints, 56);
+      const baseMesh = new THREE.Mesh(baseGeo, standMat);
+      baseMesh.position.y = -2.45;
       baseMesh.receiveShadow = true;
       standGroup.add(baseMesh);
     }
@@ -3393,9 +3713,10 @@
       if (!bodyMat) return;
 
       if (form === 'linen') {
-        bodyMat.color.setHex(0x1c1d22);
-        bodyMat.roughness = 0.85;
-        bodyMat.metalness = 0.05;
+        bodyMat.map = Mannequin3D.textures.linen || null;
+        bodyMat.color.setHex(Mannequin3D.textures.linen ? 0xffffff : 0x1e2025);
+        bodyMat.roughness = 0.88;
+        bodyMat.metalness = 0.04;
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.emissive.setHex(0x000000);
@@ -3403,6 +3724,7 @@
         if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = true;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
       } else if (form === 'ghost') {
+        bodyMat.map = null;
         bodyMat.color.setHex(0xfacc15);
         bodyMat.emissive.setHex(0xfacc15);
         bodyMat.emissiveIntensity = 0.35;
@@ -3412,7 +3734,8 @@
         if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = false;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = false;
       } else if (form === 'matte') {
-        bodyMat.color.setHex(0x09090b);
+        bodyMat.map = null;
+        bodyMat.color.setHex(0x111216);
         bodyMat.roughness = 0.45;
         bodyMat.metalness = 0.65;
         bodyMat.transparent = false;
@@ -3422,6 +3745,7 @@
         if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = true;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
       } else if (form === 'chrome') {
+        bodyMat.map = null;
         bodyMat.color.setHex(0xe2e8f0);
         bodyMat.roughness = 0.08;
         bodyMat.metalness = 0.96;
@@ -3529,7 +3853,16 @@
         if (key === 'sen_jersey') {
           Mannequin3D.materials.shirtBody.map = Mannequin3D.textures.sen_jersey;
           Mannequin3D.materials.shirtBody.needsUpdate = true;
-          if (Mannequin3D.materials.sleeve) Mannequin3D.materials.sleeve.color.setHex(0xb91c1c);
+          if (Mannequin3D.materials.leftSleeve) {
+            Mannequin3D.materials.leftSleeve.map = Mannequin3D.textures.leftSleeve;
+            Mannequin3D.materials.leftSleeve.color.setHex(0xffffff);
+            Mannequin3D.materials.leftSleeve.needsUpdate = true;
+          }
+          if (Mannequin3D.materials.rightSleeve) {
+            Mannequin3D.materials.rightSleeve.map = Mannequin3D.textures.rightSleeve;
+            Mannequin3D.materials.rightSleeve.color.setHex(0xffffff);
+            Mannequin3D.materials.rightSleeve.needsUpdate = true;
+          }
         } else {
           const textureLoader = new THREE.TextureLoader();
           textureLoader.load(url, (tex) => {
@@ -3537,7 +3870,13 @@
             tex.wrapT = THREE.ClampToEdgeWrapping;
             Mannequin3D.materials.shirtBody.map = tex;
             Mannequin3D.materials.shirtBody.needsUpdate = true;
-            if (Mannequin3D.materials.sleeve) Mannequin3D.materials.sleeve.color.setHex(0x3f3f46);
+            [Mannequin3D.materials.leftSleeve, Mannequin3D.materials.rightSleeve].forEach(mat => {
+              if (mat) {
+                mat.map = null;
+                mat.color.setHex(0x3f3f46);
+                mat.needsUpdate = true;
+              }
+            });
           });
         }
       }
