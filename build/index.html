@@ -1181,6 +1181,137 @@
               </div>
             </div>
 
+            
+            <!-- ========================================================================= -->
+            <!-- 🌟 3D MANNEQUIN PRODUCT RENDERS & 360° DEPTH SHOWCASE                       -->
+            <!-- ========================================================================= -->
+            <div class="p-4 sm:p-5 rounded-3xl bg-gradient-to-b from-[#141724] to-[#0c0d14] border border-white/10 shadow-2xl space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] bg-red-500/20 text-rose-300 font-mono px-2 py-0.5 rounded-full font-bold border border-rose-500/30">3D VTON GENERATION</span>
+                    <span class="text-[10px] text-sage font-mono">VCT 2026 PRO EDITION</span>
+                  </div>
+                  <h3 class="text-sm sm:text-base font-bold text-white mt-1 flex items-center gap-2">
+                    <i data-lucide="box" class="w-4 h-4 text-lavender"></i> Sentinels 2026 Jersey — 3D Mannequin Cover
+                  </h3>
+                  <p class="text-xs text-stone-400">High-fidelity 3D studio product renders covering the atelier mannequin with realistic drape, cloth physics, front crest, and player back-lettering.</p>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-xl border border-emerald-500/30">
+                    360° Rotational Textures Loaded
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3D Render Grid (Front, 3/4 Angle, Back, and Real Fit Capture) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                
+                <!-- 1. Front View 3D Render -->
+                <div class="p-3 rounded-2xl bg-surface-light border border-white/10 hover:border-lavender transition group flex flex-col justify-between shadow-lg">
+                  <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black/60 mb-2.5">
+                    <img src="./sen_mannequin_front.jpg" alt="3D Mannequin Front View" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-lavender font-bold">
+                      0° FRONT VIEW
+                    </div>
+                    <button onclick="inspect3DRender('./sen_mannequin_front.jpg', 'Sentinels Jersey — 3D Atelier Front', 'Contoured dress form wearing crimson satin jersey with bold black SEN crest and Red Bull shoulder patch.')" class="absolute bottom-2 right-2 bg-black/80 hover:bg-lavender hover:text-midnight text-white p-1.5 rounded-lg text-[10px] transition shadow-md" title="Zoom in">
+                      <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-ivory">Front Atelier Render</h4>
+                    <p class="text-[10px] text-stone-400 mt-0.5">Satin drape, black V-neck, and SEN crest on luxury dress form.</p>
+                    <div class="mt-2.5 flex gap-1.5">
+                      <button onclick="rotateMannequin(0, 'Front (0°)', document.querySelector('.mannequin-rot-btn:nth-child(1)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                        View 0° Form
+                      </button>
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                        AR
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. 3/4 Perspective 3D Render -->
+                <div class="p-3 rounded-2xl bg-surface-light border border-white/10 hover:border-lavender transition group flex flex-col justify-between shadow-lg">
+                  <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black/60 mb-2.5">
+                    <img src="./sen_mannequin_angle.jpg" alt="3D Mannequin 3/4 Angle View" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-amber-300 font-bold">
+                      45° PERSPECTIVE
+                    </div>
+                    <button onclick="inspect3DRender('./sen_mannequin_angle.jpg', 'Sentinels Jersey — 3/4 Depth Perspective', 'Contoured 45-degree angle showcasing 3D depth, sleeve mesh draping, and dramatic rim highlights.')" class="absolute bottom-2 right-2 bg-black/80 hover:bg-lavender hover:text-midnight text-white p-1.5 rounded-lg text-[10px] transition shadow-md" title="Zoom in">
+                      <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-ivory">3/4 Depth Render</h4>
+                    <p class="text-[10px] text-stone-400 mt-0.5">Dynamic 3D perspective highlighting chest contour and sleeve drop.</p>
+                    <div class="mt-2.5 flex gap-1.5">
+                      <button onclick="rotateMannequin(45, '3/4 Turn (45°)', document.querySelector('.mannequin-rot-btn:nth-child(2)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                        View 45° Form
+                      </button>
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                        AR
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Back View 3D Render -->
+                <div class="p-3 rounded-2xl bg-surface-light border border-white/10 hover:border-lavender transition group flex flex-col justify-between shadow-lg">
+                  <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black/60 mb-2.5">
+                    <img src="./sen_mannequin_back.jpg" alt="3D Mannequin Back View" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-rose-300 font-bold">
+                      180° REAR (JOHNQT)
+                    </div>
+                    <button onclick="inspect3DRender('./sen_mannequin_back.jpg', 'Sentinels Jersey — 3D Rear View', 'Rear atelier render highlighting bold JOHNQT lettering, SANDISK OPTIMUS sponsor logo, and black satin yoke.')" class="absolute bottom-2 right-2 bg-black/80 hover:bg-lavender hover:text-midnight text-white p-1.5 rounded-lg text-[10px] transition shadow-md" title="Zoom in">
+                      <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-ivory">Back Studio Render</h4>
+                    <p class="text-[10px] text-stone-400 mt-0.5">Satin shoulder yoke, JOHNQT lettering, and tech sponsor print.</p>
+                    <div class="mt-2.5 flex gap-1.5">
+                      <button onclick="rotateMannequin(180, 'Back View (180°)', document.querySelector('.mannequin-rot-btn:nth-child(4)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                        View 180° Form
+                      </button>
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                        AR
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Original Fit Capture (Front & Back Pair) -->
+                <div class="p-3 rounded-2xl bg-surface-light border border-white/10 hover:border-lavender transition group flex flex-col justify-between shadow-lg">
+                  <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black/60 mb-2.5 grid grid-cols-2 gap-0.5">
+                    <img src="./sen-jersey-front.jpg" alt="Front Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <img src="./sen-jersey-back.jpg" alt="Back Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-emerald-400 font-bold">
+                      ORIGINAL PHOTOS
+                    </div>
+                    <button onclick="inspect3DRender('./sen-jersey-front.jpg', 'Sentinels Jersey — Original Fit Photos', 'Original user photo pair (Front and Back with JOHNQT and SANDISK OPTIMUS).')" class="absolute bottom-2 right-2 bg-black/80 hover:bg-lavender hover:text-midnight text-white p-1.5 rounded-lg text-[10px] transition shadow-md" title="Zoom in">
+                      <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-ivory">Source Fit Capture</h4>
+                    <p class="text-[10px] text-stone-400 mt-0.5">High-res front & rear product photos feeding into 3D VTON.</p>
+                    <div class="mt-2.5 flex gap-1.5">
+                      <button onclick="setMannequinGarmentTexture('user_source')" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                        Use Source Fit
+                      </button>
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                        AR
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             <!-- Mannequin Capsule Garment Selector (All Categories & Stores) -->
             <div class="p-4 rounded-2xl bg-surface border border-border space-y-3 shadow-md">
               <div class="flex items-center justify-between">
@@ -2608,11 +2739,43 @@
     }
 
     // Master Render Method: applies 3D rotation, morphology scale, and perspective lighting
+    
+    let mannequinTextureSource = 'auto'; // 'auto' (360 front/back swap) or 'user_source'
+
+    function setMannequinGarmentTexture(type) {
+      mannequinTextureSource = type;
+      showStudioToast(type === 'user_source' ? '📸 Switched to original camera fit photo source' : '🌟 Switched to 360° rotational 3D textures');
+      renderMannequinFrame();
+    }
+
+    function inspect3DRender(src, title, caption) {
+      const modal = document.getElementById('mannequin-render-modal');
+      const img = document.getElementById('render-modal-img');
+      const titleEl = document.getElementById('render-modal-title');
+      const captionEl = document.getElementById('render-modal-caption');
+
+      if (img) img.src = src;
+      if (titleEl) titleEl.textContent = title;
+      if (captionEl) captionEl.textContent = caption;
+      if (modal) modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function close3DRenderModal() {
+      const modal = document.getElementById('mannequin-render-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Master Render Method: applies 3D rotation, morphology scale, perspective lighting, and FRONT/BACK texture swapping
     function renderMannequinFrame() {
       const display = document.getElementById('mannequin-display');
       const torso = document.getElementById('mannequin-torso');
       const garmentImg = document.getElementById('mannequin-garment-img');
       const measurementsLabel = document.getElementById('mannequin-measurements-label');
+      const angleLabel = document.getElementById('mannequin-angle-label');
+      const seamCenter = document.getElementById('mannequin-seam-center');
+      const seamLeft = document.getElementById('mannequin-seam-left');
+      const seamRight = document.getElementById('mannequin-seam-right');
 
       if (!display || !torso) return;
 
@@ -2631,16 +2794,75 @@
       // Apply transform to the torso container
       torso.style.transform = `scale(${depthScale}) scaleX(${scaleX.toFixed(3)}) skewY(${skewY.toFixed(2)}deg)`;
 
-      // Update garment lighting based on light source (simulated top-left studio key light)
+      // Check if viewing the front or the back of the mannequin
+      const isBack = deg > 90 && deg < 270;
+
+      // Dynamic angle HUD description
+      if (angleLabel) {
+        if (deg >= 337.5 || deg < 22.5) angleLabel.textContent = 'Front View (0°)';
+        else if (deg >= 22.5 && deg < 67.5) angleLabel.textContent = '3/4 Turn (45°)';
+        else if (deg >= 67.5 && deg < 112.5) angleLabel.textContent = 'Right Profile (90°)';
+        else if (deg >= 112.5 && deg < 157.5) angleLabel.textContent = '3/4 Rear (135°)';
+        else if (deg >= 157.5 && deg < 202.5) angleLabel.textContent = 'Back View — JOHNQT (180°)';
+        else if (deg >= 202.5 && deg < 247.5) angleLabel.textContent = '3/4 Rear Left (225°)';
+        else if (deg >= 247.5 && deg < 292.5) angleLabel.textContent = 'Left Profile (270°)';
+        else angleLabel.textContent = '3/4 Front Left (315°)';
+      }
+
+      // Seam display adjustments for front vs rear
+      if (currentMannequinForm !== 'ghost') {
+        if (isBack) {
+          if (seamCenter) {
+            seamCenter.setAttribute('stroke-dasharray', 'none');
+            seamCenter.style.opacity = '0.7';
+          }
+          if (seamLeft) seamLeft.style.opacity = '0.2';
+          if (seamRight) seamRight.style.opacity = '0.2';
+        } else {
+          if (seamCenter) {
+            seamCenter.setAttribute('stroke-dasharray', '3,2');
+            seamCenter.style.opacity = currentMannequinForm === 'linen' ? '0.6' : '0.2';
+          }
+          if (seamLeft) seamLeft.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
+          if (seamRight) seamRight.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
+        }
+      }
+
+      // Real-time Front vs Back texture swapping for Sentinels Jersey
+      if (garmentImg && activeMannequinGarmentKey === 'sen_jersey') {
+        if (isBack) {
+          // Switch to back of jersey (with JOHNQT and SANDISK OPTIMUS)
+          if (mannequinTextureSource === 'user_source') {
+            if (!garmentImg.src.includes('sen-jersey-back.jpg')) {
+              garmentImg.src = './sen-jersey-back.jpg';
+            }
+          } else {
+            if (!garmentImg.src.includes('sen_mannequin_back.jpg') && !garmentImg.src.includes('sen-jersey-back.jpg')) {
+              garmentImg.src = './sen-jersey-back.jpg';
+            }
+          }
+        } else {
+          // Switch to front of jersey (with SEN chest logo and Red Bull shoulder patch)
+          if (mannequinTextureSource === 'user_source') {
+            if (!garmentImg.src.includes('sen-jersey-front.jpg')) {
+              garmentImg.src = './sen-jersey-front.jpg';
+            }
+          } else {
+            if (!garmentImg.src.includes('sen-jersey.webp') && !garmentImg.src.includes('sen-jersey-front.jpg')) {
+              garmentImg.src = './sen-jersey.webp';
+            }
+          }
+        }
+      }
+
+      // Lighting & drop shadow based on rotation angle
       if (garmentImg) {
-        const isBack = deg > 90 && deg < 270;
-        const brightness = 0.85 + (cosA * 0.15) - (Math.abs(sinA) * 0.1);
-        const contrast = 1.05 + Math.abs(sinA) * 0.1;
+        const brightness = 0.88 + (cosA * 0.12) - (Math.abs(sinA) * 0.08);
+        const contrast = 1.05 + Math.abs(sinA) * 0.08;
         
         let backFilter = '';
         if (isBack) {
-          // Back view lighting & collar interior shading
-          backFilter = 'sepia(0.1) brightness(0.92)';
+          backFilter = 'sepia(0.08) brightness(0.95)';
         }
 
         const baseFilter = MANNEQUIN_FORM_STYLES[currentMannequinForm].garmentFilter;
@@ -2654,6 +2876,7 @@
     }
 
     // Direct Mouse & Touch 360° Drag Rotation Listener
+
     (function initMannequinDrag() {
       let isDragging = false;
       let startX = 0;
@@ -4482,5 +4705,43 @@
     initUniversalDrop();
 
   </script>
+
+  <!-- ========================================================================= -->
+  <!-- 🔍 MODAL 3: 3D MANNEQUIN RENDER DETAIL INSPECTOR                           -->
+  <!-- ========================================================================= -->
+  <div id="mannequin-render-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[110] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-surface border border-white/15 rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl relative">
+      <button onclick="close3DRenderModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-light border border-white/20 text-stone-300 hover:text-white flex items-center justify-center text-sm shadow-md">✕</button>
+
+      <div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="box" class="w-4 h-4 text-lavender"></i>
+          <span class="text-xs font-bold text-lavender uppercase tracking-wider">3D Mannequin Visualizer</span>
+        </div>
+        <h3 id="render-modal-title" class="text-lg font-bold text-ivory mt-0.5">Sentinels 2026 Jersey — 3D Atelier Render</h3>
+        <p id="render-modal-caption" class="text-xs text-stone-400">High-resolution 3D garment drape on contoured luxury dress form.</p>
+      </div>
+
+      <div class="relative w-full aspect-[4/5] sm:aspect-[16/11] max-h-[460px] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center">
+        <img id="render-modal-img" src="./sen_mannequin_front.jpg" class="max-w-full max-h-full object-contain">
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
+        <div class="flex items-center gap-2 text-xs text-stone-400 font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Cloth Physics: Draped & Textured</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="close3DRenderModal()" class="px-4 py-2 bg-surface-light border border-white/10 text-stone-300 font-semibold rounded-xl text-xs hover:text-white transition">
+            Close
+          </button>
+          <button onclick="transferMannequinToAR(); close3DRenderModal();" class="px-5 py-2 bg-gradient-to-r from-sage to-emerald-400 text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg flex items-center gap-1.5">
+            <i data-lucide="video" class="w-3.5 h-3.5"></i> Try in Live AR Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
