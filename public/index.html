@@ -2708,8 +2708,13 @@
 
   <input type="file" id="screenshot-file-input" accept="image/*" class="hidden" onchange="handleScreenshotUpload(event)">
 
-  <footer class="mt-6 text-center text-xs text-white/60">
-    YURI AI · High-Fidelity AR Virtual Fitting Engine · Decart Lucy VTON + MediaPipe + 3D Mannequin Studio
+  <footer class="mt-6 mb-20 md:mb-6 flex flex-col items-center gap-3 text-center text-xs text-white/60 px-4">
+    <button type="button" id="why-better-btn" onclick="openTwinComparisonModal()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-surface via-surface-elevated to-surface border border-lavender/50 hover:border-lavender text-ivory hover:text-lavender font-bold text-xs flex items-center gap-2 shadow-lg hover:scale-[1.02] transition">
+      <i data-lucide="sparkles" class="w-4 h-4 text-lavender"></i>
+      <span>Why We Are Better</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-full bg-lavender text-midnight font-black">YURI vs TWIN</span>
+    </button>
+    <p>YURI AI · High-Fidelity AR Virtual Fitting Engine · Decart Lucy VTON + MediaPipe + 3D Mannequin Studio</p>
   </footer>
 
   <!-- ==================== SCRIPT ==================== -->
