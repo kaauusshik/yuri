@@ -2520,6 +2520,7 @@
       leftForearmPivot: null,
       rightForearmPivot: null,
       standGroup: null,
+      textures: {},
       materials: {},
       clock: null,
       animId: null,
@@ -2604,7 +2605,7 @@
           // Map UV so Front (+Z) is on left half (0..0.5) and Back (-Z) is on right half (0.5..1.0)
           // Standard theta: 0 is +X, PI/2 is +Z (front), PI is -X, 3PI/2 is -Z (back)
           // Shift so front center (+Z, theta=PI/2) is at U=0.25, and back center (-Z, theta=3PI/2) is at U=0.75
-          uvs.push(u, 1 - v);
+          uvs.push(1 - u, 1 - v);
         }
       }
 
@@ -2615,8 +2616,8 @@
           const b = a + rowStride;
           const c = b + 1;
           const d = a + 1;
-          indices.push(a, b, d);
-          indices.push(b, c, d);
+          indices.push(a, d, b);
+          indices.push(b, d, c);
         }
       }
 
@@ -2680,12 +2681,12 @@
         ctx.fillRect(904, 220, 240, 804);
         ctx.fillRect(1928, 220, 120, 804);
 
-        // Front details (X = 512)
+        // Front details (X = 1536, U = 0.75)
         ctx.fillStyle = '#09090b';
-        ctx.fillRect(520, 230, 210, 85); // VCT crest bar
+        ctx.fillRect(1544, 230, 210, 85); // VCT crest bar
         ctx.fillStyle = '#ef4444';
         ctx.beginPath();
-        ctx.moveTo(575, 250); ctx.lineTo(592, 275); ctx.lineTo(575, 298); ctx.lineTo(558, 275);
+        ctx.moveTo(1599, 250); ctx.lineTo(1616, 275); ctx.lineTo(1599, 298); ctx.lineTo(1582, 275);
         ctx.closePath(); ctx.fill();
 
         // SEN Crest
@@ -2695,16 +2696,16 @@
         ctx.font = '900 105px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('SEN', 512, 460);
+        ctx.fillText('SEN', 1536, 460);
 
-        // Back details (X = 1536)
+        // Back details (X = 512, U = 0.25)
         ctx.fillStyle = '#09090b';
         ctx.font = '900 92px sans-serif';
-        ctx.fillText('JOHNQT', 1536, 260);
+        ctx.fillText('JOHNQT', 512, 260);
         ctx.font = 'bold 34px sans-serif';
-        ctx.fillText('SANDISK', 1536, 390);
+        ctx.fillText('SANDISK', 512, 390);
         ctx.font = '600 28px sans-serif';
-        ctx.fillText('OPTIMUS', 1536, 430);
+        ctx.fillText('OPTIMUS', 512, 430);
 
         // Black bottom satin hem
         ctx.fillStyle = '#0f1014';
@@ -2724,23 +2725,22 @@
         loadedCount++;
         if (loadedCount < 2) return;
 
-        // Draw Front jersey torso crop onto U = 0.25 (X: 160..864)
-        // In sen-jersey-front.jpg, the torso is centered ~28%..72% width, 12%..95% height
+        // Draw Front jersey torso crop onto U = 0.75 (X: 1184..1888)
         const fw = frontImg.naturalWidth;
         const fh = frontImg.naturalHeight;
         ctx.drawImage(
           frontImg,
           fw * 0.28, fh * 0.13, fw * 0.44, fh * 0.82,
-          160, 0, 704, 1024
+          1184, 0, 704, 1024
         );
 
-        // Draw Back jersey torso crop onto U = 0.75 (X: 1184..1888)
+        // Draw Back jersey torso crop onto U = 0.25 (X: 160..864)
         const bw = backImg.naturalWidth;
         const bh = backImg.naturalHeight;
         ctx.drawImage(
           backImg,
           bw * 0.26, bh * 0.12, bw * 0.48, bh * 0.82,
-          1184, 0, 704, 1024
+          160, 0, 704, 1024
         );
 
         // Re-apply clean black side seams & bottom hem band for seamless 3D wrap
@@ -2955,7 +2955,8 @@
       const bodyMat = new THREE.MeshStandardMaterial({
         color: 0xe5d6c3,
         roughness: 0.72,
-        metalness: 0.08
+        metalness: 0.08,
+        side: THREE.DoubleSide
       });
       Mannequin3D.materials.body = bodyMat;
 
