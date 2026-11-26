@@ -614,7 +614,7 @@
                 <!-- 0. Sentinels Pro Jersey 2026 (NEW) -->
                 <button onclick="switchARGarment('sen_jersey', 'Sentinels Pro Jersey 2026', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border-2 border-rose-500 overflow-hidden flex flex-col items-center transition group ring-1 ring-rose-500/40">
                   <div class="w-full h-11 rounded-lg bg-black/60 overflow-hidden mb-1 relative flex items-center justify-center p-0.5">
-                    <img src="./sen-jersey.webp" class="w-full h-full object-contain">
+                    <img src="./sen_mannequin_front.jpg" class="w-full h-full object-cover rounded-lg">
                     <span class="absolute bottom-0 inset-x-0 bg-red-950/95 text-[7px] text-center text-rose-300 font-extrabold">SEN PRO</span>
                   </div>
                   <span class="text-[9px] text-rose-300 font-bold truncate w-full text-center">SEN Jersey</span>
@@ -1021,6 +1021,16 @@
                   <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Chrome</button>
                 </div>
 
+                <!-- 3D Studio vs Tailor Form Toggle -->
+                <div class="flex bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
+                  <button id="btn-mannequin-render-mode" onclick="toggleMannequinStageMode('3d_render', this)" class="px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md">
+                    <i data-lucide="box" class="w-3 h-3"></i> 3D Mannequin
+                  </button>
+                  <button id="btn-mannequin-tailor-mode" onclick="toggleMannequinStageMode('tailor_form', this)" class="px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
+                    <i data-lucide="scissors" class="w-3 h-3"></i> Dress Form
+                  </button>
+                </div>
+
                 <!-- Size Fit Matrix & Custom Toggle -->
                 <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-2xl border border-white/10 text-[10px] text-sage font-mono shadow-lg">
                   <span class="text-stone-400">Size:</span>
@@ -1037,12 +1047,27 @@
               <!-- Center 3D Mannequin Visualizer Stage -->
               <div class="relative flex-1 flex items-center justify-center my-2 pointer-events-none" style="perspective: 1200px;">
                 <!-- Pedestal Floor Glow & Drop Shadow -->
-                <div class="absolute bottom-4 w-52 h-10 bg-black/70 rounded-full blur-md -z-10"></div>
-                <div class="absolute bottom-6 w-36 h-6 bg-lavender/15 rounded-full blur-lg -z-10"></div>
+                <div class="absolute bottom-4 w-56 h-10 bg-black/75 rounded-full blur-md -z-10"></div>
+                <div class="absolute bottom-6 w-40 h-6 bg-lavender/15 rounded-full blur-lg -z-10"></div>
 
-                <!-- 3D Transform Container -->
-                <div id="mannequin-display" class="relative flex flex-col items-center justify-center transition-transform duration-75 ease-out select-none" style="transform-style: preserve-3d; will-change: transform;">
-                  
+                <!-- 1. Photorealistic 3D Studio Mannequin Stage (Default for 3D Fitted Garment) -->
+                <div id="mannequin-3d-photo-container" class="relative flex flex-col items-center justify-center transition-transform duration-75 ease-out select-none" style="transform-style: preserve-3d; will-change: transform;">
+                  <div id="mannequin-3d-photo-frame" class="relative w-56 sm:w-64 h-80 sm:h-96 rounded-2xl overflow-hidden flex items-center justify-center filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] transition-all duration-300">
+                    <img id="mannequin-3d-main-img" src="./sen_mannequin_front.jpg" alt="3D Mannequin with T-Shirt" class="w-full h-full object-cover rounded-2xl transition-all duration-300 pointer-events-none">
+                    
+                    <!-- Ambient Studio Vignette -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
+                    
+                    <!-- Live Dynamic Angle Badge directly inside the 3D frame -->
+                    <div class="absolute top-2.5 right-2.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1.5 shadow-lg">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span id="mannequin-photo-angle-badge">3D FRONT (0°)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Classic Atelier Wireframe / Tailor Form (Alternate mode or for non-3D capsule items) -->
+                <div id="mannequin-display" class="hidden relative flex flex-col items-center justify-center transition-transform duration-75 ease-out select-none" style="transform-style: preserve-3d; will-change: transform;">
                   <!-- Finial & Neck Collar -->
                   <div id="mannequin-finial-group" class="flex flex-col items-center z-20 -mb-1 transition-all duration-300">
                     <div id="mannequin-finial" class="w-7 h-7 rounded-full bg-gradient-to-b from-[#d9c4aa] via-[#b89b7b] to-[#7d6347] border border-amber-900/50 shadow-md"></div>
@@ -1051,24 +1076,20 @@
                   
                   <!-- Mannequin Dress Form & Garment Layer -->
                   <div id="mannequin-torso" class="relative w-48 h-64 flex items-center justify-center transition-all duration-300" style="transform-origin: center center;">
-                    
                     <!-- SVG Contoured Tailored Mannequin Body Form -->
                     <svg id="mannequin-body-svg" class="absolute inset-0 w-full h-full filter drop-shadow-xl transition-all duration-300" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <defs>
-                        <!-- Atelier Linen Texture / Fabric Gradient -->
                         <linearGradient id="bodyLinenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                           <stop offset="0%" stop-color="#f0e6d6"/>
                           <stop offset="35%" stop-color="#dfd2be"/>
                           <stop offset="70%" stop-color="#cbba9f"/>
                           <stop offset="100%" stop-color="#9a876c"/>
                         </linearGradient>
-                        <!-- Obsidian Matte Black -->
                         <linearGradient id="bodyMatteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                           <stop offset="0%" stop-color="#2a2c38"/>
                           <stop offset="50%" stop-color="#181922"/>
                           <stop offset="100%" stop-color="#0e0f14"/>
                         </linearGradient>
-                        <!-- Chrome Specular Metallic -->
                         <linearGradient id="bodyChromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                           <stop offset="0%" stop-color="#ffffff"/>
                           <stop offset="25%" stop-color="#d4d8e3"/>
@@ -1077,11 +1098,7 @@
                           <stop offset="100%" stop-color="#2c2f3b"/>
                         </linearGradient>
                       </defs>
-
-                      <!-- Torso Silhouette: Neck, Shoulders, Bust, Cinch Waist, Hips, Thigh Taper -->
                       <path id="mannequin-body-path" d="M 85 10 C 85 10, 100 12, 115 10 C 122 18, 142 22, 168 34 C 174 38, 168 56, 162 76 C 158 92, 150 118, 138 135 C 130 148, 126 156, 134 175 C 144 195, 150 215, 148 245 C 148 250, 52 250, 52 245 C 50 215, 56 195, 66 175 C 74 156, 70 148, 62 135 C 50 118, 42 92, 38 76 C 32 56, 26 38, 32 34 C 58 22, 78 18, 85 10 Z" fill="url(#bodyLinenGrad)" stroke="#a38c6c" stroke-width="1.2"/>
-                      
-                      <!-- Atelier Tailor Seam Lines (Front Center & Princess Seams) -->
                       <path id="mannequin-seam-center" d="M 100 12 L 100 248" stroke="#8c7557" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
                       <path id="mannequin-seam-left" d="M 72 26 Q 78 95 86 145 Q 92 195 82 248" stroke="#8c7557" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.45"/>
                       <path id="mannequin-seam-right" d="M 128 26 Q 122 95 114 145 Q 108 195 118 248" stroke="#8c7557" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.45"/>
@@ -1089,20 +1106,20 @@
 
                     <!-- Active Dressed Garment on Form -->
                     <div id="mannequin-garment-wrapper" class="relative z-10 w-full h-full flex items-center justify-center pointer-events-none transition-all duration-200">
-                      <img id="mannequin-garment-img" src="./sen-jersey.webp" class="max-w-[94%] max-h-[94%] object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] transition-all duration-300">
+                      <img id="mannequin-garment-img" src="./sen_mannequin_front.jpg" class="max-w-[94%] max-h-[94%] object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] transition-all duration-300">
                     </div>
                   </div>
 
-                  <!-- Cast Iron Pedestal Stand & Base -->
+                  <!-- Stand & Base -->
                   <div id="mannequin-stand" class="flex flex-col items-center -mt-2 transition-all duration-300 z-0">
                     <div id="mannequin-pole" class="w-2.5 h-14 bg-gradient-to-r from-stone-400 via-stone-100 to-stone-500 shadow-md"></div>
                     <div id="mannequin-knob" class="w-5 h-2 rounded bg-amber-700 shadow-sm -mt-6 mb-4"></div>
                     <div id="mannequin-base" class="w-28 h-2.5 bg-gradient-to-r from-stone-800 via-stone-600 to-stone-900 rounded-full border border-white/20 shadow-xl"></div>
                   </div>
-
                 </div>
+              </div>
 
-                <!-- 360° Drag Hint Pill -->
+              <!-- 360° Drag Hint Pill -->
                 <div id="mannequin-drag-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[10px] text-stone-300 flex items-center gap-1.5 pointer-events-none opacity-80 animate-pulse">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-lavender"></i>
                   <span>Click & Drag to Rotate 360°</span>
@@ -1330,7 +1347,7 @@
               <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-2">
                 
                 <!-- 1. Sentinels Pro Jersey 2026 -->
-                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen-jersey.webp', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-emerald-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
+                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen_mannequin_front.jpg', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-emerald-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
                   <span class="text-[8px] text-rose-400 font-bold uppercase mb-0.5">VCT 2026</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/60 p-0.5">
                     <img src="./sen-jersey.webp" class="w-full h-full object-contain">
@@ -2536,7 +2553,9 @@
     let mannequinOrbitTimer = null;
     let activeMannequinGarmentKey = 'sen_jersey';
     let activeMannequinGarmentTitle = 'Sentinels Pro Jersey 2026';
-    let activeMannequinGarmentUrl = './sen-jersey.webp';
+    let activeMannequinGarmentUrl = './sen_mannequin_front.jpg';
+    let mannequinStageMode = '3d_render'; // '3d_render' or 'tailor_form'
+    let mannequinTextureSource = 'auto';
 
     // Morphological measurement state
     let mannequinMeasurements = {
@@ -2556,7 +2575,8 @@
         showBody: true,
         showStand: true,
         standOpacity: 1.0,
-        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.65))'
+        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.65))',
+        photoFilter: 'drop-shadow(0 20px 45px rgba(0,0,0,0.9))'
       },
       ghost: {
         finialClass: 'hidden',
@@ -2566,7 +2586,8 @@
         showBody: false,
         showStand: false,
         standOpacity: 0.05,
-        garmentFilter: 'drop-shadow(0 20px 35px rgba(200, 180, 255, 0.35)) drop-shadow(0 0 15px rgba(0, 245, 155, 0.2))'
+        garmentFilter: 'drop-shadow(0 20px 35px rgba(200, 180, 255, 0.35)) drop-shadow(0 0 15px rgba(0, 245, 155, 0.2))',
+        photoFilter: 'drop-shadow(0 0 35px rgba(0,245,155,0.5)) hue-rotate(160deg) contrast(1.15) brightness(1.2)'
       },
       matte: {
         finialClass: 'w-7 h-7 rounded-full bg-gradient-to-b from-[#2a2c38] via-[#1b1c24] to-[#0e0f14] border border-stone-600 shadow-inner',
@@ -2576,7 +2597,8 @@
         showBody: true,
         showStand: true,
         standOpacity: 1.0,
-        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.85))'
+        garmentFilter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.85))',
+        photoFilter: 'drop-shadow(0 25px 50px rgba(0,0,0,0.95)) contrast(1.35) brightness(0.85) grayscale(0.2)'
       },
       chrome: {
         finialClass: 'w-7 h-7 rounded-full bg-gradient-to-tr from-stone-100 via-white to-stone-400 border border-white shadow-xl',
@@ -2586,9 +2608,33 @@
         showBody: true,
         showStand: true,
         standOpacity: 1.0,
-        garmentFilter: 'drop-shadow(0 15px 30px rgba(255,255,255,0.3))'
+        garmentFilter: 'drop-shadow(0 15px 30px rgba(255,255,255,0.3))',
+        photoFilter: 'drop-shadow(0 25px 45px rgba(255,255,255,0.25)) contrast(1.45) brightness(1.12) saturate(1.2)'
       }
     };
+
+    function toggleMannequinStageMode(mode, btn) {
+      mannequinStageMode = mode;
+      const photoStage = document.getElementById('mannequin-3d-photo-container');
+      const svgStage = document.getElementById('mannequin-display');
+      const btnRender = document.getElementById('btn-mannequin-render-mode');
+      const btnTailor = document.getElementById('btn-mannequin-tailor-mode');
+
+      if (mode === '3d_render') {
+        if (photoStage) photoStage.classList.remove('hidden');
+        if (svgStage) svgStage.classList.add('hidden');
+        if (btnRender) btnRender.className = 'px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md';
+        if (btnTailor) btnTailor.className = 'px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1';
+        showStudioToast('🌟 3D Mannequin Studio Mode: Photorealistic 360° draped garment');
+      } else {
+        if (photoStage) photoStage.classList.add('hidden');
+        if (svgStage) svgStage.classList.remove('hidden');
+        if (btnRender) btnRender.className = 'px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1';
+        if (btnTailor) btnTailor.className = 'px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition flex items-center gap-1 shadow-md';
+        showStudioToast('✂️ Atelier Dress Form Mode: Tailor morphology wireframe');
+      }
+      renderMannequinFrame();
+    }
 
     function setMannequinForm(form, btn) {
       currentMannequinForm = form;
@@ -2610,17 +2656,19 @@
       const seamRight = document.getElementById('mannequin-seam-right');
 
       if (form === 'ghost') {
-        finialGroup.style.display = 'none';
-        bodySvg.style.opacity = '0';
-        stand.style.opacity = '0.08';
+        if (finialGroup) finialGroup.style.display = 'none';
+        if (bodySvg) bodySvg.style.opacity = '0';
+        if (stand) stand.style.opacity = '0.08';
       } else {
-        finialGroup.style.display = 'flex';
-        finial.className = style.finialClass;
-        neckplate.className = style.neckplateClass;
-        bodySvg.style.opacity = '1';
-        bodyPath.setAttribute('fill', style.svgFill);
-        bodyPath.setAttribute('stroke', style.svgStroke);
-        stand.style.opacity = '1';
+        if (finialGroup) finialGroup.style.display = 'flex';
+        if (finial) finial.className = style.finialClass;
+        if (neckplate) neckplate.className = style.neckplateClass;
+        if (bodySvg) bodySvg.style.opacity = '1';
+        if (bodyPath) {
+          bodyPath.setAttribute('fill', style.svgFill);
+          bodyPath.setAttribute('stroke', style.svgStroke);
+        }
+        if (stand) stand.style.opacity = '1';
         if (seamCenter) seamCenter.style.opacity = form === 'linen' ? '0.6' : '0.2';
         if (seamLeft) seamLeft.style.opacity = form === 'linen' ? '0.45' : '0.15';
         if (seamRight) seamRight.style.opacity = form === 'linen' ? '0.45' : '0.15';
@@ -2647,7 +2695,6 @@
         mannequinMeasurements = { bust: 44, waist: 36, hips: 46, scale: 1.16 };
       }
 
-      // Sync slider values if drawer is open
       const bSl = document.getElementById('slider-bust');
       const wSl = document.getElementById('slider-waist');
       const hSl = document.getElementById('slider-hips');
@@ -2681,7 +2728,6 @@
       mannequinMeasurements.waist = waist;
       mannequinMeasurements.hips = hips;
 
-      // Calculate dynamic scale factor
       const avgScale = ((bust / 36) + (waist / 28) + (hips / 38)) / 3;
       mannequinMeasurements.scale = parseFloat(avgScale.toFixed(2));
 
@@ -2696,7 +2742,6 @@
       setMannequinSize('M', document.querySelector('.mannequin-size-btn:nth-child(3)'));
     }
 
-    // 360° Rotation Logic with 3D Perspective Warp
     function rotateMannequin(deg, label, btn) {
       currentMannequinAngle = ((deg % 360) + 360) % 360;
       
@@ -2738,10 +2783,6 @@
       }
     }
 
-    // Master Render Method: applies 3D rotation, morphology scale, and perspective lighting
-    
-    let mannequinTextureSource = 'auto'; // 'auto' (360 front/back swap) or 'user_source'
-
     function setMannequinGarmentTexture(type) {
       mannequinTextureSource = type;
       showStudioToast(type === 'user_source' ? '📸 Switched to original camera fit photo source' : '🌟 Switched to 360° rotational 3D textures');
@@ -2768,110 +2809,110 @@
 
     // Master Render Method: applies 3D rotation, morphology scale, perspective lighting, and FRONT/BACK texture swapping
     function renderMannequinFrame() {
-      const display = document.getElementById('mannequin-display');
-      const torso = document.getElementById('mannequin-torso');
-      const garmentImg = document.getElementById('mannequin-garment-img');
-      const measurementsLabel = document.getElementById('mannequin-measurements-label');
-      const angleLabel = document.getElementById('mannequin-angle-label');
-      const seamCenter = document.getElementById('mannequin-seam-center');
-      const seamLeft = document.getElementById('mannequin-seam-left');
-      const seamRight = document.getElementById('mannequin-seam-right');
-
-      if (!display || !torso) return;
-
       const deg = currentMannequinAngle;
       const rad = (deg * Math.PI) / 180;
-      
-      // Calculate realistic 3D perspective projection
       const cosA = Math.cos(rad);
       const sinA = Math.sin(rad);
 
-      // Width foreshortening & depth scale
-      const scaleX = Math.abs(cosA) * 0.45 + 0.55;
-      const skewY = sinA * -6; // subtle 3D tilt
-      const depthScale = mannequinMeasurements.scale;
+      const angleLabel = document.getElementById('mannequin-angle-label');
+      const photoAngleBadge = document.getElementById('mannequin-photo-angle-badge');
+      const measurementsLabel = document.getElementById('mannequin-measurements-label');
 
-      // Apply transform to the torso container
-      torso.style.transform = `scale(${depthScale}) scaleX(${scaleX.toFixed(3)}) skewY(${skewY.toFixed(2)}deg)`;
-
-      // Check if viewing the front or the back of the mannequin
+      // Check if viewing the front or the back
       const isBack = deg > 90 && deg < 270;
 
-      // Dynamic angle HUD description
-      if (angleLabel) {
-        if (deg >= 337.5 || deg < 22.5) angleLabel.textContent = 'Front View (0°)';
-        else if (deg >= 22.5 && deg < 67.5) angleLabel.textContent = '3/4 Turn (45°)';
-        else if (deg >= 67.5 && deg < 112.5) angleLabel.textContent = 'Right Profile (90°)';
-        else if (deg >= 112.5 && deg < 157.5) angleLabel.textContent = '3/4 Rear (135°)';
-        else if (deg >= 157.5 && deg < 202.5) angleLabel.textContent = 'Back View — JOHNQT (180°)';
-        else if (deg >= 202.5 && deg < 247.5) angleLabel.textContent = '3/4 Rear Left (225°)';
-        else if (deg >= 247.5 && deg < 292.5) angleLabel.textContent = 'Left Profile (270°)';
-        else angleLabel.textContent = '3/4 Front Left (315°)';
-      }
+      // Dynamic angle HUD text
+      let angleText = 'Front View (0°)';
+      if (deg >= 337.5 || deg < 22.5) angleText = 'Front View (0°)';
+      else if (deg >= 22.5 && deg < 67.5) angleText = '3/4 Turn (45°)';
+      else if (deg >= 67.5 && deg < 112.5) angleText = 'Right Profile (90°)';
+      else if (deg >= 112.5 && deg < 157.5) angleText = '3/4 Rear (135°)';
+      else if (deg >= 157.5 && deg < 202.5) angleText = 'Back View — JOHNQT (180°)';
+      else if (deg >= 202.5 && deg < 247.5) angleText = '3/4 Rear Left (225°)';
+      else if (deg >= 247.5 && deg < 292.5) angleText = 'Left Profile (270°)';
+      else angleText = '3/4 Front Left (315°)';
 
-      // Seam display adjustments for front vs rear
-      if (currentMannequinForm !== 'ghost') {
-        if (isBack) {
-          if (seamCenter) {
-            seamCenter.setAttribute('stroke-dasharray', 'none');
-            seamCenter.style.opacity = '0.7';
-          }
-          if (seamLeft) seamLeft.style.opacity = '0.2';
-          if (seamRight) seamRight.style.opacity = '0.2';
-        } else {
-          if (seamCenter) {
-            seamCenter.setAttribute('stroke-dasharray', '3,2');
-            seamCenter.style.opacity = currentMannequinForm === 'linen' ? '0.6' : '0.2';
-          }
-          if (seamLeft) seamLeft.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
-          if (seamRight) seamRight.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
-        }
-      }
-
-      // Real-time Front vs Back texture swapping for Sentinels Jersey
-      if (garmentImg && activeMannequinGarmentKey === 'sen_jersey') {
-        if (isBack) {
-          // Switch to back of jersey (with JOHNQT and SANDISK OPTIMUS)
-          if (mannequinTextureSource === 'user_source') {
-            if (!garmentImg.src.includes('sen-jersey-back.jpg')) {
-              garmentImg.src = './sen-jersey-back.jpg';
-            }
-          } else {
-            if (!garmentImg.src.includes('sen_mannequin_back.jpg') && !garmentImg.src.includes('sen-jersey-back.jpg')) {
-              garmentImg.src = './sen-jersey-back.jpg';
-            }
-          }
-        } else {
-          // Switch to front of jersey (with SEN chest logo and Red Bull shoulder patch)
-          if (mannequinTextureSource === 'user_source') {
-            if (!garmentImg.src.includes('sen-jersey-front.jpg')) {
-              garmentImg.src = './sen-jersey-front.jpg';
-            }
-          } else {
-            if (!garmentImg.src.includes('sen-jersey.webp') && !garmentImg.src.includes('sen-jersey-front.jpg')) {
-              garmentImg.src = './sen-jersey.webp';
-            }
-          }
-        }
-      }
-
-      // Lighting & drop shadow based on rotation angle
-      if (garmentImg) {
-        const brightness = 0.88 + (cosA * 0.12) - (Math.abs(sinA) * 0.08);
-        const contrast = 1.05 + Math.abs(sinA) * 0.08;
-        
-        let backFilter = '';
-        if (isBack) {
-          backFilter = 'sepia(0.08) brightness(0.95)';
-        }
-
-        const baseFilter = MANNEQUIN_FORM_STYLES[currentMannequinForm].garmentFilter;
-        garmentImg.style.filter = `${baseFilter} brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)}) ${backFilter}`;
-      }
+      if (angleLabel) angleLabel.textContent = angleText;
+      if (photoAngleBadge) photoAngleBadge.textContent = angleText.toUpperCase();
 
       // Update measurements label
       if (measurementsLabel) {
         measurementsLabel.textContent = `Bust ${mannequinMeasurements.bust}" · Waist ${mannequinMeasurements.waist}" · Hips ${mannequinMeasurements.hips}"`;
+      }
+
+      // ==========================================
+      // MODE 1: PHOTOREALISTIC 3D STUDIO MANNEQUIN
+      // ==========================================
+      const photoContainer = document.getElementById('mannequin-3d-photo-container');
+      const photoMainImg = document.getElementById('mannequin-3d-main-img');
+      const photoFrame = document.getElementById('mannequin-3d-photo-frame');
+
+      if (mannequinStageMode === '3d_render' && photoContainer && photoMainImg) {
+        // Determine 3D Image based on angle
+        let targetSrc = './sen_mannequin_front.jpg';
+        let isFlippedX = false;
+
+        if (deg >= 315 || deg < 45) {
+          targetSrc = (mannequinTextureSource === 'user_source') ? './sen-jersey-front.jpg' : './sen_mannequin_front.jpg';
+        } else if (deg >= 45 && deg < 135) {
+          targetSrc = './sen_mannequin_angle.jpg';
+          isFlippedX = false;
+        } else if (deg >= 135 && deg < 225) {
+          targetSrc = (mannequinTextureSource === 'user_source') ? './sen-jersey-back.jpg' : './sen_mannequin_back.jpg';
+        } else {
+          // 225 to 315 degrees: 3/4 left perspective (mirrored)
+          targetSrc = './sen_mannequin_angle.jpg';
+          isFlippedX = true;
+        }
+
+        if (!photoMainImg.src.includes(targetSrc.replace('./', ''))) {
+          photoMainImg.src = targetSrc;
+        }
+
+        // Apply 3D perspective warp and morphology scale
+        const scaleX = (isFlippedX ? -1 : 1) * (Math.abs(cosA) * 0.25 + 0.75);
+        const skewY = sinA * -4;
+        const depthScale = mannequinMeasurements.scale;
+        
+        photoContainer.style.transform = `scale(${depthScale}) scaleX(${scaleX.toFixed(3)}) skewY(${skewY.toFixed(2)}deg)`;
+
+        // Apply finish filter
+        const formStyle = MANNEQUIN_FORM_STYLES[currentMannequinForm];
+        if (photoFrame) {
+          photoFrame.style.filter = formStyle.photoFilter;
+        }
+      }
+
+      // ==========================================
+      // MODE 2: ATELIER TAILOR WIREFRAME FORM
+      // ==========================================
+      const torso = document.getElementById('mannequin-torso');
+      const garmentImg = document.getElementById('mannequin-garment-img');
+      const seamCenter = document.getElementById('mannequin-seam-center');
+      const seamLeft = document.getElementById('mannequin-seam-left');
+      const seamRight = document.getElementById('mannequin-seam-right');
+
+      if (torso) {
+        const scaleX = Math.abs(cosA) * 0.45 + 0.55;
+        const skewY = sinA * -6;
+        const depthScale = mannequinMeasurements.scale;
+        torso.style.transform = `scale(${depthScale}) scaleX(${scaleX.toFixed(3)}) skewY(${skewY.toFixed(2)}deg)`;
+
+        if (currentMannequinForm !== 'ghost') {
+          if (isBack) {
+            if (seamCenter) { seamCenter.setAttribute('stroke-dasharray', 'none'); seamCenter.style.opacity = '0.7'; }
+            if (seamLeft) seamLeft.style.opacity = '0.2';
+            if (seamRight) seamRight.style.opacity = '0.2';
+          } else {
+            if (seamCenter) { seamCenter.setAttribute('stroke-dasharray', '3,2'); seamCenter.style.opacity = currentMannequinForm === 'linen' ? '0.6' : '0.2'; }
+            if (seamLeft) seamLeft.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
+            if (seamRight) seamRight.style.opacity = currentMannequinForm === 'linen' ? '0.45' : '0.15';
+          }
+        }
+
+        if (garmentImg && activeMannequinGarmentKey === 'sen_jersey') {
+          garmentImg.src = isBack ? './sen_mannequin_back.jpg' : './sen_mannequin_front.jpg';
+        }
       }
     }
 
@@ -2934,7 +2975,6 @@
       const garmentImg = document.getElementById('mannequin-garment-img');
       const titleBadge = document.getElementById('mannequin-active-garment-title');
       
-      if (garmentImg) garmentImg.src = url;
       if (titleBadge) titleBadge.textContent = title;
 
       document.querySelectorAll('.mannequin-garment-slot').forEach(s => {
@@ -2945,6 +2985,13 @@
       if (el) {
         el.classList.add('border-emerald-400', 'border-2', 'shadow-md');
         el.classList.remove('border-border');
+      }
+
+      if (key === 'sen_jersey') {
+        toggleMannequinStageMode('3d_render');
+      } else {
+        if (garmentImg) garmentImg.src = url;
+        toggleMannequinStageMode('tailor_form');
       }
 
       renderMannequinFrame();
