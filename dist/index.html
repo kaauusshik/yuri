@@ -1057,7 +1057,7 @@
                 <div id="mannequin-webgl-mount" class="absolute inset-0 w-full h-full pointer-events-auto"></div>
 
                 <!-- 360° Drag & Zoom Hint -->
-                <div id="mannequin-drag-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[11px] text-white flex items-center gap-2 pointer-events-none opacity-90 transition-opacity duration-500 shadow-2xl">
+                <div id="mannequin-drag-hint" class="absolute bottom-12 left-1/2 -translate-x-1/2 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[11px] text-white flex items-center gap-2 pointer-events-none opacity-90 transition-opacity duration-500 shadow-2xl whitespace-nowrap">
                   <i data-lucide="move-3d" class="w-4 h-4 text-yellow-400 animate-spin"></i>
                   <span><b>Interactive 3D:</b> Drag to rotate 360° · Pinch/Wheel to Zoom</span>
                 </div>
@@ -2786,12 +2786,12 @@
             z += sinT * ripple;
 
             // Tailored V-neck opening at front center (+Z)
-            if (v < 0.14 && sinT > 0.20) {
+            if (v < 0.16 && sinT > 0.20) {
               const frontAngle = Math.abs(Math.atan2(cosT, sinT));
               if (frontAngle < 0.72) {
                 const vFactor = 1 - frontAngle / 0.72;
-                const neckDecay = 1 - v / 0.14;
-                y -= Math.pow(vFactor, 1.25) * neckDecay * 0.22;
+                const neckDecay = 1 - v / 0.16;
+                y -= Math.pow(vFactor, 1.35) * neckDecay * 0.27;
               }
             }
 
@@ -3255,7 +3255,7 @@
       Mannequin3D.clock = new THREE.Clock();
 
       const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-      camera.position.set(0, 0.10, 6.0);
+      camera.position.set(0, 0.02, 6.25);
       Mannequin3D.camera = camera;
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -3276,7 +3276,7 @@
       controls.maxDistance = 8.8;
       controls.maxPolarAngle = Math.PI / 2 + 0.15;
       controls.minPolarAngle = Math.PI / 4;
-      controls.target.set(0, -0.18, 0);
+      controls.target.set(0, -0.24, 0);
       Mannequin3D.controls = controls;
 
       controls.addEventListener('start', () => {
@@ -3432,11 +3432,11 @@
       });
       Mannequin3D.materials.body = bodyMat;
 
-      // Brushed gunmetal steel hardware for turned finial, neck cap & pedestal
+      // Brushed gunmetal-silver steel hardware for turned finial, neck cap & pedestal
       const jointMat = new THREE.MeshStandardMaterial({
-        color: 0x52525b,
-        roughness: 0.28,
-        metalness: 0.86
+        color: 0x94a3b8,
+        roughness: 0.30,
+        metalness: 0.58
       });
       Mannequin3D.materials.joint = jointMat;
 
@@ -3590,7 +3590,7 @@
       rootGroup.add(standGroup);
       Mannequin3D.standGroup = standGroup;
 
-      const standMat = new THREE.MeshStandardMaterial({ color: 0x3b3d44, metalness: 0.84, roughness: 0.28 });
+      const standMat = new THREE.MeshStandardMaterial({ color: 0x71717a, metalness: 0.55, roughness: 0.32 });
       const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.044, 0.044, 0.96, 28), standMat);
       poleMesh.position.y = -1.96;
       standGroup.add(poleMesh);
@@ -3657,7 +3657,7 @@
       }
 
       const rad = (deg * Math.PI) / 180;
-      const radius = 5.4;
+      const radius = 6.25;
       const targetX = Math.sin(rad) * radius;
       const targetZ = Math.cos(rad) * radius;
 
