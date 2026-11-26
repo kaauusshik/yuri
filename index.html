@@ -1506,9 +1506,37 @@
             <span class="px-2.5 py-1 bg-lavender/20 text-lavender rounded-lg text-[10px] font-bold">Snap & Try</span>
           </div>
 
+          <!-- Shop Wishlist Bar & Add Your Dress CTA -->
+          <div class="p-3 rounded-2xl bg-gradient-to-r from-surface via-surface-elevated to-surface border border-lavender/35 flex flex-wrap items-center justify-between gap-2.5 shadow-md">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/35 text-rose-400 flex items-center justify-center">
+                <i data-lucide="heart" class="w-4 h-4 fill-rose-500 text-rose-500"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
+                  Shop Wishlist
+                  <span id="shop-wishlist-badge" class="px-1.5 py-0.5 rounded-full bg-lavender text-midnight font-mono text-[10px] font-black">0</span>
+                </h4>
+                <p class="text-[10px] text-white/75">Save store outfits or add your own dress to try on</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="openAddWishlistDressModal()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-sage to-lavender text-midnight font-bold text-[11px] flex items-center gap-1.5 hover:opacity-95 transition shadow-md">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Your Dress
+              </button>
+              <button type="button" onclick="viewShopWishlist()" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-white text-[11px] font-semibold flex items-center gap-1 transition">
+                <span>Wishlist</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-lavender"></i>
+              </button>
+            </div>
+          </div>
+
           <!-- Store & Brand Filters -->
           <div class="flex space-x-2 overflow-x-auto scrollbar-hide py-1.5 text-xs">
             <button onclick="filterBrand('all', this)" class="brand-filter-btn px-3.5 py-1.5 rounded-xl bg-lavender text-midnight font-bold whitespace-nowrap shadow-sm">All Stores</button>
+            <button id="brand-filter-wishlist-btn" onclick="filterBrand('wishlist', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-rose-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span> Wishlist (<span id="shop-wishlist-pill-count">0</span>)
+            </button>
             <button onclick="filterBrand('hm', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-red-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-red-500"></span> H&M
             </button>
@@ -1527,6 +1555,42 @@
             <button onclick="filterBrand('d2c', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-rose-500 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-rose-500"></span> D2C & Sentinels
             </button>
+          </div>
+
+          <!-- ================================================================= -->
+          <!-- ❤️ MY SHOP WISHLIST & USER DRESSES                                -->
+          <!-- ================================================================= -->
+          <div id="shop-wishlist-section" class="hidden space-y-3 pt-2">
+            <div class="flex items-center justify-between pb-1.5 border-b border-lavender/35">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-400 flex items-center justify-center shadow-md">
+                  <i data-lucide="heart" class="w-4 h-4 fill-rose-500 text-rose-500"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
+                    My Saved Wishlist & Dresses
+                    <span id="shop-wishlist-section-count" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-lavender/20 text-lavender border border-lavender/35">0 saved</span>
+                  </h3>
+                  <p class="text-[10px] text-white/75">Your custom added dresses & wishlisted drops · Saved locally</p>
+                </div>
+              </div>
+              <button type="button" onclick="openAddWishlistDressModal()" class="text-[11px] text-lavender hover:text-white font-bold flex items-center gap-1">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Add Dress
+              </button>
+            </div>
+
+            <div id="shop-wishlist-empty" class="hidden p-6 rounded-2xl bg-surface border border-dashed border-lavender/40 text-center space-y-2.5">
+              <div class="w-11 h-11 mx-auto rounded-2xl bg-lavender/15 text-lavender flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <h4 class="text-xs font-bold text-ivory">Your Shop Wishlist is empty</h4>
+              <p class="text-[11px] text-white/70 max-w-sm mx-auto">Tap the heart icon on any store piece below, or add your own dress photo to try it on in Live AR and 3D Mannequin Studio.</p>
+              <button type="button" onclick="openAddWishlistDressModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sage to-lavender text-midnight font-bold text-xs inline-flex items-center gap-1.5 shadow-md hover:opacity-95 transition">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Your Dress Now
+              </button>
+            </div>
+
+            <div id="shop-wishlist-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5"></div>
           </div>
 
           <!-- ================================================================= -->
@@ -2531,6 +2595,112 @@
         </button>
         <button type="button" onclick="saveTwinCalibration()" class="flex-1 py-2.5 bg-gradient-to-r from-sage to-lavender text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg">
           Save & Sync AI Twin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ❤️ MODAL: ADD YOUR DRESS TO SHOP WISHLIST                                  -->
+  <!-- ========================================================================= -->
+  <div id="shop-wishlist-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-[105] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-surface border border-lavender/40 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
+      <button type="button" onclick="closeAddWishlistDressModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-xs">✕</button>
+
+      <div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="heart" class="w-4 h-4 text-rose-500 fill-rose-500"></i>
+          <span class="text-xs font-bold text-lavender uppercase tracking-wider">Shop Wishlist Studio</span>
+        </div>
+        <h3 class="text-lg font-serif italic text-ivory mt-0.5">Add Your Dress to Wishlist</h3>
+        <p class="text-xs text-white/75">Upload a dress photo or paste an image link to save it in your Shop Wishlist and try it on.</p>
+      </div>
+
+      <!-- Dress Photo Upload / Preview -->
+      <div class="flex flex-col sm:flex-row items-center gap-3.5 p-3 rounded-2xl bg-surface-light border border-border">
+        <div onclick="document.getElementById('wishlist-dress-file').click()" class="relative w-24 h-28 rounded-xl overflow-hidden bg-black/60 border border-lavender/40 flex-shrink-0 cursor-pointer group">
+          <img id="wishlist-dress-preview" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center text-[10px] text-lavender font-bold">
+            <i data-lucide="upload" class="w-4 h-4 mb-0.5"></i> Upload
+          </div>
+        </div>
+        <div class="flex-1 w-full space-y-2">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" onclick="document.getElementById('wishlist-dress-file').click()" class="px-3 py-1.5 rounded-xl bg-lavender text-midnight font-bold text-[11px] flex items-center gap-1 hover:opacity-95 transition">
+              <i data-lucide="camera" class="w-3.5 h-3.5"></i> Upload Dress Photo
+            </button>
+            <input type="file" id="wishlist-dress-file" accept="image/*" class="hidden" onchange="handleWishlistDressPhotoUpload(event)">
+          </div>
+          <div>
+            <label class="text-[10px] text-white/70 block mb-0.5">Or paste dress image URL</label>
+            <input id="wishlist-img-url-input" type="text" placeholder="https://..." oninput="previewWishlistDressUrl(this.value)" class="w-full bg-surface border border-border rounded-xl px-2.5 py-1.5 text-[11px] text-ivory outline-none focus:border-lavender">
+          </div>
+          <div class="flex items-center gap-1.5 text-[10px] text-white/75 flex-wrap">
+            <span>Quick pick:</span>
+            <button type="button" onclick="setWishlistDressPreset('https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80', 'Crimson Bodycon Midi Dress', 'dress_crimson')" class="px-2 py-0.5 rounded-lg bg-surface border border-border hover:border-lavender text-white/90">Bodycon</button>
+            <button type="button" onclick="setWishlistDressPreset('https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80', 'Satin Cowl Evening Gown', 'dress_emerald')" class="px-2 py-0.5 rounded-lg bg-surface border border-border hover:border-lavender text-white/90">Satin Gown</button>
+            <button type="button" onclick="setWishlistDressPreset('https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80', 'Floral Cotton Sundress', 'dress_floral')" class="px-2 py-0.5 rounded-lg bg-surface border border-border hover:border-lavender text-white/90">Floral</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dress Details -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Dress Name *</label>
+          <input id="wishlist-title-input" type="text" placeholder="e.g. Emerald Satin Wrap Dress" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Brand / Closet Source</label>
+          <input id="wishlist-brand-input" type="text" value="My Closet" placeholder="e.g. Zara, My Closet, Boutique" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Price (optional)</label>
+          <input id="wishlist-price-input" type="text" placeholder="e.g. ₹2,499" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Style / AR Fit Category</label>
+          <select id="wishlist-category-select" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+            <option value="dress_emerald">Midi / Slip Dress</option>
+            <option value="dress_crimson">Evening Gown</option>
+            <option value="dress_floral">Floral / Sundress</option>
+            <option value="dress_anarkali">Anarkali / Kurta Dress</option>
+            <option value="shirt">Top / Shirt</option>
+            <option value="hoodie">Jacket / Blazer</option>
+            <option value="pants">Pants / Co-ord Bottom</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Size</label>
+          <div class="grid grid-cols-6 gap-1 text-center">
+            <button type="button" onclick="selectWishlistSize(this, 'XS')" class="wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XS</button>
+            <button type="button" onclick="selectWishlistSize(this, 'S')" class="wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">S</button>
+            <button type="button" onclick="selectWishlistSize(this, 'M')" class="wishlist-size-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]">M</button>
+            <button type="button" onclick="selectWishlistSize(this, 'L')" class="wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">L</button>
+            <button type="button" onclick="selectWishlistSize(this, 'XL')" class="wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XL</button>
+            <button type="button" onclick="selectWishlistSize(this, 'XXL')" class="wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XXL</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Occasion / Note (optional)</label>
+          <input id="wishlist-note-input" type="text" placeholder="e.g. Date night, Wedding" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+      </div>
+
+      <div>
+        <label class="text-[11px] font-semibold text-white/75 block mb-1">Store / Product Link (optional)</label>
+        <input id="wishlist-url-input" type="text" placeholder="https://..." class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button type="button" onclick="closeAddWishlistDressModal()" class="px-4 py-2.5 bg-surface-light border border-border text-white/80 hover:text-white font-semibold rounded-xl text-xs transition">
+          Cancel
+        </button>
+        <button type="button" onclick="saveWishlistDress()" class="flex-1 py-2.5 bg-gradient-to-r from-sage to-lavender text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg flex items-center justify-center gap-1.5">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i> Save Dress to Shop Wishlist
         </button>
       </div>
     </div>
@@ -5495,14 +5665,16 @@
     function applyVibe(vibeText) { document.getElementById('vibe-search-input').value = vibeText; handleVibeSearch(); }
     function handleVibeSearch() {
       const input = document.getElementById('vibe-search-input');
-      const val = input.value.trim();
+      const val = input ? input.value.trim() : '';
       if (!val) return;
-      const grid = document.getElementById('shop-product-grid');
-      grid.style.opacity = '0.4';
+      const sections = document.querySelectorAll('.store-brand-section');
+      sections.forEach(s => { s.style.opacity = '0.4'; });
       setTimeout(() => {
-        grid.style.opacity = '1';
-        alert(`🔍 Yuri Vibe Search parsed: "${val}"\nMatched pieces from Snitch & Bonkers matching your aesthetic.`);
-      }, 400);
+        sections.forEach(s => { s.style.opacity = '1'; });
+        if (typeof showStudioToast === 'function') {
+          showStudioToast(`🔍 Yuri Vibe Search matched outfits for "${val}"`);
+        }
+      }, 350);
     }
     function triggerScreenshotUpload() { document.getElementById('screenshot-file-input').click(); }
     function handleScreenshotUpload(event) {
@@ -5511,7 +5683,390 @@
         switchTab('shop');
       }
     }
+
+    // =========================================================================
+    // ❤️ SHOP WISHLIST & ADD YOUR DRESS ENGINE (PERSISTENT IN LOCALSTORAGE)
+    // =========================================================================
+    const SHOP_WISHLIST_KEY = 'yuri_shop_wishlist_v1';
+    const SHOP_CATALOG_MAP = {};
+    let shopWishlist = [];
+    let currentShopFilter = 'all';
+    let selectedWishlistSize = 'M';
+    let pendingWishlistDressImg = 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80';
+
+    function loadShopWishlist() {
+      try {
+        const raw = localStorage.getItem(SHOP_WISHLIST_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(parsed)) shopWishlist = parsed;
+      } catch (e) {
+        shopWishlist = [];
+      }
+    }
+
+    function persistShopWishlist() {
+      try {
+        localStorage.setItem(SHOP_WISHLIST_KEY, JSON.stringify(shopWishlist));
+      } catch (e) {}
+    }
+
+    function slugifyWishlistId(str) {
+      return String(str || 'item').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    }
+
+    function parseGarmentKeyFromCard(card) {
+      const btns = card.querySelectorAll('button[onclick]');
+      for (const b of btns) {
+        const oc = b.getAttribute('onclick') || '';
+        let m = oc.match(/tryCustomStoreFit\([^,]+,[^,]+,\s*'([^']+)'/);
+        if (m) return m[1];
+        m = oc.match(/tryInLiveAR\('([^']+)'/);
+        if (m) return m[1];
+        m = oc.match(/tryOnMyTwin\('([^']+)'/);
+        if (m) return m[1];
+      }
+      return 'dress_emerald';
+    }
+
+    function initShopCardWishlistButtons() {
+      const cards = document.querySelectorAll('#tab-shop .store-brand-section .grid > div');
+      cards.forEach(card => {
+        const imgWrap = card.querySelector('.relative');
+        if (!imgWrap || imgWrap.querySelector('.shop-heart-btn')) return;
+
+        const imgEl = card.querySelector('img');
+        const titleEl = card.querySelector('h4');
+        const storeSec = card.closest('.store-brand-section');
+        const storeKey = storeSec ? storeSec.getAttribute('data-store') : 'shop';
+        const subMetaSpan = card.querySelector('.flex.items-center.justify-between span.uppercase');
+        const priceEl = card.querySelector('span.text-xs.font-bold');
+        const buyAnchor = card.querySelector('a[target="_blank"]');
+
+        const title = titleEl ? titleEl.textContent.trim() : 'Saved Fit';
+        const brand = subMetaSpan ? subMetaSpan.textContent.trim() : storeKey.toUpperCase();
+        const price = priceEl ? priceEl.textContent.trim() : '';
+        const img = imgEl ? imgEl.getAttribute('src') : '';
+        const buyUrl = buyAnchor ? buyAnchor.getAttribute('href') : '';
+        const garmentKey = parseGarmentKeyFromCard(card);
+        const id = slugifyWishlistId(storeKey + '_' + title);
+
+        SHOP_CATALOG_MAP[id] = { id, title, brand, price, img, buyUrl, garmentKey, isCustomDress: false };
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'shop-heart-btn absolute top-2 right-2 w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:scale-110 transition z-10 shadow-md';
+        btn.setAttribute('data-wishlist-id', id);
+        btn.setAttribute('title', 'Save to Shop Wishlist');
+        btn.innerHTML = '<i data-lucide="heart" class="w-3.5 h-3.5"></i>';
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleStoreWishlistItem(id);
+        });
+        imgWrap.appendChild(btn);
+      });
+    }
+
+    function syncShopWishlistUI() {
+      const count = shopWishlist.length;
+      const badge = document.getElementById('shop-wishlist-badge');
+      const pillCount = document.getElementById('shop-wishlist-pill-count');
+      const secCount = document.getElementById('shop-wishlist-section-count');
+      if (badge) badge.textContent = count;
+      if (pillCount) pillCount.textContent = count;
+      if (secCount) secCount.textContent = count + (count === 1 ? ' dress saved' : ' saved');
+
+      const savedIds = new Set(shopWishlist.map(item => item.id));
+      document.querySelectorAll('.shop-heart-btn').forEach(btn => {
+        const id = btn.getAttribute('data-wishlist-id');
+        const icon = btn.querySelector('svg, i');
+        if (savedIds.has(id)) {
+          btn.classList.add('border-rose-500', 'bg-rose-600/90', 'text-white');
+          btn.classList.remove('bg-black/75', 'border-white/20');
+          if (icon) icon.classList.add('fill-white');
+        } else {
+          btn.classList.remove('border-rose-500', 'bg-rose-600/90', 'text-white');
+          btn.classList.add('bg-black/75', 'border-white/20');
+          if (icon) icon.classList.remove('fill-white');
+        }
+      });
+
+      renderShopWishlistGrid();
+      updateWishlistSectionVisibility();
+    }
+
+    function updateWishlistSectionVisibility() {
+      const sec = document.getElementById('shop-wishlist-section');
+      const emptyBox = document.getElementById('shop-wishlist-empty');
+      const grid = document.getElementById('shop-wishlist-grid');
+      if (!sec) return;
+
+      const hasItems = shopWishlist.length > 0;
+      const shouldShow = currentShopFilter === 'wishlist' || (currentShopFilter === 'all' && hasItems);
+      sec.classList.toggle('hidden', !shouldShow);
+
+      if (emptyBox) emptyBox.classList.toggle('hidden', hasItems || currentShopFilter !== 'wishlist');
+      if (grid) grid.classList.toggle('hidden', !hasItems);
+    }
+
+    function escapeWishlistHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    }
+
+    function renderShopWishlistGrid() {
+      const grid = document.getElementById('shop-wishlist-grid');
+      if (!grid) return;
+
+      grid.innerHTML = shopWishlist.map(item => {
+        const safeId = escapeWishlistHtml(item.id);
+        const safeTitle = escapeWishlistHtml(item.title);
+        const safeBrand = escapeWishlistHtml(item.brand || 'My Closet');
+        const safePrice = escapeWishlistHtml(item.price || 'Personal Dress');
+        const safeNote = escapeWishlistHtml(item.note || (item.size ? 'Size ' + item.size : 'Wishlist Fit'));
+        const badgeText = item.isCustomDress ? 'YOUR DRESS' : 'SAVED';
+        const safeImg = escapeWishlistHtml(item.img);
+        const safeBuyUrl = item.buyUrl ? escapeWishlistHtml(item.buyUrl) : '';
+
+        return `
+          <div class="rounded-2xl bg-surface border border-lavender/40 hover:border-lavender p-2.5 flex flex-col justify-between group transition shadow-md">
+            <div>
+              <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
+                <img src="${safeImg}" alt="${safeTitle}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded ${item.isCustomDress ? 'bg-lavender text-midnight' : 'bg-rose-600 text-white'} uppercase tracking-wider">${badgeText}</span>
+                <button type="button" onclick="removeShopWishlistItem('${safeId}')" title="Remove from Wishlist" class="absolute top-2 right-2 w-7 h-7 rounded-full bg-rose-600/90 border border-rose-400 text-white flex items-center justify-center hover:bg-rose-500 transition shadow-md">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="tryWishlistDressInAR('${safeId}')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                  <i data-lucide="video" class="w-3 h-3"></i> AR Fit
+                </button>
+              </div>
+              <div class="flex items-center justify-between text-[9px] gap-1">
+                <span class="uppercase font-bold text-lavender truncate">${safeBrand}</span>
+                <span class="text-amber-300 font-mono font-bold truncate">${safeNote}</span>
+              </div>
+              <h4 class="text-xs font-semibold text-ivory truncate mt-0.5">${safeTitle}</h4>
+              <div class="flex items-center gap-1.5 mt-0.5">
+                <span class="text-xs font-bold text-white font-mono">${safePrice}</span>
+                ${item.size ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-light border border-border text-white/80 font-mono">Size ${escapeWishlistHtml(item.size)}</span>` : ''}
+              </div>
+            </div>
+            <div class="flex items-center justify-between gap-1.5 mt-2 pt-1.5 border-t border-border">
+              <button type="button" onclick="tryWishlistDressOnTwin('${safeId}')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1">
+                <i data-lucide="user" class="w-3 h-3"></i> AI Twin
+              </button>
+              <button type="button" onclick="tryWishlistDressOnMannequin('${safeId}')" class="px-2 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-white text-[10px] font-semibold flex items-center gap-1 transition" title="Preview on 3D Mannequin">
+                <i data-lucide="box" class="w-3 h-3 text-lavender"></i> 3D
+              </button>
+              ${safeBuyUrl ? `<a href="${safeBuyUrl}" target="_blank" class="px-2 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-white text-[10px] font-semibold flex items-center gap-1 transition">Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i></a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function toggleStoreWishlistItem(id) {
+      const existingIdx = shopWishlist.findIndex(item => item.id === id);
+      if (existingIdx >= 0) {
+        const removed = shopWishlist[existingIdx];
+        shopWishlist.splice(existingIdx, 1);
+        persistShopWishlist();
+        syncShopWishlistUI();
+        if (typeof showStudioToast === 'function') showStudioToast(`Removed "${removed.title}" from Wishlist`);
+        return;
+      }
+
+      const item = SHOP_CATALOG_MAP[id];
+      if (!item) return;
+      shopWishlist.unshift({ ...item, addedAt: Date.now() });
+      persistShopWishlist();
+      syncShopWishlistUI();
+      if (typeof showStudioToast === 'function') showStudioToast(`❤️ Added "${item.title}" to Shop Wishlist!`);
+    }
+
+    function removeShopWishlistItem(id) {
+      const idx = shopWishlist.findIndex(item => item.id === id);
+      if (idx < 0) return;
+      const removed = shopWishlist[idx];
+      shopWishlist.splice(idx, 1);
+      persistShopWishlist();
+      syncShopWishlistUI();
+      if (typeof showStudioToast === 'function') showStudioToast(`Removed "${removed.title}" from Wishlist`);
+    }
+
+    function viewShopWishlist() {
+      const btn = document.getElementById('brand-filter-wishlist-btn');
+      filterBrand('wishlist', btn);
+      const sec = document.getElementById('shop-wishlist-section');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function openAddWishlistDressModal() {
+      const modal = document.getElementById('shop-wishlist-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function closeAddWishlistDressModal() {
+      const modal = document.getElementById('shop-wishlist-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function selectWishlistSize(btn, size) {
+      selectedWishlistSize = size;
+      document.querySelectorAll('.wishlist-size-btn').forEach(b => {
+        b.className = 'wishlist-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]';
+      });
+      if (btn) btn.className = 'wishlist-size-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]';
+    }
+
+    function previewWishlistDressUrl(url) {
+      const trimmed = (url || '').trim();
+      if (!trimmed) return;
+      pendingWishlistDressImg = trimmed;
+      const prev = document.getElementById('wishlist-dress-preview');
+      if (prev) prev.src = trimmed;
+    }
+
+    function setWishlistDressPreset(url, title, category) {
+      pendingWishlistDressImg = url;
+      const prev = document.getElementById('wishlist-dress-preview');
+      const urlInput = document.getElementById('wishlist-img-url-input');
+      const titleInput = document.getElementById('wishlist-title-input');
+      const catSelect = document.getElementById('wishlist-category-select');
+      if (prev) prev.src = url;
+      if (urlInput) urlInput.value = url;
+      if (titleInput && !titleInput.value.trim()) titleInput.value = title;
+      if (catSelect && category) catSelect.value = category;
+    }
+
+    function handleWishlistDressPhotoUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Compress thumbnail cleanly so custom dresses persist reliably inside localStorage
+          const maxW = 540;
+          const scale = img.width > maxW ? (maxW / img.width) : 1;
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.82);
+
+          pendingWishlistDressImg = compressed;
+          const prev = document.getElementById('wishlist-dress-preview');
+          if (prev) prev.src = compressed;
+          const urlInput = document.getElementById('wishlist-img-url-input');
+          if (urlInput) urlInput.value = '';
+
+          const titleInput = document.getElementById('wishlist-title-input');
+          if (titleInput && !titleInput.value.trim()) {
+            titleInput.value = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ');
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveWishlistDress() {
+      const titleInput = document.getElementById('wishlist-title-input');
+      const brandInput = document.getElementById('wishlist-brand-input');
+      const priceInput = document.getElementById('wishlist-price-input');
+      const catSelect = document.getElementById('wishlist-category-select');
+      const noteInput = document.getElementById('wishlist-note-input');
+      const urlInput = document.getElementById('wishlist-url-input');
+      const imgUrlInput = document.getElementById('wishlist-img-url-input');
+
+      const title = titleInput ? titleInput.value.trim() : '';
+      if (!title) {
+        if (titleInput) {
+          titleInput.classList.add('border-rose-500');
+          titleInput.focus();
+        }
+        if (typeof showStudioToast === 'function') showStudioToast('Please enter a name for your dress!');
+        return;
+      }
+      if (titleInput) titleInput.classList.remove('border-rose-500');
+
+      const chosenImg = (imgUrlInput && imgUrlInput.value.trim()) || pendingWishlistDressImg;
+      const newItem = {
+        id: 'custom_' + Date.now(),
+        title,
+        brand: (brandInput && brandInput.value.trim()) || 'My Closet',
+        price: (priceInput && priceInput.value.trim()) || 'Personal Dress',
+        garmentKey: (catSelect && catSelect.value) || 'dress_emerald',
+        size: selectedWishlistSize || 'M',
+        note: noteInput ? noteInput.value.trim() : '',
+        buyUrl: urlInput ? urlInput.value.trim() : '',
+        img: chosenImg,
+        isCustomDress: true,
+        addedAt: Date.now()
+      };
+
+      shopWishlist.unshift(newItem);
+      persistShopWishlist();
+      syncShopWishlistUI();
+
+      // Clear form inputs for next entry
+      if (titleInput) titleInput.value = '';
+      if (priceInput) priceInput.value = '';
+      if (noteInput) noteInput.value = '';
+      if (urlInput) urlInput.value = '';
+      if (imgUrlInput) imgUrlInput.value = '';
+
+      closeAddWishlistDressModal();
+      viewShopWishlist();
+      if (typeof showStudioToast === 'function') showStudioToast(`❤️ Added "${newItem.title}" to your Shop Wishlist!`);
+    }
+
+    function tryWishlistDressInAR(id) {
+      const item = shopWishlist.find(w => w.id === id);
+      if (!item) return;
+      if (item.garmentKey === 'sen_jersey') {
+        tryInLiveAR('sen_jersey', item.title);
+      } else {
+        tryCustomStoreFit(item.img, item.title, item.garmentKey || 'dress_emerald');
+      }
+    }
+
+    function tryWishlistDressOnTwin(id) {
+      const item = shopWishlist.find(w => w.id === id);
+      if (!item) return;
+      tryOnMyTwin(item.garmentKey || 'dress_emerald', item.title);
+    }
+
+    function tryWishlistDressOnMannequin(id) {
+      const item = shopWishlist.find(w => w.id === id);
+      if (!item) return;
+      openStudio('mannequin');
+      setTimeout(() => {
+        if (typeof selectMannequinGarment === 'function') {
+          const key = item.garmentKey === 'sen_jersey' ? 'sen_jersey' : ('wishlist_' + item.id);
+          selectMannequinGarment(key, item.title, item.img, null);
+        }
+        if (typeof showStudioToast === 'function') {
+          showStudioToast(`👗 Draped "${item.title}" onto 3D Mannequin!`);
+        }
+      }, 150);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadShopWishlist();
+      initShopCardWishlistButtons();
+      syncShopWishlistUI();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
     function filterBrand(brand, btn) {
+      currentShopFilter = brand || 'all';
       document.querySelectorAll('.brand-filter-btn').forEach(b => {
         b.className = 'brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white whitespace-nowrap flex items-center gap-1.5 transition text-xs';
       });
@@ -5529,6 +6084,7 @@
           sec.style.display = 'none';
         }
       });
+      updateWishlistSectionVisibility();
       if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
