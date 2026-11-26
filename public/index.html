@@ -21,15 +21,15 @@
       theme: {
         extend: {
           colors: {
-            midnight: '#111318',
-            lavender: '#C8B4FF',
-            'lavender-dark': '#9b7bf7',
-            ivory: '#F3F0EA',
-            sage: '#A4C9B2',
-            surface: '#1A1B23',
-            'surface-light': '#242530',
-            'surface-elevated': '#2D2E3A',
-            border: '#2A2B35'
+            midnight: '#000000',
+            lavender: '#FACC15',
+            'lavender-dark': '#EAB308',
+            ivory: '#FFFFFF',
+            sage: '#FDE047',
+            surface: '#0A0A0C',
+            'surface-light': '#141418',
+            'surface-elevated': '#1C1C22',
+            border: '#26262B'
           },
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -41,24 +41,24 @@
   </script>
   <style>
     body {
-      background-color: #0b0c10;
-      color: #F3F0EA;
+      background-color: #000000;
+      color: #FFFFFF;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
     }
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-card {
-      background: rgba(26, 27, 35, 0.75);
+      background: rgba(10, 10, 12, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(200, 180, 255, 0.12);
+      border: 1px solid rgba(250, 204, 21, 0.18);
     }
     .glass-nav {
-      background: rgba(17, 19, 24, 0.90);
+      background: rgba(0, 0, 0, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(250, 204, 21, 0.20);
     }
     .gradient-border { position: relative; }
     .gradient-border::before {
@@ -67,7 +67,7 @@
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(200, 180, 255, 0.5), rgba(164, 201, 178, 0.2), transparent);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.65), rgba(253, 224, 71, 0.25), transparent);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
@@ -75,8 +75,8 @@
     }
     .pulse-glow { animation: pulseGlow 3s infinite ease-in-out; }
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(200, 180, 255, 0.2); }
-      50% { box-shadow: 0 0 30px rgba(200, 180, 255, 0.45); }
+      0%, 100% { box-shadow: 0 0 15px rgba(250, 204, 21, 0.22); }
+      50% { box-shadow: 0 0 30px rgba(250, 204, 21, 0.48); }
     }
     #ar-canvas {
       position: absolute;
@@ -86,17 +86,17 @@
     }
   </style>
 </head>
-<body class="min-h-screen w-full bg-[#0b0c10] text-[#F3F0EA] flex flex-col selection:bg-lavender selection:text-midnight overflow-x-hidden antialiased">
+<body class="min-h-screen w-full bg-black text-white flex flex-col selection:bg-lavender selection:text-midnight overflow-x-hidden antialiased">
 
   <!-- ========================================================================= -->
   <!-- 🌐 PROPER RESPONSIVE WEBSITE NAVIGATION (Sticky, Universal for All Devices)-->
   <!-- ========================================================================= -->
-  <header class="sticky top-0 z-50 w-full bg-[#0e1017]/95 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/40">
+  <header class="sticky top-0 z-50 w-full bg-black/95 backdrop-blur-xl border-b border-yellow-400/20 shadow-lg shadow-black/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       
       <!-- Brand Logo & Title -->
       <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lavender via-purple-300 to-sage flex items-center justify-center shadow-lg shadow-lavender/25 ring-1 ring-white/15">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lavender via-amber-300 to-sage flex items-center justify-center shadow-lg shadow-lavender/25 ring-1 ring-white/15">
           <span class="text-midnight font-extrabold text-xl tracking-tighter">Y</span>
         </div>
         <div>
@@ -104,7 +104,7 @@
             <span class="font-serif italic font-bold text-xl text-ivory tracking-tight">YURI</span>
             <span class="text-[10px] bg-lavender/20 text-lavender px-2 py-0.5 rounded-full font-mono font-semibold border border-lavender/30">AI</span>
           </div>
-          <p class="hidden sm:block text-[11px] text-stone-400">Try it. Style it. Wear it. Buy it.</p>
+          <p class="hidden sm:block text-[11px] text-white/75">Try it. Style it. Wear it. Buy it.</p>
         </div>
       </div>
 
@@ -114,19 +114,19 @@
           <i data-lucide="home" class="w-4 h-4"></i>
           <span>Home</span>
         </button>
-        <button onclick="switchTab('tryon')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="tryon">
+        <button onclick="switchTab('tryon')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-white/75 hover:text-lavender transition flex items-center gap-1.5" data-tab="tryon">
           <i data-lucide="wand-2" class="w-4 h-4"></i>
           <span>3D Studio</span>
         </button>
-        <button onclick="switchTab('wardrobe')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="wardrobe">
+        <button onclick="switchTab('wardrobe')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-white/75 hover:text-lavender transition flex items-center gap-1.5" data-tab="wardrobe">
           <i data-lucide="shirt" class="w-4 h-4"></i>
           <span>Wardrobe</span>
         </button>
-        <button onclick="switchTab('shop')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="shop">
+        <button onclick="switchTab('shop')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-white/75 hover:text-lavender transition flex items-center gap-1.5" data-tab="shop">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i>
           <span>Shop</span>
         </button>
-        <button onclick="switchTab('stylist')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-stone-400 hover:text-lavender transition flex items-center gap-1.5" data-tab="stylist">
+        <button onclick="switchTab('stylist')" class="nav-item px-3.5 py-1.5 rounded-xl font-semibold text-white/75 hover:text-lavender transition flex items-center gap-1.5" data-tab="stylist">
           <i data-lucide="sparkles" class="w-4 h-4 text-lavender"></i>
           <span>AI Stylist</span>
         </button>
@@ -169,7 +169,7 @@
               <h2 class="text-2xl font-serif italic text-ivory mt-1 mb-2 font-normal leading-tight">
                 Try Outfits in <br><span class="text-lavender font-sans not-italic font-bold">Real-Time AR & 3D.</span>
               </h2>
-              <p class="text-xs text-stone-300 max-w-[240px] leading-relaxed mb-4">
+              <p class="text-xs text-white/90 max-w-[240px] leading-relaxed mb-4">
                 Fit garments on your moving camera stream, your personal AI Twin, or a 3D studio mannequin.
               </p>
               <div class="flex items-center gap-2">
@@ -193,9 +193,9 @@
               <div>
                 <div class="flex items-center gap-1.5">
                   <h4 class="text-xs font-bold text-ivory">My AI Twin: User</h4>
-                  <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded font-mono font-semibold">Active Clone</span>
+                  <span class="text-[9px] bg-yellow-400/20 text-yellow-300 px-1.5 py-0.2 rounded font-mono font-semibold">Active Clone</span>
                 </div>
-                <p class="text-[10px] text-stone-400">178 cm · Athletic · 1-Tap try any item</p>
+                <p class="text-[10px] text-white/75">178 cm · Athletic · 1-Tap try any item</p>
               </div>
             </div>
             <button onclick="openTwinModal()" class="px-2.5 py-1.5 rounded-xl bg-lavender/10 text-lavender border border-lavender/30 hover:bg-lavender hover:text-midnight text-[11px] font-bold transition flex items-center gap-1">
@@ -206,7 +206,7 @@
           <!-- Studio Mode Shortcuts (4 Modes) -->
           <div>
             <div class="flex items-center justify-between mb-2 px-1">
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400">AI Fitting Modes</h3>
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-white/75">AI Fitting Modes</h3>
               <span class="text-[11px] text-lavender font-medium cursor-pointer">Explore all</span>
             </div>
             <div class="grid grid-cols-4 gap-2">
@@ -215,7 +215,7 @@
                   <i data-lucide="video" class="w-4 h-4"></i>
                 </div>
                 <span class="text-[11px] font-bold text-ivory">Live AR</span>
-                <span class="text-[9px] text-emerald-400 font-medium">60 FPS</span>
+                <span class="text-[9px] text-yellow-400 font-medium">60 FPS</span>
               </div>
               <div onclick="openStudio('photo')" class="cursor-pointer p-2.5 rounded-2xl bg-surface border border-border hover:border-lavender/50 transition flex flex-col items-center text-center group">
                 <div class="w-9 h-9 rounded-xl bg-lavender/10 text-lavender flex items-center justify-center mb-1.5 group-hover:scale-110 transition">
@@ -232,11 +232,11 @@
                 <span class="text-[9px] text-amber-300 font-medium">3D 360°</span>
               </div>
               <div onclick="switchTab('wardrobe')" class="cursor-pointer p-2.5 rounded-2xl bg-surface border border-border hover:border-lavender/50 transition flex flex-col items-center text-center group">
-                <div class="w-9 h-9 rounded-xl bg-surface-light text-stone-300 flex items-center justify-center mb-1.5 group-hover:scale-110 transition">
+                <div class="w-9 h-9 rounded-xl bg-surface-light text-white/90 flex items-center justify-center mb-1.5 group-hover:scale-110 transition">
                   <i data-lucide="shirt" class="w-4 h-4"></i>
                 </div>
                 <span class="text-[11px] font-semibold text-ivory">Wardrobe</span>
-                <span class="text-[9px] text-stone-400">14 Items</span>
+                <span class="text-[9px] text-white/75">14 Items</span>
               </div>
             </div>
           </div>
@@ -244,8 +244,8 @@
           <!-- Featured Garments Carousel -->
           <div>
             <div class="flex items-center justify-between mb-2 px-1">
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400">Trending Fits</h3>
-              <span class="text-[11px] text-stone-400">Multi-Store + D2C</span>
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-white/75">Trending Fits</h3>
+              <span class="text-[11px] text-white/75">Multi-Store + D2C</span>
             </div>
             <div class="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
               
@@ -253,12 +253,12 @@
               <div class="min-w-[155px] max-w-[155px] rounded-2xl bg-surface border border-border p-2.5 flex flex-col group ring-1 ring-lavender/30">
                 <div class="relative w-full h-40 rounded-xl overflow-hidden bg-surface-light mb-2">
                   <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                  <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">Fitted Slip</span>
-                  <button onclick="tryInLiveAR('dress_emerald', 'Zara Emerald Silk Satin Dress')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-emerald-400 text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
+                  <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded bg-yellow-400/15 text-yellow-300 border border-yellow-400/35">Fitted Slip</span>
+                  <button onclick="tryInLiveAR('dress_emerald', 'Zara Emerald Silk Satin Dress')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-yellow-400 text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
                     <i data-lucide="video" class="w-3 h-3"></i> Fit Dress
                   </button>
                 </div>
-                <span class="text-[10px] uppercase font-bold text-stone-400">Zara Studio</span>
+                <span class="text-[10px] uppercase font-bold text-white/75">Zara Studio</span>
                 <h4 class="text-xs font-semibold text-ivory truncate">Emerald Silk Slip Dress</h4>
                 <div class="flex items-center justify-between mt-1">
                   <span class="text-xs font-bold text-lavender">₹3,590</span>
@@ -275,7 +275,7 @@
                     <i data-lucide="video" class="w-3 h-3"></i> Fit Dress
                   </button>
                 </div>
-                <span class="text-[10px] uppercase font-bold text-stone-400">H&M Conscious</span>
+                <span class="text-[10px] uppercase font-bold text-white/75">H&M Conscious</span>
                 <h4 class="text-xs font-semibold text-ivory truncate">Pleated Floral Midi</h4>
                 <div class="flex items-center justify-between mt-1">
                   <span class="text-xs font-bold text-lavender">₹2,499</span>
@@ -291,7 +291,7 @@
                     <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                   </button>
                 </div>
-                <span class="text-[10px] uppercase font-bold text-stone-400">Zara Studio</span>
+                <span class="text-[10px] uppercase font-bold text-white/75">Zara Studio</span>
                 <h4 class="text-xs font-semibold text-ivory truncate">Charcoal Wool Blazer</h4>
                 <div class="flex items-center justify-between mt-1">
                   <span class="text-xs font-bold text-lavender">₹4,990</span>
@@ -306,11 +306,11 @@
                     <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                   </button>
                 </div>
-                <span class="text-[10px] uppercase font-bold text-stone-400">Snitch India</span>
+                <span class="text-[10px] uppercase font-bold text-white/75">Snitch India</span>
                 <h4 class="text-xs font-semibold text-ivory truncate">Cuban Collar Relaxed Shirt</h4>
                 <div class="flex items-center justify-between mt-1">
                   <span class="text-xs font-bold text-lavender">₹999</span>
-                  <span class="text-[10px] text-stone-500 line-through">₹1,999</span>
+                  <span class="text-[10px] text-white/60 line-through">₹1,999</span>
                 </div>
               </div>
 
@@ -322,7 +322,7 @@
                     <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                   </button>
                 </div>
-                <span class="text-[10px] uppercase font-bold text-stone-400">Zara</span>
+                <span class="text-[10px] uppercase font-bold text-white/75">Zara</span>
                 <h4 class="text-xs font-semibold text-ivory truncate">Faux Leather Biker</h4>
                 <div class="flex items-center justify-between mt-1">
                   <span class="text-xs font-bold text-lavender">₹4,590</span>
@@ -339,7 +339,7 @@
               </div>
               <div>
                 <h4 class="text-xs font-semibold text-ivory">Need an outfit for college / office?</h4>
-                <p class="text-[10px] text-stone-400">AI Stylist blends wardrobe + online stores</p>
+                <p class="text-[10px] text-white/75">AI Stylist blends wardrobe + online stores</p>
               </div>
             </div>
             <button onclick="switchTab('stylist')" class="p-2 rounded-xl bg-lavender/10 text-lavender border border-lavender/30 hover:bg-lavender hover:text-midnight transition">
@@ -359,10 +359,10 @@
             <button id="subtab-live-btn" onclick="setStudioMode('live')" class="flex-1 py-2 rounded-xl text-xs font-bold text-midnight bg-gradient-to-r from-sage to-lavender transition flex items-center justify-center gap-1 shadow-md">
               <i data-lucide="video" class="w-3.5 h-3.5"></i> Live AR
             </button>
-            <button id="subtab-photo-btn" onclick="setStudioMode('photo')" class="flex-1 py-2 rounded-xl text-xs font-semibold text-stone-400 hover:text-white transition flex items-center justify-center gap-1">
+            <button id="subtab-photo-btn" onclick="setStudioMode('photo')" class="flex-1 py-2 rounded-xl text-xs font-semibold text-white/75 hover:text-white transition flex items-center justify-center gap-1">
               <i data-lucide="camera" class="w-3.5 h-3.5"></i> Photo VTON
             </button>
-            <button id="subtab-mannequin-btn" onclick="setStudioMode('mannequin')" class="flex-1 py-2 rounded-xl text-xs font-semibold text-stone-400 hover:text-white transition flex items-center justify-center gap-1">
+            <button id="subtab-mannequin-btn" onclick="setStudioMode('mannequin')" class="flex-1 py-2 rounded-xl text-xs font-semibold text-white/75 hover:text-white transition flex items-center justify-center gap-1">
               <i data-lucide="accessibility" class="w-3.5 h-3.5"></i> 3D Mannequin
             </button>
           </div>
@@ -371,23 +371,23 @@
           <div id="subtab-live" class="space-y-3">
             
             <!-- ⚡ Anywear: Decart Lucy V-TON Engine Integration Banner -->
-            <div class="bg-gradient-to-r from-emerald-950/70 via-surface to-purple-950/50 border border-emerald-500/40 rounded-2xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-lg">
+            <div class="bg-gradient-to-r from-emerald-950/70 via-surface to-yellow-950/50 border border-emerald-500/40 rounded-2xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-lg">
               <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping"></span>
                 <div>
                   <div class="font-extrabold text-ivory flex items-center gap-1.5 text-xs">
-                    <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-400"></i> Decart Lucy V-TON · Video-Rate Physics Active
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-400"></i> Decart Lucy V-TON · Video-Rate Physics Active
                   </div>
-                  <div class="text-[10px] text-stone-400">
+                  <div class="text-[10px] text-white/75">
                     Try clothes from ANY store (Zara, ASOS, Myntra, Snitch...) · Drag & drop onto screen or press <kbd class="px-1 py-0.5 rounded bg-white/10 text-white font-mono">Ctrl+V</kbd>
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 self-end sm:self-auto">
-                <button onclick="openUniversalDropModal()" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold hover:bg-emerald-500/30 transition flex items-center gap-1 text-[11px] shadow-sm">
+                <button onclick="openUniversalDropModal()" class="px-2.5 py-1.5 rounded-xl bg-yellow-400/20 border border-yellow-400/50 text-yellow-300 font-bold hover:bg-yellow-400/30 transition flex items-center gap-1 text-[11px] shadow-sm">
                   <i data-lucide="link-2" class="w-3.5 h-3.5"></i> Try From Any Store
                 </button>
-                <button onclick="promptClipboardPaste()" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white transition flex items-center gap-1 text-[11px]">
+                <button onclick="promptClipboardPaste()" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white transition flex items-center gap-1 text-[11px]">
                   <i data-lucide="clipboard" class="w-3.5 h-3.5 text-lavender"></i> Paste Garment
                 </button>
               </div>
@@ -398,30 +398,30 @@
 
               <!-- Top Status HUD -->
               <!-- Universal Drag & Drop Overlay Target (Any Store) -->
-              <div id="ar-drop-overlay" class="hidden absolute inset-0 bg-emerald-950/85 backdrop-blur-md z-40 border-4 border-dashed border-emerald-400 rounded-3xl flex flex-col items-center justify-center text-center p-6 transition-all duration-200">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center mb-3 animate-bounce">
+              <div id="ar-drop-overlay" class="hidden absolute inset-0 bg-emerald-950/85 backdrop-blur-md z-40 border-4 border-dashed border-yellow-400 rounded-3xl flex flex-col items-center justify-center text-center p-6 transition-all duration-200">
+                <div class="w-16 h-16 rounded-2xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center mb-3 animate-bounce">
                   <i data-lucide="download-cloud" class="w-8 h-8"></i>
                 </div>
                 <h4 class="text-base font-extrabold text-white">Drop Garment from ANY Store!</h4>
                 <p class="text-xs text-emerald-200/90 mt-1 max-w-[280px]">
                   Zara, ASOS, Myntra, Shein, Snitch, H&M... AI will instantly extract fabric and drape it onto your moving body!
                 </p>
-                <span class="mt-2 text-[10px] font-mono bg-emerald-900/60 text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                <span class="mt-2 text-[10px] font-mono bg-emerald-900/60 text-yellow-300 px-2.5 py-1 rounded-lg border border-yellow-400/35">
                   Powered by Decart Lucy V-TON Universal Parser
                 </span>
               </div>
 
               <!-- AI Garment Extraction Scanline Overlay -->
               <div id="anywear-scanning-overlay" class="hidden absolute inset-0 bg-black/80 backdrop-blur-md z-40 flex flex-col items-center justify-center p-6 text-center space-y-3">
-                <div class="relative w-24 h-24 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400/50 flex items-center justify-center overflow-hidden shadow-2xl">
+                <div class="relative w-24 h-24 rounded-2xl bg-yellow-400/15 border-2 border-yellow-400/50 flex items-center justify-center overflow-hidden shadow-2xl">
                   <img id="scan-preview-img" src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover opacity-75">
                   <div class="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-pulse" style="top: 48%; box-shadow: 0 0 14px #34d399;"></div>
                 </div>
                 <div>
-                  <span class="text-xs font-bold text-emerald-300 flex items-center justify-center gap-1.5">
-                    <i data-lucide="cpu" class="w-4 h-4 animate-spin text-emerald-400"></i> Isolating Fabric & Segmenting Garment...
+                  <span class="text-xs font-bold text-yellow-300 flex items-center justify-center gap-1.5">
+                    <i data-lucide="cpu" class="w-4 h-4 animate-spin text-yellow-400"></i> Isolating Fabric & Segmenting Garment...
                   </span>
-                  <span id="scan-status-text" class="text-[10px] text-stone-300 font-mono mt-1 block">
+                  <span id="scan-status-text" class="text-[10px] text-white/90 font-mono mt-1 block">
                     Removing store background · Draping onto 3D body contour
                   </span>
                 </div>
@@ -430,17 +430,17 @@
               <!-- Top Status HUD -->
               <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-20">
                 <div class="bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] text-ivory border border-white/10 shadow-lg">
-                  <span id="ar-tracking-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span id="ar-tracking-dot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                   <span id="ar-tracking-label" class="font-mono font-medium">Pose Locked (100%) · 3D Yaw: 0°</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <div id="ar-ambient-badge" class="bg-black/80 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-emerald-300 font-mono border border-emerald-500/30 flex items-center gap-1">
+                  <div id="ar-ambient-badge" class="bg-black/80 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-yellow-300 font-mono border border-yellow-400/35 flex items-center gap-1">
                     <i data-lucide="sun" class="w-2.5 h-2.5"></i> <span id="ambient-val">88% Lux (Warm)</span>
                   </div>
-                  <div class="bg-black/80 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-stone-300 font-mono border border-white/10">
+                  <div class="bg-black/80 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-white/90 font-mono border border-white/10">
                     <span id="fps-counter">60</span> FPS
                   </div>
-                  <button onclick="toggleMeshOverlay()" class="pointer-events-auto bg-black/80 hover:bg-black p-1.5 rounded-full text-stone-300 hover:text-lavender border border-white/10 transition" title="Toggle Pose Skeleton">
+                  <button onclick="toggleMeshOverlay()" class="pointer-events-auto bg-black/80 hover:bg-black p-1.5 rounded-full text-white/90 hover:text-lavender border border-white/10 transition" title="Toggle Pose Skeleton">
                     <i data-lucide="git-commit" class="w-3.5 h-3.5"></i>
                   </button>
                 </div>
@@ -448,12 +448,12 @@
 
               <!-- Alignment Guide Overlay -->
               <div id="pose-guide" class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center transition-opacity duration-300 z-10">
-                <div id="guide-box" class="w-52 h-64 border-2 border-dashed border-emerald-400/60 rounded-3xl flex flex-col items-center justify-between p-3 bg-emerald-500/5 transition-all duration-300 shadow-[0_0_24px_rgba(52,211,153,0.15)]">
-                  <div class="flex items-center gap-1 bg-black/75 px-2.5 py-0.5 rounded-full text-[9px] text-emerald-300 font-mono font-bold border border-emerald-400/30">
+                <div id="guide-box" class="w-52 h-64 border-2 border-dashed border-yellow-400/60 rounded-3xl flex flex-col items-center justify-between p-3 bg-emerald-500/5 transition-all duration-300 shadow-[0_0_24px_rgba(52,211,153,0.15)]">
+                  <div class="flex items-center gap-1 bg-black/75 px-2.5 py-0.5 rounded-full text-[9px] text-yellow-300 font-mono font-bold border border-yellow-400/30">
                     <i data-lucide="scan" class="w-3 h-3"></i> <span id="guide-status-text">Framing Locked · Lucy V-TON Ready</span>
                   </div>
-                  <div class="w-20 h-1 border-t-2 border-dashed border-emerald-400/50"></div>
-                  <span id="guide-hint-text" class="text-[9px] text-stone-200 bg-black/75 px-2.5 py-0.5 rounded-full font-medium border border-white/10">
+                  <div class="w-20 h-1 border-t-2 border-dashed border-yellow-400/50"></div>
+                  <span id="guide-hint-text" class="text-[9px] text-white bg-black/75 px-2.5 py-0.5 rounded-full font-medium border border-white/10">
                     Upper body & waist aligned in frame
                   </span>
                 </div>
@@ -461,15 +461,15 @@
 
               <!-- Camera Permissions / Loading Screen -->
               <div id="camera-placeholder" class="absolute inset-0 bg-surface/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-30 space-y-3">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shadow-[0_0_25px_rgba(52,211,153,0.3)] animate-pulse">
+                <div class="w-16 h-16 rounded-2xl bg-yellow-400/20 border border-yellow-400/50 flex items-center justify-center text-yellow-300 shadow-[0_0_25px_rgba(52,211,153,0.3)] animate-pulse">
                   <i data-lucide="camera" class="w-8 h-8"></i>
                 </div>
                 <div>
-                  <div class="inline-flex items-center gap-1.5 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full text-[10px] text-emerald-300 font-mono font-bold mb-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Real-Time WebCam Fitting
+                  <div class="inline-flex items-center gap-1.5 bg-yellow-400/15 border border-emerald-500/40 px-2.5 py-0.5 rounded-full text-[10px] text-yellow-300 font-mono font-bold mb-1.5">
+                    <span class="w-2 h-2 rounded-full bg-yellow-400 animate-ping"></span> Real-Time WebCam Fitting
                   </div>
                   <h3 class="text-base font-extrabold text-white">Live Real-World Virtual Try-On</h3>
-                  <p class="text-xs text-stone-300 mt-1 max-w-[280px]">
+                  <p class="text-xs text-white/90 mt-1 max-w-[280px]">
                     Real-time MediaPipe body tracking, physical cloth inertia, hand occlusion, and room lighting interaction.
                   </p>
                   <div id="camera-err-msg" class="hidden text-[10px] text-amber-300 bg-amber-950/80 border border-amber-500/50 rounded-lg p-1.5 mt-2 max-w-[260px] mx-auto"></div>
@@ -478,8 +478,8 @@
                   <button onclick="startLiveCamera()" class="w-full py-3 bg-gradient-to-r from-emerald-400 via-teal-400 to-lavender text-midnight font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/25 hover:scale-[1.02] active:scale-95 transition">
                     <i data-lucide="video" class="w-4 h-4"></i> Start Real Camera (Webcam)
                   </button>
-                  <button onclick="startDemoStream()" class="w-full py-2 bg-surface-light border border-border text-stone-400 hover:text-white rounded-xl text-[11px] flex items-center justify-center gap-1.5 hover:border-lavender/40 transition">
-                    <i data-lucide="play-circle" class="w-3.5 h-3.5 text-stone-400"></i> Run Synthetic Simulation
+                  <button onclick="startDemoStream()" class="w-full py-2 bg-surface-light border border-border text-white/75 hover:text-white rounded-xl text-[11px] flex items-center justify-center gap-1.5 hover:border-lavender/40 transition">
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5 text-white/75"></i> Run Synthetic Simulation
                   </button>
                 </div>
               </div>
@@ -487,17 +487,17 @@
               <!-- Bottom Floating Action Bar -->
               <div class="absolute bottom-3 inset-x-3 flex items-center justify-between z-20">
                 <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-md p-1 rounded-2xl border border-white/10">
-                  <button onclick="toggleMirror()" class="p-2 rounded-xl text-stone-300 hover:text-white hover:bg-white/10 transition" title="Mirror Camera">
+                  <button onclick="toggleMirror()" class="p-2 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition" title="Mirror Camera">
                     <i data-lucide="flip-horizontal" class="w-4 h-4"></i>
                   </button>
-                  <button onclick="toggleAdjustDrawer()" class="p-2 rounded-xl text-stone-300 hover:text-white hover:bg-white/10 transition" title="Fit Adjustments">
+                  <button onclick="toggleAdjustDrawer()" class="p-2 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition" title="Fit Adjustments">
                     <i data-lucide="sliders" class="w-4 h-4"></i>
                   </button>
                 </div>
 
                 <div class="flex items-center gap-2">
                   <!-- Video Record Button (Decart Live Session Recording) -->
-                  <button id="btn-record-video" onclick="toggleARVideoRecording()" class="p-2 px-3 rounded-2xl bg-black/80 backdrop-blur-md border border-rose-500/40 hover:border-rose-500 transition flex items-center gap-1.5 text-stone-200 hover:text-white shadow-lg group" title="Record Live Video Try-On">
+                  <button id="btn-record-video" onclick="toggleARVideoRecording()" class="p-2 px-3 rounded-2xl bg-black/80 backdrop-blur-md border border-rose-500/40 hover:border-rose-500 transition flex items-center gap-1.5 text-white hover:text-white shadow-lg group" title="Record Live Video Try-On">
                     <span id="rec-dot" class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
                     <span id="rec-label" class="text-[11px] font-bold">Record</span>
                     <span id="rec-timer" class="hidden text-[10px] font-mono text-rose-300 font-bold">00:05</span>
@@ -520,7 +520,7 @@
               <div id="ar-adjust-drawer" class="hidden absolute inset-x-2.5 bottom-16 bg-surface/98 backdrop-blur-2xl border border-lavender/30 p-3.5 rounded-3xl z-30 space-y-2.5 shadow-2xl ring-1 ring-white/10">
                 <div class="flex items-center justify-between pb-1 border-b border-white/5">
                   <div class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                     <span class="text-xs font-bold text-ivory flex items-center gap-1">
                       <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-lavender"></i> Body Contour & Dress Fit
                     </span>
@@ -529,7 +529,7 @@
                     <button onclick="toggleFitHeatmap()" id="btn-heatmap-toggle" class="text-[10px] px-2 py-0.5 rounded-lg bg-surface-light border border-border text-sage hover:border-sage transition flex items-center gap-1">
                       <i data-lucide="activity" class="w-3 h-3"></i> Heatmap
                     </button>
-                    <button onclick="toggleAdjustDrawer()" class="text-[10px] text-stone-400 hover:text-white">✕</button>
+                    <button onclick="toggleAdjustDrawer()" class="text-[10px] text-white/75 hover:text-white">✕</button>
                   </div>
                 </div>
 
@@ -537,7 +537,7 @@
                 <button onclick="autoFitGarment()" class="w-full py-2 bg-gradient-to-r from-emerald-500 via-teal-400 to-lavender text-midnight font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md hover:scale-[1.01] active:scale-95 transition">
                   <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ✨ AI Auto-Fit & Contour to My Body
                 </button>
-                <div id="auto-fit-badge" class="hidden text-center text-[10px] text-emerald-400 font-mono bg-emerald-950/60 border border-emerald-500/40 rounded-lg py-1 px-2">
+                <div id="auto-fit-badge" class="hidden text-center text-[10px] text-yellow-400 font-mono bg-emerald-950/60 border border-emerald-500/40 rounded-lg py-1 px-2">
                   ✓ Body Contour Locked · Waist Cinched · Drape Calibrated (99.4%)
                 </div>
 
@@ -545,48 +545,48 @@
                 <div class="grid grid-cols-2 gap-2 text-[10px]">
                   <!-- Waist Cinch / Silhouette -->
                   <div class="bg-midnight/60 p-2 rounded-xl border border-border">
-                    <div class="flex justify-between text-stone-400 mb-1">
+                    <div class="flex justify-between text-white/75 mb-1">
                       <span>Waist Cinch</span>
-                      <span id="waist-val" class="text-emerald-400 font-mono font-bold">100%</span>
+                      <span id="waist-val" class="text-yellow-400 font-mono font-bold">100%</span>
                     </div>
                     <input type="range" id="ar-waist-slider" min="65" max="135" value="100" class="w-full accent-emerald-400 h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="adjustWaist(this.value)">
-                    <div class="flex justify-between text-[8px] text-stone-500 mt-0.5">
+                    <div class="flex justify-between text-[8px] text-white/60 mt-0.5">
                       <span>Bodycon</span><span>A-Line</span>
                     </div>
                   </div>
 
                   <!-- Hem Length -->
                   <div class="bg-midnight/60 p-2 rounded-xl border border-border">
-                    <div class="flex justify-between text-stone-400 mb-1">
+                    <div class="flex justify-between text-white/75 mb-1">
                       <span>Dress Hem Length</span>
                       <span id="hem-val" class="text-lavender font-mono font-bold">100%</span>
                     </div>
                     <input type="range" id="ar-hem-slider" min="70" max="140" value="100" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="adjustHem(this.value)">
-                    <div class="flex justify-between text-[8px] text-stone-500 mt-0.5">
+                    <div class="flex justify-between text-[8px] text-white/60 mt-0.5">
                       <span>Mini</span><span>Maxi</span>
                     </div>
                   </div>
 
                   <!-- Chest / Bust Width -->
                   <div class="bg-midnight/60 p-2 rounded-xl border border-border">
-                    <div class="flex justify-between text-stone-400 mb-1">
+                    <div class="flex justify-between text-white/75 mb-1">
                       <span>Chest & Bust Fit</span>
                       <span id="chest-val" class="text-sage font-mono font-bold">100%</span>
                     </div>
                     <input type="range" id="ar-chest-slider" min="80" max="125" value="100" class="w-full accent-sage h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="adjustChest(this.value)">
-                    <div class="flex justify-between text-[8px] text-stone-500 mt-0.5">
+                    <div class="flex justify-between text-[8px] text-white/60 mt-0.5">
                       <span>Snug</span><span>Relaxed</span>
                     </div>
                   </div>
 
                   <!-- Collar / Strap Offset -->
                   <div class="bg-midnight/60 p-2 rounded-xl border border-border">
-                    <div class="flex justify-between text-stone-400 mb-1">
+                    <div class="flex justify-between text-white/75 mb-1">
                       <span>Strap / Height</span>
                       <span id="offset-val" class="text-lavender font-mono font-bold">0px</span>
                     </div>
                     <input type="range" id="ar-offset-slider" min="-60" max="60" value="0" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="adjustOffset(this.value)">
-                    <div class="flex justify-between text-[8px] text-stone-500 mt-0.5">
+                    <div class="flex justify-between text-[8px] text-white/60 mt-0.5">
                       <span>High</span><span>Plunge</span>
                     </div>
                   </div>
@@ -594,7 +594,7 @@
 
                 <!-- Total Scale -->
                 <div class="flex items-center justify-between text-[10px] bg-midnight/40 px-2 py-1 rounded-xl border border-border">
-                  <span class="text-stone-400">Overall Proportional Scale:</span>
+                  <span class="text-white/75">Overall Proportional Scale:</span>
                   <div class="flex items-center gap-2">
                     <input type="range" id="ar-scale-slider" min="70" max="140" value="100" class="w-24 accent-lavender h-1 bg-surface-light rounded cursor-pointer" oninput="adjustScale(this.value)">
                     <span id="scale-val" class="text-lavender font-mono w-9 text-right font-bold">100%</span>
@@ -607,10 +607,10 @@
             <!-- Instant Garment Switcher Strip (Dresses First + Tops) -->
             <div>
               <div class="flex items-center justify-between mb-1.5 px-1">
-                <span class="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
+                <span class="text-xs font-semibold text-white/90 flex items-center gap-1.5">
                   <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sage"></i> Instant AR Garment Switcher
                 </span>
-                <span id="current-ar-garment-name" class="text-[11px] text-emerald-400 font-medium truncate max-w-[170px]">Emerald Silk Slip Dress</span>
+                <span id="current-ar-garment-name" class="text-[11px] text-yellow-400 font-medium truncate max-w-[170px]">Emerald Silk Slip Dress</span>
               </div>
               <div class="grid grid-cols-5 sm:grid-cols-9 gap-1.5">
 
@@ -624,21 +624,21 @@
                 </button>
                 
                 <!-- 1. Emerald Silk Slip Dress -->
-                <button onclick="switchARGarment('dress_emerald', 'Zara Emerald Silk Slip Dress', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border-2 border-emerald-400 overflow-hidden flex flex-col items-center transition group ring-1 ring-emerald-400/30">
+                <button onclick="switchARGarment('dress_emerald', 'Zara Emerald Silk Slip Dress', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border-2 border-yellow-400 overflow-hidden flex flex-col items-center transition group ring-1 ring-emerald-400/30">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1 relative">
                     <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
-                    <span class="absolute bottom-0 inset-x-0 bg-emerald-950/80 text-[7px] text-center text-emerald-300 font-bold">FITTED</span>
+                    <span class="absolute bottom-0 inset-x-0 bg-yellow-400/15 text-[7px] text-center text-yellow-300 font-bold">FITTED</span>
                   </div>
-                  <span class="text-[9px] text-emerald-300 font-bold truncate w-full text-center">Silk Slip</span>
+                  <span class="text-[9px] text-yellow-300 font-bold truncate w-full text-center">Silk Slip</span>
                 </button>
 
                 <!-- 2. Pleated Floral Midi Dress -->
                 <button onclick="switchARGarment('dress_floral', 'H&M Pleated Floral Midi Dress', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border border-border overflow-hidden flex flex-col items-center transition group hover:border-lavender">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1 relative">
                     <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
-                    <span class="absolute bottom-0 inset-x-0 bg-purple-950/80 text-[7px] text-center text-purple-200">A-LINE</span>
+                    <span class="absolute bottom-0 inset-x-0 bg-yellow-950/80 text-[7px] text-center text-yellow-200">A-LINE</span>
                   </div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Floral Midi</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Floral Midi</span>
                 </button>
 
                 <!-- 3. Crimson Velvet Cocktail Wrap -->
@@ -647,7 +647,7 @@
                     <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
                     <span class="absolute bottom-0 inset-x-0 bg-rose-950/80 text-[7px] text-center text-rose-200">WRAP</span>
                   </div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Velvet Wrap</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Velvet Wrap</span>
                 </button>
 
                 <!-- 4. Royal Navy Gold Anarkali -->
@@ -656,31 +656,31 @@
                     <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
                     <span class="absolute bottom-0 inset-x-0 bg-amber-950/80 text-[7px] text-center text-amber-200">ROYAL</span>
                   </div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Anarkali</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Anarkali</span>
                 </button>
 
                 <!-- 5. Zara Wool Blazer -->
                 <button onclick="switchARGarment('blazer', 'Zara Charcoal Blazer', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border border-border overflow-hidden flex flex-col items-center transition group hover:border-lavender">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover"></div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Blazer</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Blazer</span>
                 </button>
 
                 <!-- 6. Snitch Linen Shirt -->
                 <button onclick="switchARGarment('shirt', 'Roadster Linen Shirt', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border border-border overflow-hidden flex flex-col items-center transition group hover:border-lavender">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover"></div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Shirt</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Shirt</span>
                 </button>
 
                 <!-- 7. Leather Biker -->
                 <button onclick="switchARGarment('biker', 'Zara Faux Leather Biker', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border border-border overflow-hidden flex flex-col items-center transition group hover:border-lavender">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover"></div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Leather</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Leather</span>
                 </button>
 
                 <!-- 8. White Classic Tee -->
                 <button onclick="switchARGarment('tee', 'Theory Classic White Tee', this)" class="ar-garment-btn p-1 rounded-xl bg-surface border border-border overflow-hidden flex flex-col items-center transition group hover:border-lavender">
                   <div class="w-full h-11 rounded-lg bg-surface-light overflow-hidden mb-1"><img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover"></div>
-                  <span class="text-[9px] text-stone-300 font-medium truncate w-full text-center">Tee</span>
+                  <span class="text-[9px] text-white/90 font-medium truncate w-full text-center">Tee</span>
                 </button>
 
               </div>
@@ -690,9 +690,9 @@
             <div id="snapshot-modal" class="hidden p-4 rounded-2xl bg-surface border border-sage/50 space-y-3">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-sage flex items-center gap-1.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> AR Snapshot Captured!
+                  <i data-lucide="check-circle" class="w-4 h-4 text-yellow-400"></i> AR Snapshot Captured!
                 </span>
-                <button onclick="closeSnapshot()" class="text-stone-400 hover:text-white text-xs">✕</button>
+                <button onclick="closeSnapshot()" class="text-white/75 hover:text-white text-xs">✕</button>
               </div>
               <div class="w-full h-52 rounded-xl overflow-hidden bg-black border border-border flex items-center justify-center">
                 <img id="snapshot-img" class="w-full h-full object-contain">
@@ -711,18 +711,18 @@
             <div id="video-modal" class="hidden p-4 rounded-2xl bg-surface border border-emerald-500/50 space-y-3 shadow-2xl">
               <div class="flex items-center justify-between">
                 <div>
-                  <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-yellow-400 flex items-center gap-1.5">
                     <i data-lucide="video" class="w-4 h-4 text-rose-500 animate-pulse"></i> Live Try-On Video Captured!
                   </span>
-                  <div class="text-[10px] text-stone-400 font-mono mt-0.5">
+                  <div class="text-[10px] text-white/75 font-mono mt-0.5">
                     Decart Lucy V-TON · Dynamic Cloth Inertia & Motion Preserved (30 FPS)
                   </div>
                 </div>
-                <button onclick="closeVideoModal()" class="text-stone-400 hover:text-white text-xs">✕</button>
+                <button onclick="closeVideoModal()" class="text-white/75 hover:text-white text-xs">✕</button>
               </div>
               <div class="w-full h-64 rounded-xl overflow-hidden bg-black border border-border flex items-center justify-center relative">
                 <video id="video-preview-player" autoplay loop playsinline controls class="w-full h-full object-contain"></video>
-                <div class="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[9px] text-emerald-300 font-mono">
+                <div class="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[9px] text-yellow-300 font-mono">
                   ● 30 FPS Dynamic Drape
                 </div>
               </div>
@@ -740,26 +740,26 @@
             <div id="universal-drop-modal" class="hidden p-4 rounded-3xl bg-surface border border-emerald-500/40 space-y-3.5 shadow-2xl">
               <div class="flex items-center justify-between pb-1 border-b border-white/5">
                 <div class="flex items-center gap-1.5">
-                  <div class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                  <div class="w-7 h-7 rounded-xl bg-yellow-400/20 text-yellow-400 flex items-center justify-center">
                     <i data-lucide="globe" class="w-4 h-4"></i>
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-ivory">Try On Garment from ANY Store</h4>
-                    <span class="text-[10px] text-stone-400">Zara, ASOS, Myntra, Shein, Snitch, H&M, Uniqlo</span>
+                    <span class="text-[10px] text-white/75">Zara, ASOS, Myntra, Shein, Snitch, H&M, Uniqlo</span>
                   </div>
                 </div>
-                <button onclick="closeUniversalDropModal()" class="text-stone-400 hover:text-white text-xs">✕</button>
+                <button onclick="closeUniversalDropModal()" class="text-white/75 hover:text-white text-xs">✕</button>
               </div>
 
               <!-- URL Input Box -->
               <div class="space-y-1.5">
-                <label class="text-[11px] font-medium text-stone-300 flex items-center justify-between">
+                <label class="text-[11px] font-medium text-white/90 flex items-center justify-between">
                   <span>Paste Product Image or Store Link:</span>
-                  <span class="text-[9px] text-emerald-400 font-mono">Supports Direct Web URLs</span>
+                  <span class="text-[9px] text-yellow-400 font-mono">Supports Direct Web URLs</span>
                 </label>
                 <div class="flex gap-2">
-                  <input type="text" id="store-garment-url" placeholder="https://images.unsplash.com/... or store image link" class="flex-1 px-3 py-2 bg-midnight/80 border border-border rounded-xl text-xs text-white placeholder-stone-500 focus:outline-none focus:border-emerald-400 font-mono">
-                  <button onclick="loadFromStoreUrl()" class="px-3.5 py-2 bg-emerald-500 text-midnight font-bold rounded-xl text-xs hover:bg-emerald-400 transition flex items-center gap-1 shadow-md">
+                  <input type="text" id="store-garment-url" placeholder="https://images.unsplash.com/... or store image link" class="flex-1 px-3 py-2 bg-midnight/80 border border-border rounded-xl text-xs text-white placeholder-stone-500 focus:outline-none focus:border-yellow-400 font-mono">
+                  <button onclick="loadFromStoreUrl()" class="px-3.5 py-2 bg-emerald-500 text-midnight font-bold rounded-xl text-xs hover:bg-yellow-400 transition flex items-center gap-1 shadow-md">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Extract
                   </button>
                 </div>
@@ -767,7 +767,7 @@
 
               <!-- Quick 1-Click Store Presets -->
               <div>
-                <span class="text-[10px] text-stone-400 font-semibold uppercase tracking-wider block mb-1.5">
+                <span class="text-[10px] text-white/75 font-semibold uppercase tracking-wider block mb-1.5">
                   Or Test Popular Store Pieces:
                 </span>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
@@ -776,64 +776,64 @@
                     <img src="./sen-jersey.webp" class="w-8 h-8 rounded-lg object-contain bg-black/60 p-0.5">
                     <div class="overflow-hidden">
                       <div class="text-[10px] font-bold text-rose-300 group-hover:text-white truncate">Sentinels 2026</div>
-                      <div class="text-[8px] text-stone-400">Esports / Maxesport</div>
+                      <div class="text-[8px] text-white/75">Esports / Maxesport</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80', 'Zara Liquid Emerald Silk Slip Dress', 'dress_emerald')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80', 'Zara Liquid Emerald Silk Slip Dress', 'dress_emerald')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">Zara Silk Slip</div>
-                      <div class="text-[8px] text-stone-400">Evening / Satin</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">Zara Silk Slip</div>
+                      <div class="text-[8px] text-white/75">Evening / Satin</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80', 'ASOS High-Neck Pleated Floral Dress', 'dress_floral')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80', 'ASOS High-Neck Pleated Floral Dress', 'dress_floral')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">ASOS Floral Midi</div>
-                      <div class="text-[8px] text-stone-400">Daywear / Chiffon</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">ASOS Floral Midi</div>
+                      <div class="text-[8px] text-white/75">Daywear / Chiffon</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=500&q=80', 'Snitch Casual Cuban Camp Collar Shirt', 'shirt')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=500&q=80', 'Snitch Casual Cuban Camp Collar Shirt', 'shirt')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">Snitch Camp Shirt</div>
-                      <div class="text-[8px] text-stone-400">Casual / Linen</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">Snitch Camp Shirt</div>
+                      <div class="text-[8px] text-white/75">Casual / Linen</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80', 'FabIndia Royal Mulberry Silk Anarkali', 'dress_anarkali')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80', 'FabIndia Royal Mulberry Silk Anarkali', 'dress_anarkali')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">FabIndia Anarkali</div>
-                      <div class="text-[8px] text-stone-400">Ethnic / Silk Gown</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">FabIndia Anarkali</div>
+                      <div class="text-[8px] text-white/75">Ethnic / Silk Gown</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80', 'Zara Tailored Wool Blend Blazer', 'blazer')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80', 'Zara Tailored Wool Blend Blazer', 'blazer')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">Zara Wool Blazer</div>
-                      <div class="text-[8px] text-stone-400">Formal / Boxy</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">Zara Wool Blazer</div>
+                      <div class="text-[8px] text-white/75">Formal / Boxy</div>
                     </div>
                   </button>
 
-                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80', 'Mango Asymmetric Biker Moto Jacket', 'biker')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-emerald-400/60 transition text-left flex items-center gap-2 group">
+                  <button onclick="selectStorePreset('https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80', 'Mango Asymmetric Biker Moto Jacket', 'biker')" class="p-2 rounded-xl bg-midnight/60 border border-border hover:border-yellow-400/60 transition text-left flex items-center gap-2 group">
                     <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=80&q=80" class="w-8 h-8 rounded-lg object-cover">
                     <div class="overflow-hidden">
-                      <div class="text-[10px] font-bold text-ivory group-hover:text-emerald-300 truncate">Mango Moto Biker</div>
-                      <div class="text-[8px] text-stone-400">Outerwear / Leather</div>
+                      <div class="text-[10px] font-bold text-ivory group-hover:text-yellow-300 truncate">Mango Moto Biker</div>
+                      <div class="text-[8px] text-white/75">Outerwear / Leather</div>
                     </div>
                   </button>
                 </div>
               </div>
 
               <!-- Upload local image file -->
-              <div class="pt-1 border-t border-white/5 flex items-center justify-between text-[11px] text-stone-400">
+              <div class="pt-1 border-t border-white/5 flex items-center justify-between text-[11px] text-white/75">
                 <span>Or select an image file from your computer:</span>
-                <label class="px-2.5 py-1 bg-surface-light border border-border hover:border-lavender text-stone-300 rounded-lg cursor-pointer">
+                <label class="px-2.5 py-1 bg-surface-light border border-border hover:border-lavender text-white/90 rounded-lg cursor-pointer">
                   Browse File <input type="file" accept="image/*" class="hidden" onchange="handleStoreFileSelect(event)">
                 </label>
               </div>
@@ -868,10 +868,10 @@
                   Select Garment to Fit
                 </span>
                 <div class="flex items-center gap-2">
-                  <button onclick="openUniversalDropModal()" class="text-[10px] text-emerald-300 hover:text-white font-semibold flex items-center gap-1 bg-emerald-950/70 border border-emerald-500/40 px-2 py-0.5 rounded-lg transition shadow-sm">
-                    <i data-lucide="globe" class="w-3 h-3 text-emerald-400"></i> Drop from Any Store
+                  <button onclick="openUniversalDropModal()" class="text-[10px] text-yellow-300 hover:text-white font-semibold flex items-center gap-1 bg-emerald-950/70 border border-emerald-500/40 px-2 py-0.5 rounded-lg transition shadow-sm">
+                    <i data-lucide="globe" class="w-3 h-3 text-yellow-400"></i> Drop from Any Store
                   </button>
-                  <span id="selected-garment-title" class="text-[11px] text-emerald-400 font-medium truncate max-w-[130px]">Emerald Silk Slip Dress</span>
+                  <span id="selected-garment-title" class="text-[11px] text-yellow-400 font-medium truncate max-w-[130px]">Emerald Silk Slip Dress</span>
                 </div>
               </div>
               <div id="studio-garments" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-1">
@@ -885,7 +885,7 @@
                 <!-- Emerald Silk Slip Dress -->
                 <div onclick="selectGarment('https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80', 'Emerald Silk Slip Dress', this)" class="garment-card cursor-pointer relative h-24 rounded-xl overflow-hidden ring-2 ring-emerald-400">
                   <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                  <div class="absolute bottom-0 inset-x-0 bg-emerald-950/80 text-[8px] text-center text-emerald-300 py-0.5 truncate px-1 font-bold">Silk Slip</div>
+                  <div class="absolute bottom-0 inset-x-0 bg-yellow-400/15 text-[8px] text-center text-yellow-300 py-0.5 truncate px-1 font-bold">Silk Slip</div>
                 </div>
                 <!-- H&M Pleated Floral Midi Dress -->
                 <div onclick="selectGarment('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80', 'H&M Pleated Midi Dress', this)" class="garment-card cursor-pointer relative h-24 rounded-xl overflow-hidden border border-border hover:border-lavender">
@@ -920,13 +920,13 @@
             </button>
 
             <!-- Result Preview Container -->
-            <div id="tryon-result-card" class="hidden p-4 rounded-2xl bg-surface border border-emerald-500/30 space-y-3">
+            <div id="tryon-result-card" class="hidden p-4 rounded-2xl bg-surface border border-yellow-400/35 space-y-3">
               <div class="flex items-center justify-between">
                 <div>
-                  <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Body Fit Render Complete
+                  <span class="text-xs font-bold text-yellow-400 flex items-center gap-1.5">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-yellow-400"></i> Body Fit Render Complete
                   </span>
-                  <div id="result-fit-summary" class="text-[10px] text-stone-300 font-mono mt-0.5">
+                  <div id="result-fit-summary" class="text-[10px] text-white/90 font-mono mt-0.5">
                     Fit Accuracy: 99.2% · Bust Contoured · Waist Cinched · Drape Fluid
                   </div>
                 </div>
@@ -939,16 +939,16 @@
 
               <!-- Multi-Angle View Switcher (Decart Anywear 360 Feature) -->
               <div class="flex items-center gap-1 bg-midnight/80 p-1 rounded-xl border border-border text-[11px]">
-                <span class="text-stone-400 px-2 font-medium flex items-center gap-1">
+                <span class="text-white/75 px-2 font-medium flex items-center gap-1">
                   <i data-lucide="rotate-3d" class="w-3 h-3 text-lavender"></i> View Angle:
                 </span>
                 <button id="vton-angle-front" onclick="setVtonAngle('front')" class="flex-1 py-1 rounded-lg bg-emerald-500 text-midnight font-bold transition flex items-center justify-center gap-1">
                   0° Front
                 </button>
-                <button id="vton-angle-threeq" onclick="setVtonAngle('threequarter')" class="flex-1 py-1 rounded-lg text-stone-300 hover:text-white transition flex items-center justify-center gap-1">
+                <button id="vton-angle-threeq" onclick="setVtonAngle('threequarter')" class="flex-1 py-1 rounded-lg text-white/90 hover:text-white transition flex items-center justify-center gap-1">
                   45° 3/4 Turn
                 </button>
-                <button id="vton-angle-profile" onclick="setVtonAngle('profile')" class="flex-1 py-1 rounded-lg text-stone-300 hover:text-white transition flex items-center justify-center gap-1">
+                <button id="vton-angle-profile" onclick="setVtonAngle('profile')" class="flex-1 py-1 rounded-lg text-white/90 hover:text-white transition flex items-center justify-center gap-1">
                   90° Profile
                 </button>
               </div>
@@ -956,39 +956,39 @@
               <!-- Interactive Split Slider -->
               <div class="relative w-full h-72 rounded-xl overflow-hidden bg-black select-none border border-white/10" id="slider-container">
                 <img id="after-img" src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
-                <div id="before-wrapper" class="absolute inset-y-0 left-0 overflow-hidden w-1/2 border-r-2 border-emerald-400 shadow-2xl">
+                <div id="before-wrapper" class="absolute inset-y-0 left-0 overflow-hidden w-1/2 border-r-2 border-yellow-400 shadow-2xl">
                   <img id="before-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" class="absolute inset-0 w-full h-full object-cover" style="width: 398px; max-width: none;">
                 </div>
                 
                 <!-- Tension Overlay Mesh (Hidden by default) -->
-                <div id="photo-heatmap-overlay" class="hidden absolute inset-0 bg-emerald-500/10 pointer-events-none border-2 border-dashed border-emerald-400/50 flex flex-col justify-between p-3">
-                  <div class="flex justify-between text-[9px] font-mono text-emerald-300 bg-black/70 px-2 py-0.5 rounded">
+                <div id="photo-heatmap-overlay" class="hidden absolute inset-0 bg-emerald-500/10 pointer-events-none border-2 border-dashed border-yellow-400/50 flex flex-col justify-between p-3">
+                  <div class="flex justify-between text-[9px] font-mono text-yellow-300 bg-black/70 px-2 py-0.5 rounded">
                     <span>Chest: 0% Pull</span><span>Shoulder Angle: 12°</span>
                   </div>
                   <div class="text-center text-[10px] font-mono text-cyan-300 bg-black/80 px-2 py-1 rounded mx-auto border border-cyan-400/40">
                     Waist Cinch Locked (Hourglass Seam)
                   </div>
-                  <div class="flex justify-between text-[9px] font-mono text-emerald-300 bg-black/70 px-2 py-0.5 rounded">
+                  <div class="flex justify-between text-[9px] font-mono text-yellow-300 bg-black/70 px-2 py-0.5 rounded">
                     <span>Hem Ripple: Natural</span><span>Hip Tension: Optimal</span>
                   </div>
                 </div>
 
                 <div class="absolute bottom-2 left-2 text-[10px] bg-black/70 px-2 py-0.5 rounded text-white font-mono">Original</div>
-                <div class="absolute bottom-2 right-2 text-[10px] bg-emerald-400/90 px-2 py-0.5 rounded text-midnight font-bold font-mono">Yuri AI Fit</div>
+                <div class="absolute bottom-2 right-2 text-[10px] bg-yellow-400/90 px-2 py-0.5 rounded text-midnight font-bold font-mono">Yuri AI Fit</div>
               </div>
 
               <!-- Fit Specs Chip Bar -->
               <div class="grid grid-cols-3 gap-1.5 text-center text-[10px] font-mono">
                 <div class="p-1.5 rounded-lg bg-surface-light border border-border">
-                  <span class="text-stone-400 block text-[8px] uppercase">Silhouette</span>
-                  <span id="spec-silhouette" class="text-emerald-300 font-bold">Hourglass</span>
+                  <span class="text-white/75 block text-[8px] uppercase">Silhouette</span>
+                  <span id="spec-silhouette" class="text-yellow-300 font-bold">Hourglass</span>
                 </div>
                 <div class="p-1.5 rounded-lg bg-surface-light border border-border">
-                  <span class="text-stone-400 block text-[8px] uppercase">Fabric Drape</span>
+                  <span class="text-white/75 block text-[8px] uppercase">Fabric Drape</span>
                   <span id="spec-drape" class="text-lavender font-bold">Liquid Silk</span>
                 </div>
                 <div class="p-1.5 rounded-lg bg-surface-light border border-border">
-                  <span class="text-stone-400 block text-[8px] uppercase">Fit Tension</span>
+                  <span class="text-white/75 block text-[8px] uppercase">Fit Tension</span>
                   <span id="spec-tension" class="text-sage font-bold">Zero Bunching</span>
                 </div>
               </div>
@@ -1008,7 +1008,7 @@
           <div id="subtab-mannequin" class="hidden space-y-4">
             
             <!-- Mannequin Studio Viewport (Interactive 360 3D Viewport) -->
-            <div id="mannequin-viewport" class="relative w-full h-[420px] sm:h-[480px] md:h-[540px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-b from-[#12141c] via-[#0d0e14] to-[#08080c] border-2 border-border shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative select-none flex flex-col justify-between p-3.5 sm:p-5 cursor-grab active:cursor-grabbing">
+            <div id="mannequin-viewport" class="relative w-full h-[420px] sm:h-[480px] md:h-[540px] max-w-2xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-b from-[#0d0d10] via-[#050507] to-black border-2 border-border shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative select-none flex flex-col justify-between p-3.5 sm:p-5 cursor-grab active:cursor-grabbing">
               
               <!-- Subtle Studio Grid & Spotlight Aura -->
               <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-lavender/10 via-transparent to-transparent pointer-events-none"></div>
@@ -1019,31 +1019,31 @@
                 <!-- Form Material / Finish Selector -->
                 <div class="flex bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
                   <button onclick="setMannequinForm('linen', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition">Atelier Linen</button>
-                  <button onclick="setMannequinForm('ghost', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Ghost 3D</button>
-                  <button onclick="setMannequinForm('matte', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Obsidian</button>
-                  <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Chrome</button>
+                  <button onclick="setMannequinForm('ghost', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition">Ghost 3D</button>
+                  <button onclick="setMannequinForm('matte', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition">Obsidian</button>
+                  <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition">Chrome</button>
                 </div>
 
                 <!-- Mannequin Pose & Motion Controls -->
                 <div class="flex bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
-                  <button onclick="setMannequinPose('stand', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md">
+                  <button onclick="setMannequinPose('stand', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold transition flex items-center gap-1 shadow-md">
                     <i data-lucide="user" class="w-3 h-3"></i> Stand
                   </button>
-                  <button onclick="setMannequinPose('runway', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
+                  <button onclick="setMannequinPose('runway', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition flex items-center gap-1">
                     <i data-lucide="sparkles" class="w-3 h-3"></i> Runway
                   </button>
-                  <button onclick="setMannequinPose('walk', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
+                  <button onclick="setMannequinPose('walk', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition flex items-center gap-1">
                     <i data-lucide="activity" class="w-3 h-3"></i> Walk
                   </button>
                 </div>
 
                 <!-- Size Fit Matrix & Custom Toggle -->
                 <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-2xl border border-white/10 text-[10px] text-sage font-mono shadow-lg">
-                  <span class="text-stone-400">Size:</span>
-                  <button onclick="setMannequinSize('S', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">S</button>
+                  <span class="text-white/75">Size:</span>
+                  <button onclick="setMannequinSize('S', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-white/90 hover:text-white transition">S</button>
                   <button onclick="setMannequinSize('M', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded bg-lavender text-midnight font-bold transition">M</button>
-                  <button onclick="setMannequinSize('L', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">L</button>
-                  <button onclick="setMannequinSize('XL', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition">XL</button>
+                  <button onclick="setMannequinSize('L', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-white/90 hover:text-white transition">L</button>
+                  <button onclick="setMannequinSize('XL', this)" class="mannequin-size-btn px-1.5 py-0.5 rounded text-white/90 hover:text-white transition">XL</button>
                   <button onclick="toggleCustomMannequinSliders()" class="ml-1 pl-1.5 border-l border-white/20 text-lavender hover:text-white flex items-center gap-1" title="Adjust Tailor Measurements">
                     <i data-lucide="sliders" class="w-3 h-3"></i>
                   </button>
@@ -1057,19 +1057,19 @@
                 <div id="mannequin-webgl-mount" class="absolute inset-0 w-full h-full pointer-events-auto"></div>
 
                 <!-- 360° Drag & Zoom Hint -->
-                <div id="mannequin-drag-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[11px] text-stone-200 flex items-center gap-2 pointer-events-none opacity-90 transition-opacity duration-500 shadow-2xl">
-                  <i data-lucide="move-3d" class="w-4 h-4 text-emerald-400 animate-spin"></i>
+                <div id="mannequin-drag-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[11px] text-white flex items-center gap-2 pointer-events-none opacity-90 transition-opacity duration-500 shadow-2xl">
+                  <i data-lucide="move-3d" class="w-4 h-4 text-yellow-400 animate-spin"></i>
                   <span><b>Interactive 3D:</b> Drag to rotate 360° · Pinch/Wheel to Zoom</span>
                 </div>
 
                 <!-- Bottom Status Badges -->
-                <div class="absolute bottom-2.5 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-stone-300 font-mono flex items-center gap-2 pointer-events-none z-10">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <div class="absolute bottom-2.5 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-white/90 font-mono flex items-center gap-2 pointer-events-none z-10">
+                  <span class="w-2 h-2 rounded-full bg-yellow-400 animate-ping"></span>
                   Angle: <span id="mannequin-angle-label" class="text-lavender font-bold">Front (0°)</span>
                 </div>
 
                 <div class="absolute bottom-2.5 right-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] text-sage font-mono flex items-center gap-1.5 pointer-events-none z-10">
-                  <span id="mannequin-measurements-label" class="text-stone-300">Bust 36" · Waist 28" · Hips 38"</span>
+                  <span id="mannequin-measurements-label" class="text-white/90">Bust 36" · Waist 28" · Hips 38"</span>
                 </div>
 
               </div>
@@ -1078,10 +1078,10 @@
               <div class="flex flex-wrap items-center justify-between gap-2 z-20 pointer-events-auto">
                 <div class="flex items-center space-x-1 bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
                   <button onclick="rotateMannequin(0, 'Front (0°)', this)" class="mannequin-rot-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition">0° Front</button>
-                  <button onclick="rotateMannequin(45, '3/4 Turn (45°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">45°</button>
-                  <button onclick="rotateMannequin(90, 'Side Profile (90°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">90°</button>
-                  <button onclick="rotateMannequin(180, 'Back View (180°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">180° Back</button>
-                  <button onclick="rotateMannequin(270, 'Left Profile (270°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition">270°</button>
+                  <button onclick="rotateMannequin(45, '3/4 Turn (45°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-white/90 hover:text-white transition">45°</button>
+                  <button onclick="rotateMannequin(90, 'Side Profile (90°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-white/90 hover:text-white transition">90°</button>
+                  <button onclick="rotateMannequin(180, 'Back View (180°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-white/90 hover:text-white transition">180° Back</button>
+                  <button onclick="rotateMannequin(270, 'Left Profile (270°)', this)" class="mannequin-rot-btn px-2 py-1 rounded-xl text-white/90 hover:text-white transition">270°</button>
                   <button id="btn-mannequin-orbit" onclick="toggleMannequinOrbit()" class="px-2 py-1 rounded-xl text-lavender hover:bg-white/10 transition flex items-center gap-1" title="Continuous 360° Studio Orbit">
                     <i data-lucide="play" class="w-3 h-3"></i>
                     <span>Orbit</span>
@@ -1089,10 +1089,10 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                  <button onclick="snapshotMannequinLook()" class="px-3 py-1.5 bg-surface-light border border-white/10 text-stone-200 font-semibold rounded-xl text-[11px] flex items-center gap-1.5 hover:text-white hover:border-lavender transition shadow-md">
+                  <button onclick="snapshotMannequinLook()" class="px-3 py-1.5 bg-surface-light border border-white/10 text-white font-semibold rounded-xl text-[11px] flex items-center gap-1.5 hover:text-white hover:border-lavender transition shadow-md">
                     <i data-lucide="camera" class="w-3.5 h-3.5 text-lavender"></i> Snapshot
                   </button>
-                  <button onclick="transferMannequinToAR()" class="px-3.5 py-1.5 bg-gradient-to-r from-sage to-emerald-400 text-midnight font-bold rounded-xl text-[11px] flex items-center gap-1.5 hover:scale-105 active:scale-95 transition shadow-lg shadow-emerald-500/20" title="Try this exact dressed look in Live Camera AR">
+                  <button onclick="transferMannequinToAR()" class="px-3.5 py-1.5 bg-gradient-to-r from-sage to-amber-400 text-midnight font-bold rounded-xl text-[11px] flex items-center gap-1.5 hover:scale-105 active:scale-95 transition shadow-lg shadow-yellow-400/25" title="Try this exact dressed look in Live Camera AR">
                     <i data-lucide="video" class="w-3.5 h-3.5"></i> Try in AR Now
                   </button>
                 </div>
@@ -1106,12 +1106,12 @@
                 <span class="text-xs font-bold text-ivory flex items-center gap-1.5">
                   <i data-lucide="scissors" class="w-3.5 h-3.5 text-lavender"></i> Tailored Mannequin Measurements (Real-Time 3D Morph)
                 </span>
-                <button onclick="resetMannequinMeasurements()" class="text-[10px] text-stone-400 hover:text-lavender underline">Reset to Default</button>
+                <button onclick="resetMannequinMeasurements()" class="text-[10px] text-white/75 hover:text-lavender underline">Reset to Default</button>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 <div>
-                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                  <div class="flex justify-between text-[11px] text-white/75 mb-1">
                     <span>Chest / Bust</span>
                     <span id="slider-bust-val" class="text-lavender font-mono font-bold">36 in</span>
                   </div>
@@ -1119,7 +1119,7 @@
                 </div>
 
                 <div>
-                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                  <div class="flex justify-between text-[11px] text-white/75 mb-1">
                     <span>Waist Cinch</span>
                     <span id="slider-waist-val" class="text-lavender font-mono font-bold">28 in</span>
                   </div>
@@ -1127,7 +1127,7 @@
                 </div>
 
                 <div>
-                  <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+                  <div class="flex justify-between text-[11px] text-white/75 mb-1">
                     <span>Hips Flare</span>
                     <span id="slider-hips-val" class="text-lavender font-mono font-bold">38 in</span>
                   </div>
@@ -1140,7 +1140,7 @@
             <!-- ========================================================================= -->
             <!-- 🌟 3D MANNEQUIN PRODUCT RENDERS & 360° DEPTH SHOWCASE                       -->
             <!-- ========================================================================= -->
-            <div class="p-4 sm:p-5 rounded-3xl bg-gradient-to-b from-[#141724] to-[#0c0d14] border border-white/10 shadow-2xl space-y-4">
+            <div class="p-4 sm:p-5 rounded-3xl bg-gradient-to-b from-[#111114] to-black border border-white/10 shadow-2xl space-y-4">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
                 <div>
                   <div class="flex items-center gap-2">
@@ -1150,11 +1150,11 @@
                   <h3 class="text-sm sm:text-base font-bold text-white mt-1 flex items-center gap-2">
                     <i data-lucide="box" class="w-4 h-4 text-lavender"></i> Sentinels 2026 Jersey — 3D Mannequin Cover
                   </h3>
-                  <p class="text-xs text-stone-400">High-fidelity 3D studio product renders covering the atelier mannequin with realistic drape, cloth physics, front crest, and player back-lettering.</p>
+                  <p class="text-xs text-white/75">High-fidelity 3D studio product renders covering the atelier mannequin with realistic drape, cloth physics, front crest, and player back-lettering.</p>
                 </div>
                 
                 <div class="flex items-center gap-2">
-                  <span class="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-xl border border-emerald-500/30">
+                  <span class="text-[11px] font-mono font-bold text-yellow-400 bg-yellow-400/15 px-2.5 py-1 rounded-xl border border-yellow-400/35">
                     360° Rotational Textures Loaded
                   </span>
                 </div>
@@ -1176,12 +1176,12 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-ivory">Front Atelier Render</h4>
-                    <p class="text-[10px] text-stone-400 mt-0.5">Satin drape, black V-neck, and SEN crest on luxury dress form.</p>
+                    <p class="text-[10px] text-white/75 mt-0.5">Satin drape, black V-neck, and SEN crest on luxury dress form.</p>
                     <div class="mt-2.5 flex gap-1.5">
-                      <button onclick="rotateMannequin(0, 'Front (0°)', document.querySelector('.mannequin-rot-btn:nth-child(1)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                      <button onclick="rotateMannequin(0, 'Front (0°)', document.querySelector('.mannequin-rot-btn:nth-child(1)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-white text-[10px] rounded-lg transition font-medium">
                         View 0° Form
                       </button>
-                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-yellow-400/20 text-yellow-400 hover:bg-yellow-400 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
                         AR
                       </button>
                     </div>
@@ -1201,12 +1201,12 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-ivory">3/4 Depth Render</h4>
-                    <p class="text-[10px] text-stone-400 mt-0.5">Dynamic 3D perspective highlighting chest contour and sleeve drop.</p>
+                    <p class="text-[10px] text-white/75 mt-0.5">Dynamic 3D perspective highlighting chest contour and sleeve drop.</p>
                     <div class="mt-2.5 flex gap-1.5">
-                      <button onclick="rotateMannequin(45, '3/4 Turn (45°)', document.querySelector('.mannequin-rot-btn:nth-child(2)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                      <button onclick="rotateMannequin(45, '3/4 Turn (45°)', document.querySelector('.mannequin-rot-btn:nth-child(2)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-white text-[10px] rounded-lg transition font-medium">
                         View 45° Form
                       </button>
-                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-yellow-400/20 text-yellow-400 hover:bg-yellow-400 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
                         AR
                       </button>
                     </div>
@@ -1226,12 +1226,12 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-ivory">Back Studio Render</h4>
-                    <p class="text-[10px] text-stone-400 mt-0.5">Satin shoulder yoke, JOHNQT lettering, and tech sponsor print.</p>
+                    <p class="text-[10px] text-white/75 mt-0.5">Satin shoulder yoke, JOHNQT lettering, and tech sponsor print.</p>
                     <div class="mt-2.5 flex gap-1.5">
-                      <button onclick="rotateMannequin(180, 'Back View (180°)', document.querySelector('.mannequin-rot-btn:nth-child(4)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                      <button onclick="rotateMannequin(180, 'Back View (180°)', document.querySelector('.mannequin-rot-btn:nth-child(4)'))" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-white text-[10px] rounded-lg transition font-medium">
                         View 180° Form
                       </button>
-                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-yellow-400/20 text-yellow-400 hover:bg-yellow-400 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
                         AR
                       </button>
                     </div>
@@ -1243,7 +1243,7 @@
                   <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black/60 mb-2.5 grid grid-cols-2 gap-0.5">
                     <img src="./sen-jersey-front.jpg" alt="Front Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     <img src="./sen-jersey-back.jpg" alt="Back Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-emerald-400 font-bold">
+                    <div class="absolute top-2 left-2 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-yellow-400 font-bold">
                       ORIGINAL PHOTOS
                     </div>
                     <button onclick="inspect3DRender('./sen-jersey-front.jpg', 'Sentinels Jersey — Original Fit Photos', 'Original user photo pair (Front and Back with JOHNQT and SANDISK OPTIMUS).')" class="absolute bottom-2 right-2 bg-black/80 hover:bg-lavender hover:text-midnight text-white p-1.5 rounded-lg text-[10px] transition shadow-md" title="Zoom in">
@@ -1252,12 +1252,12 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-ivory">Source Fit Capture</h4>
-                    <p class="text-[10px] text-stone-400 mt-0.5">High-res front & rear product photos feeding into 3D VTON.</p>
+                    <p class="text-[10px] text-white/75 mt-0.5">High-res front & rear product photos feeding into 3D VTON.</p>
                     <div class="mt-2.5 flex gap-1.5">
-                      <button onclick="setMannequinGarmentTexture('user_source')" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-stone-200 text-[10px] rounded-lg transition font-medium">
+                      <button onclick="setMannequinGarmentTexture('user_source')" class="flex-1 py-1 bg-surface border border-white/10 hover:border-lavender text-white text-[10px] rounded-lg transition font-medium">
                         Use Source Fit
                       </button>
-                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
+                      <button onclick="transferMannequinToAR()" class="px-2 py-1 bg-yellow-400/20 text-yellow-400 hover:bg-yellow-400 hover:text-midnight text-[10px] rounded-lg transition font-bold" title="Try in Live AR">
                         AR
                       </button>
                     </div>
@@ -1272,11 +1272,11 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
-                    <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-400"></i> Mannequin Wardrobe Capsule
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-yellow-400"></i> Mannequin Wardrobe Capsule
                   </h4>
-                  <p class="text-[10px] text-stone-400">Select any garment to drape on the form, or pick from trending stores</p>
+                  <p class="text-[10px] text-white/75">Select any garment to drape on the form, or pick from trending stores</p>
                 </div>
-                <span id="mannequin-active-garment-title" class="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-lg border border-emerald-500/30">
+                <span id="mannequin-active-garment-title" class="text-[11px] font-mono font-bold text-yellow-400 bg-yellow-400/15 px-2 py-0.5 rounded-lg border border-yellow-400/35">
                   Sentinels Pro Jersey 2026
                 </span>
               </div>
@@ -1285,7 +1285,7 @@
               <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-2">
                 
                 <!-- 1. Sentinels Pro Jersey 2026 -->
-                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen_mannequin_front.jpg', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-emerald-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
+                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen_mannequin_front.jpg', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-yellow-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
                   <span class="text-[8px] text-rose-400 font-bold uppercase mb-0.5">VCT 2026</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/60 p-0.5">
                     <img src="./sen-jersey.webp" class="w-full h-full object-contain">
@@ -1299,16 +1299,16 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Linen Shirt</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Linen Shirt</span>
                 </div>
 
                 <!-- 3. Emerald Silk Slip Dress -->
-                <div onclick="selectMannequinGarment('dress_emerald', 'Zara Liquid Emerald Silk Slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-emerald-400 hover:scale-105 group">
-                  <span class="text-[8px] text-emerald-300 font-bold uppercase mb-0.5">Dress</span>
+                <div onclick="selectMannequinGarment('dress_emerald', 'Zara Liquid Emerald Silk Slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
+                  <span class="text-[8px] text-yellow-300 font-bold uppercase mb-0.5">Dress</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Silk Slip</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Slip</span>
                 </div>
 
                 <!-- 4. Zudio Graphic Tee -->
@@ -1317,7 +1317,7 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Graphic Tee</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Graphic Tee</span>
                 </div>
 
                 <!-- 5. GAP Arch Fleece Hoodie -->
@@ -1326,16 +1326,16 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">GAP Hoodie</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">GAP Hoodie</span>
                 </div>
 
                 <!-- 6. SHEIN Y2K Rhinestone Corset Top -->
-                <div onclick="selectMannequinGarment('shein_corset', 'SHEIN Y2K Rhinestone Corset Top', 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-emerald-400 hover:scale-105 group">
-                  <span class="text-[8px] text-emerald-400 font-bold uppercase mb-0.5">SHEIN</span>
+                <div onclick="selectMannequinGarment('shein_corset', 'SHEIN Y2K Rhinestone Corset Top', 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
+                  <span class="text-[8px] text-yellow-400 font-bold uppercase mb-0.5">SHEIN</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Corset Top</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Corset Top</span>
                 </div>
 
                 <!-- 7. Mast & Harbour Tailored Blazer -->
@@ -1344,7 +1344,7 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Blazer</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Blazer</span>
                 </div>
 
                 <!-- 8. H&M Ribbed Bodycon Midi Dress -->
@@ -1353,7 +1353,7 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Bodycon</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Bodycon</span>
                 </div>
 
                 <!-- 9. FabIndia Mulberry Silk Kurta -->
@@ -1362,16 +1362,16 @@
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Silk Kurta</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Kurta</span>
                 </div>
 
                 <!-- 10. Zara Leather Biker Jacket -->
                 <div onclick="selectMannequinGarment('biker', 'Zara Asymmetric Leather Biker', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender hover:scale-105 group">
-                  <span class="text-[8px] text-stone-400 font-bold uppercase mb-0.5">Zara</span>
+                  <span class="text-[8px] text-white/75 font-bold uppercase mb-0.5">Zara</span>
                   <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
                   </div>
-                  <span class="text-[9px] text-stone-200 group-hover:text-white truncate w-full">Biker Moto</span>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Biker Moto</span>
                 </div>
 
               </div>
@@ -1386,7 +1386,7 @@
           <div class="flex items-center justify-between">
             <div>
               <h2 class="text-lg font-serif italic text-ivory">My Smart Wardrobe</h2>
-              <p class="text-xs text-stone-400">14 digitized items · 8 combinations</p>
+              <p class="text-xs text-white/75">14 digitized items · 8 combinations</p>
             </div>
             <button onclick="openAddWardrobeModal()" class="px-3 py-1.5 rounded-xl bg-lavender text-midnight text-xs font-bold flex items-center gap-1 shadow-md hover:bg-white transition">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Garment
@@ -1395,9 +1395,9 @@
 
           <div class="flex space-x-1.5 overflow-x-auto scrollbar-hide py-1 text-xs">
             <button class="px-3 py-1 rounded-xl bg-lavender text-midnight font-bold">All (14)</button>
-            <button class="px-3 py-1 rounded-xl bg-surface-light text-stone-300">Tops (6)</button>
-            <button class="px-3 py-1 rounded-xl bg-surface-light text-stone-300">Bottoms (4)</button>
-            <button class="px-3 py-1 rounded-xl bg-surface-light text-stone-300">Jackets (2)</button>
+            <button class="px-3 py-1 rounded-xl bg-surface-light text-white/90">Tops (6)</button>
+            <button class="px-3 py-1 rounded-xl bg-surface-light text-white/90">Bottoms (4)</button>
+            <button class="px-3 py-1 rounded-xl bg-surface-light text-white/90">Jackets (2)</button>
           </div>
 
           <div id="wardrobe-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -1407,7 +1407,7 @@
                 <span class="absolute bottom-2 left-2 text-[9px] bg-black/70 text-sage px-1.5 py-0.5 rounded font-mono font-medium">Cotton · Solid</span>
               </div>
               <h4 class="text-xs font-semibold text-ivory truncate">White Crewneck Tee</h4>
-              <p class="text-[10px] text-stone-400">Uniqlo · Worn 4 times</p>
+              <p class="text-[10px] text-white/75">Uniqlo · Worn 4 times</p>
             </div>
             <div class="rounded-2xl bg-surface border border-border p-2 group">
               <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
@@ -1415,7 +1415,7 @@
                 <span class="absolute bottom-2 left-2 text-[9px] bg-black/70 text-sage px-1.5 py-0.5 rounded font-mono font-medium">Denim · Blue</span>
               </div>
               <h4 class="text-xs font-semibold text-ivory truncate">Classic Straight Jeans</h4>
-              <p class="text-[10px] text-stone-400">Levi's 501 · Worn 12 times</p>
+              <p class="text-[10px] text-white/75">Levi's 501 · Worn 12 times</p>
             </div>
           </div>
         </div>
@@ -1438,7 +1438,7 @@
             <div id="chat-messages" class="space-y-3 text-xs">
               <div class="flex items-start gap-2">
                 <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">AI</div>
-                <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-stone-200 leading-relaxed">
+                <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-white leading-relaxed">
                   Namaste! 👋 I've analyzed Bangalore's current weather (24°C, mild breeze) and your digital wardrobe. What occasion can I style you for today?
                 </div>
               </div>
@@ -1477,16 +1477,16 @@
             </div>
 
             <div class="flex space-x-1.5 overflow-x-auto scrollbar-hide text-[11px] pb-1">
-              <button onclick="applyVibe('Old Money Brunch')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-stone-300 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+              <button onclick="applyVibe('Old Money Brunch')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
                 🍸 Old Money Brunch
               </button>
-              <button onclick="applyVibe('Revenge Look under ₹2,500')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-stone-300 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+              <button onclick="applyVibe('Revenge Look under ₹2,500')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
                 💃 Revenge Look &lt; ₹2.5k
               </button>
-              <button onclick="applyVibe('Korean Oversized Streetwear')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-stone-300 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+              <button onclick="applyVibe('Korean Oversized Streetwear')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
                 ⚡ Korean Streetwear
               </button>
-              <button onclick="applyVibe('Festive Indo-Western')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-stone-300 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+              <button onclick="applyVibe('Festive Indo-Western')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
                 🪔 Indo-Western
               </button>
             </div>
@@ -1500,7 +1500,7 @@
               </div>
               <div>
                 <h4 class="text-xs font-bold text-ivory">Screenshot Search</h4>
-                <p class="text-[10px] text-stone-400">Upload Insta / Pinterest inspo to split & try-on</p>
+                <p class="text-[10px] text-white/75">Upload Insta / Pinterest inspo to split & try-on</p>
               </div>
             </div>
             <span class="px-2.5 py-1 bg-lavender/20 text-lavender rounded-lg text-[10px] font-bold">Snap & Try</span>
@@ -1509,22 +1509,22 @@
           <!-- Store & Brand Filters -->
           <div class="flex space-x-2 overflow-x-auto scrollbar-hide py-1.5 text-xs">
             <button onclick="filterBrand('all', this)" class="brand-filter-btn px-3.5 py-1.5 rounded-xl bg-lavender text-midnight font-bold whitespace-nowrap shadow-sm">All Stores</button>
-            <button onclick="filterBrand('hm', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-red-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
+            <button onclick="filterBrand('hm', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-red-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-red-500"></span> H&M
             </button>
-            <button onclick="filterBrand('myntra', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-pink-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
+            <button onclick="filterBrand('myntra', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-pink-500/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-pink-500"></span> Myntra
             </button>
-            <button onclick="filterBrand('zudio', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-amber-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
+            <button onclick="filterBrand('zudio', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-amber-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-amber-400"></span> Zudio
             </button>
-            <button onclick="filterBrand('ajio', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-blue-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
+            <button onclick="filterBrand('ajio', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-blue-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-blue-400"></span> AJIO
             </button>
-            <button onclick="filterBrand('shein', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-emerald-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> SHEIN
+            <button onclick="filterBrand('shein', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-yellow-400/50 whitespace-nowrap flex items-center gap-1.5 transition">
+              <span class="w-2 h-2 rounded-full bg-yellow-400"></span> SHEIN
             </button>
-            <button onclick="filterBrand('d2c', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white hover:border-rose-500 whitespace-nowrap flex items-center gap-1.5 transition">
+            <button onclick="filterBrand('d2c', this)" class="brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white hover:border-rose-500 whitespace-nowrap flex items-center gap-1.5 transition">
               <span class="w-2 h-2 rounded-full bg-rose-500"></span> D2C & Sentinels
             </button>
           </div>
@@ -1543,7 +1543,7 @@
                     H&M Trending Fits
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">Official</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">Fast-fashion essentials & linen resort drops</p>
+                  <p class="text-[10px] text-white/75">Fast-fashion essentials & linen resort drops</p>
                 </div>
               </div>
               <a href="https://www2.hm.com/en_in/index.html" target="_blank" class="text-[11px] text-red-400 hover:text-red-300 font-semibold flex items-center gap-1 hover:underline">
@@ -1564,19 +1564,19 @@
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-red-400">H&M Men · Linen</span>
-                    <span class="text-emerald-400 font-mono font-bold">Trending</span>
+                    <span class="text-yellow-400 font-mono font-bold">Trending</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Relaxed Resort Linen Shirt</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,499</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,299</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,299</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('shirt', 'H&M Relaxed Linen Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www2.hm.com/en_in/men/shop-by-product/shirts.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www2.hm.com/en_in/men/shop-by-product/shirts.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1599,14 +1599,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Ribbed Bodycon Midi Dress</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹2,299</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('dress_emerald', 'H&M Ribbed Bodycon Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www2.hm.com/en_in/ladies/shop-by-product/dresses.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www2.hm.com/en_in/ladies/shop-by-product/dresses.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1629,14 +1629,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-red-300">Denim Trucker Jacket</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹2,999</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹3,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹3,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('hoodie', 'H&M Denim Jacket')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www2.hm.com/en_in/men/shop-by-product/jackets-and-coats.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www2.hm.com/en_in/men/shop-by-product/jackets-and-coats.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-red-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1658,7 +1658,7 @@
                     Myntra Curated Fits
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">Top Deals</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">India's #1 fashion catalog with 50% off top labels</p>
+                  <p class="text-[10px] text-white/75">India's #1 fashion catalog with 50% off top labels</p>
                 </div>
               </div>
               <a href="https://www.myntra.com/" target="_blank" class="text-[11px] text-pink-400 hover:text-pink-300 font-semibold flex items-center gap-1 hover:underline">
@@ -1672,26 +1672,26 @@
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-yellow-600 text-white uppercase tracking-wider">MYNTRA</span>
                     <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80', 'Mast & Harbour Tailored Blazer (Myntra)', 'blazer')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
                       <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-pink-400">Mast & Harbour</span>
-                    <span class="text-emerald-400 font-mono font-bold">50% OFF</span>
+                    <span class="text-yellow-400 font-mono font-bold">50% OFF</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Oversized Tailored Blazer</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹2,499</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹4,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('blazer', 'Mast & Harbour Blazer')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.myntra.com/blazers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.myntra.com/blazers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1702,7 +1702,7 @@
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-yellow-600 text-white uppercase tracking-wider">MYNTRA</span>
                     <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80', 'Anouk Embroidered Chanderi Kurta Set', 'dress_anarkali')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
                       <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                     </button>
@@ -1714,14 +1714,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Embroidered Chanderi Kurta</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,899</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹3,499</span>
+                    <span class="text-[10px] text-white/60 line-through">₹3,499</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('dress_anarkali', 'Anouk Kurta Set')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.myntra.com/kurta-sets" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.myntra.com/kurta-sets" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1732,26 +1732,26 @@
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-purple-600 text-white uppercase tracking-wider">MYNTRA</span>
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-gradient-to-r from-pink-600 to-yellow-600 text-white uppercase tracking-wider">MYNTRA</span>
                     <button onclick="tryCustomStoreFit('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=500&q=80', 'Roadster Streetwear Baggy Cargo Trousers', 'pants')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-sage text-midnight font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
                       <i data-lucide="video" class="w-3 h-3"></i> AR Fit
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-pink-400">Roadster Street</span>
-                    <span class="text-emerald-400 font-mono font-bold">Viral</span>
+                    <span class="text-yellow-400 font-mono font-bold">Viral</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-pink-300">Utility Baggy Cargo Pants</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,199</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,499</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,499</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('pants', 'Roadster Cargo Pants')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.myntra.com/trousers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.myntra.com/trousers" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-pink-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1773,7 +1773,7 @@
                     Zudio Viral Gen-Z Fits
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">Under ₹999</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">Tata Trent's viral high-street collection</p>
+                  <p class="text-[10px] text-white/75">Tata Trent's viral high-street collection</p>
                 </div>
               </div>
               <a href="https://www.zudio.com/" target="_blank" class="text-[11px] text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 hover:underline">
@@ -1799,14 +1799,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Drop-Shoulder Graphic Tee</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-amber-300 font-mono">₹499 Only</span>
-                    <span class="text-[9px] text-stone-400">Tata Trent</span>
+                    <span class="text-[9px] text-white/75">Tata Trent</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('shirt', 'Zudio Graphic Tee')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1824,19 +1824,19 @@
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-amber-400">Zudio Winter</span>
-                    <span class="text-emerald-400 font-mono font-bold">Under ₹1k</span>
+                    <span class="text-yellow-400 font-mono font-bold">Under ₹1k</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Streetwear Puffer Vest</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹899</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                    <span class="text-[10px] text-white/60 line-through">₹1,499</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('hoodie', 'Zudio Puffer Vest')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1859,14 +1859,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Utility Cargo Joggers</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹799</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹1,199</span>
+                    <span class="text-[10px] text-white/60 line-through">₹1,199</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('pants', 'Zudio Cargo Joggers')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.zudio.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1888,7 +1888,7 @@
                     AJIO Luxe & Originals
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Reliance</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">GAP, Marks & Spencer, Superdry premium selections</p>
+                  <p class="text-[10px] text-white/75">GAP, Marks & Spencer, Superdry premium selections</p>
                 </div>
               </div>
               <a href="https://www.ajio.com/" target="_blank" class="text-[11px] text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-1 hover:underline">
@@ -1909,19 +1909,19 @@
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-blue-400">GAP · AJIO Luxe</span>
-                    <span class="text-emerald-400 font-mono font-bold">Trending</span>
+                    <span class="text-yellow-400 font-mono font-bold">Trending</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Arch Logo Fleece Hoodie</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹2,999</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹4,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('hoodie', 'GAP Arch Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.ajio.com/s/gap" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.ajio.com/s/gap" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1944,14 +1944,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Floral Pure Cotton Midi Dress</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹3,499</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹4,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹4,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('dress_floral', 'M&S Floral Dress')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.ajio.com/s/marks-and-spencer" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.ajio.com/s/marks-and-spencer" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -1974,14 +1974,14 @@
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-blue-300">Vintage Athletic Graphic Tee</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,899</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('shirt', 'Superdry Graphic Tee')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.ajio.com/s/superdry" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.ajio.com/s/superdry" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-blue-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -2001,19 +2001,19 @@
                 <div>
                   <h3 class="text-sm font-bold text-ivory flex items-center gap-2">
                     SHEIN TikTok Viral Drops
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Viral Y2K</span>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/35">Viral Y2K</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">Global aesthetics, corset halters & parachute streetwear</p>
+                  <p class="text-[10px] text-white/75">Global aesthetics, corset halters & parachute streetwear</p>
                 </div>
               </div>
-              <a href="https://us.shein.com/" target="_blank" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1 hover:underline">
+              <a href="https://us.shein.com/" target="_blank" class="text-[11px] text-yellow-400 hover:text-yellow-300 font-semibold flex items-center gap-1 hover:underline">
                 Visit SHEIN Store <i data-lucide="external-link" class="w-3 h-3"></i>
               </a>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
               <!-- SHEIN Fit 1 -->
-              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+              <div class="rounded-2xl bg-surface border border-border hover:border-yellow-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -2023,27 +2023,27 @@
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
-                    <span class="uppercase font-bold text-emerald-400">SHEIN ICON</span>
+                    <span class="uppercase font-bold text-yellow-400">SHEIN ICON</span>
                     <span class="text-rose-400 font-mono font-bold">TikTok Viral</span>
                   </div>
-                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">Y2K Rhinestone Corset Top</h4>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-yellow-300">Y2K Rhinestone Corset Top</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹850 · $9.99</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹1,499</span>
+                    <span class="text-[10px] text-white/60 line-through">₹1,499</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('shirt', 'SHEIN Y2K Corset Top')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://us.shein.com/women-tops-c-1766.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://us.shein.com/women-tops-c-1766.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-yellow-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
               </div>
 
               <!-- SHEIN Fit 2 -->
-              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+              <div class="rounded-2xl bg-surface border border-border hover:border-yellow-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -2053,27 +2053,27 @@
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
-                    <span class="uppercase font-bold text-emerald-400">SHEIN EZwear</span>
+                    <span class="uppercase font-bold text-yellow-400">SHEIN EZwear</span>
                     <span class="text-amber-400 font-mono font-bold">Best Seller</span>
                   </div>
-                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">High-Waist Parachute Cargo</h4>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-yellow-300">High-Waist Parachute Cargo</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,350 · $16.00</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,100</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,100</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('pants', 'SHEIN Cargo Pants')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://us.shein.com/women-pants-c-1740.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://us.shein.com/women-pants-c-1740.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-yellow-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
               </div>
 
               <!-- SHEIN Fit 3 -->
-              <div class="rounded-2xl bg-surface border border-border hover:border-emerald-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
+              <div class="rounded-2xl bg-surface border border-border hover:border-yellow-400/50 p-2.5 flex flex-col justify-between group transition shadow-md">
                 <div>
                   <div class="relative w-full h-36 rounded-xl overflow-hidden bg-surface-light mb-2">
                     <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -2083,20 +2083,20 @@
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
-                    <span class="uppercase font-bold text-emerald-400">SHEIN Modely</span>
-                    <span class="text-purple-400 font-mono font-bold">Satin Gown</span>
+                    <span class="uppercase font-bold text-yellow-400">SHEIN Modely</span>
+                    <span class="text-yellow-400 font-mono font-bold">Satin Gown</span>
                   </div>
-                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-emerald-300">Cowl Neck Satin Slip Gown</h4>
+                  <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-yellow-300">Cowl Neck Satin Slip Gown</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-white font-mono">₹1,899 · $22.00</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,800</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,800</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('dress_emerald', 'SHEIN Satin Slip Gown')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://us.shein.com/women-dresses-c-1727.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-emerald-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://us.shein.com/women-dresses-c-1727.html" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-yellow-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -2118,7 +2118,7 @@
                     D2C & Esports Special Editions
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">Limited</span>
                   </h3>
-                  <p class="text-[10px] text-stone-400">Maxesport Sentinels Pro 2026, Snitch India, Bonkers Corner</p>
+                  <p class="text-[10px] text-white/75">Maxesport Sentinels Pro 2026, Snitch India, Bonkers Corner</p>
                 </div>
               </div>
               <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1 hover:underline">
@@ -2141,7 +2141,7 @@
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
                     <span class="uppercase font-bold text-rose-400">MAXESPORT · SEN</span>
-                    <span class="text-emerald-400 font-mono font-bold">In Stock</span>
+                    <span class="text-yellow-400 font-mono font-bold">In Stock</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-rose-300">Sentinels Jersey Pro 2026</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
@@ -2153,7 +2153,7 @@
                   <button onclick="tryOnMyTwin('sen_jersey', 'Sentinels Pro Jersey 2026')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-rose-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://maxesport.gg/products/sentinels-jersey-pro-2026?srsltid=AYCX9vKy-HiRiDcj47nZ6hGuQ89J2DgiNi3PHiGbnAQxC_IN6GG4ngQ2" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-rose-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -2170,20 +2170,20 @@
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
-                    <span class="uppercase font-bold text-stone-400">Snitch India</span>
-                    <span class="text-emerald-400 font-mono font-bold">50% Off</span>
+                    <span class="uppercase font-bold text-white/75">Snitch India</span>
+                    <span class="text-yellow-400 font-mono font-bold">50% Off</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-lavender">Cuban Collar Relaxed Shirt</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-lavender">₹999</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹1,999</span>
+                    <span class="text-[10px] text-white/60 line-through">₹1,999</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('shirt', 'Snitch Relaxed Shirt')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.snitch.co.in/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.snitch.co.in/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-lavender text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -2200,20 +2200,20 @@
                     </button>
                   </div>
                   <div class="flex items-center justify-between text-[9px]">
-                    <span class="uppercase font-bold text-stone-400">Bonkers Streetwear</span>
+                    <span class="uppercase font-bold text-white/75">Bonkers Streetwear</span>
                     <span class="text-amber-400 font-mono font-bold">Oversized</span>
                   </div>
                   <h4 class="text-xs font-semibold text-ivory truncate group-hover:text-amber-300">Heavyweight Tech Hoodie</h4>
                   <div class="flex items-center gap-1.5 mt-0.5">
                     <span class="text-xs font-bold text-lavender">₹1,499</span>
-                    <span class="text-[10px] text-stone-500 line-through">₹2,499</span>
+                    <span class="text-[10px] text-white/60 line-through">₹2,499</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-border">
                   <button onclick="tryOnMyTwin('hoodie', 'Bonkers Tech Hoodie')" class="flex-1 py-1.5 bg-lavender/20 border border-lavender/40 text-lavender rounded-xl text-[10px] font-bold hover:bg-lavender hover:text-midnight transition flex items-center justify-center gap-1 mr-1.5">
                     <i data-lucide="user" class="w-3 h-3"></i> AI Twin
                   </button>
-                  <a href="https://www.bonkerscorner.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-stone-200 text-[10px] font-semibold flex items-center gap-1 transition">
+                  <a href="https://www.bonkerscorner.com/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-surface-light border border-border hover:border-amber-400 text-white text-[10px] font-semibold flex items-center gap-1 transition">
                     Buy <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
                   </a>
                 </div>
@@ -2233,7 +2233,7 @@
               </div>
             </div>
             <h3 class="text-base font-bold text-ivory">User</h3>
-            <p class="text-xs text-stone-400">user@yuri.ai · India (IN)</p>
+            <p class="text-xs text-white/75">user@yuri.ai · India (IN)</p>
             <div class="mt-3 flex justify-center">
               <button onclick="openTwinModal()" class="px-4 py-1.5 rounded-full bg-lavender text-midnight text-xs font-bold shadow-md hover:bg-white transition flex items-center gap-1.5">
                 <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Calibrate AI Twin
@@ -2250,24 +2250,24 @@
   <!-- ========================================================================= -->
   <!-- 📱 MOBILE BOTTOM DOCK (Visible on Phones, Hidden on Desktop)              -->
   <!-- ========================================================================= -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 h-16 glass-nav flex items-center justify-around px-2 z-50 pb-[env(safe-area-inset-bottom,0px)] bg-[#0e1017]/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-8px_30px_rgba(0,0,0,0.7)]">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 h-16 glass-nav flex items-center justify-around px-2 z-50 pb-[env(safe-area-inset-bottom,0px)] bg-black/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-8px_30px_rgba(0,0,0,0.7)]">
     <button onclick="switchTab('home')" class="nav-item flex flex-col items-center text-lavender transition py-1" data-tab="home">
       <i data-lucide="home" class="w-5 h-5"></i>
       <span class="text-[10px] font-semibold mt-0.5">Home</span>
     </button>
-    <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="tryon">
+    <button onclick="switchTab('tryon')" class="nav-item flex flex-col items-center text-white/75 hover:text-lavender transition py-1" data-tab="tryon">
       <i data-lucide="wand-2" class="w-5 h-5"></i>
       <span class="text-[10px] font-semibold mt-0.5">Try-On</span>
     </button>
-    <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="wardrobe">
+    <button onclick="switchTab('wardrobe')" class="nav-item flex flex-col items-center text-white/75 hover:text-lavender transition py-1" data-tab="wardrobe">
       <i data-lucide="shirt" class="w-5 h-5"></i>
       <span class="text-[10px] font-semibold mt-0.5">Wardrobe</span>
     </button>
-    <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="shop">
+    <button onclick="switchTab('shop')" class="nav-item flex flex-col items-center text-white/75 hover:text-lavender transition py-1" data-tab="shop">
       <i data-lucide="shopping-bag" class="w-5 h-5"></i>
       <span class="text-[10px] font-semibold mt-0.5">Shop</span>
     </button>
-    <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-stone-400 hover:text-lavender transition py-1" data-tab="profile">
+    <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center text-white/75 hover:text-lavender transition py-1" data-tab="profile">
       <i data-lucide="user" class="w-5 h-5"></i>
       <span class="text-[10px] font-semibold mt-0.5">Profile</span>
     </button>
@@ -2278,7 +2278,7 @@
   <!-- ========================================================================= -->
   <div id="twin-comparison-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-surface border border-lavender/30 rounded-3xl max-w-2xl w-full p-5 sm:p-7 space-y-4 shadow-2xl relative">
-      <button onclick="closeTwinComparisonModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-light border border-border text-stone-300 hover:text-white flex items-center justify-center">✕</button>
+      <button onclick="closeTwinComparisonModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center">✕</button>
 
       <div>
         <div class="flex items-center gap-2">
@@ -2286,53 +2286,53 @@
           <span class="text-xs text-sage font-medium">Why We Outperform Traditional VTON</span>
         </div>
         <h2 class="text-xl sm:text-2xl font-serif italic text-ivory mt-1">How We Are Better</h2>
-        <p class="text-xs text-stone-400 mt-1">How Yuri AI fundamentally out-engineers traditional 2D virtual try-on apps like Twin! with real-time 3D AR, cloth physics, and multi-store draping.</p>
+        <p class="text-xs text-white/75 mt-1">How Yuri AI fundamentally out-engineers traditional 2D virtual try-on apps like Twin! with real-time 3D AR, cloth physics, and multi-store draping.</p>
       </div>
 
       <div class="overflow-x-auto rounded-2xl border border-border">
         <table class="w-full text-left text-xs">
-          <thead class="bg-surface-light border-b border-border text-stone-400 uppercase text-[10px] tracking-wider">
+          <thead class="bg-surface-light border-b border-border text-white/75 uppercase text-[10px] tracking-wider">
             <tr>
               <th class="p-3">Capability</th>
-              <th class="p-3 text-stone-400">Traditional 2D Apps (Twin!, etc.)</th>
+              <th class="p-3 text-white/75">Traditional 2D Apps (Twin!, etc.)</th>
               <th class="p-3 text-lavender font-bold bg-lavender/10">Yuri AI (Our 3D AR Engine)</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-border text-stone-300">
+          <tbody class="divide-y divide-border text-white/90">
             <tr>
               <td class="p-2.5 font-semibold text-ivory">Live Camera AR (60 FPS)</td>
               <td class="p-2.5 text-rose-400">❌ Not Supported (Static only)</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ Real-time WebRTC + MediaPipe AR</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ Real-time WebRTC + MediaPipe AR</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">3D Studio & Ghost Mannequin</td>
               <td class="p-2.5 text-rose-400">❌ Not Supported</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ Atelier Linen, Ghost & Chrome 360°</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ Atelier Linen, Ghost & Chrome 360°</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">AI Twin Persona</td>
-              <td class="p-2.5 text-emerald-400">✅ 3D/AI Avatar Persona</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ AI Twin + Live AR Body Tracking</td>
+              <td class="p-2.5 text-yellow-400">✅ 3D/AI Avatar Persona</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ AI Twin + Live AR Body Tracking</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">Digital Wardrobe Sync</td>
               <td class="p-2.5 text-rose-400">❌ None (Shop-only focus)</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ Full Closet Digitizer & 30-Wears Tracker</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ Full Closet Digitizer & 30-Wears Tracker</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">AI Video Try-On</td>
               <td class="p-2.5 text-rose-400">❌ Not Supported</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ Dedicated Temporal Video Pipeline</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ Dedicated Temporal Video Pipeline</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">Vibe & Screenshot Search</td>
-              <td class="p-2.5 text-emerald-400">✅ Natural language + Pinterest</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ Vibe Search + Instant AR Fit</td>
+              <td class="p-2.5 text-yellow-400">✅ Natural language + Pinterest</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ Vibe Search + Instant AR Fit</td>
             </tr>
             <tr>
               <td class="p-2.5 font-semibold text-ivory">Weather & Calendar Stylist</td>
               <td class="p-2.5 text-rose-400">❌ Basic keyword search</td>
-              <td class="p-2.5 text-emerald-400 font-bold bg-lavender/5">✅ City Weather + Event-aware AI Stylist</td>
+              <td class="p-2.5 text-yellow-400 font-bold bg-lavender/5">✅ City Weather + Event-aware AI Stylist</td>
             </tr>
           </tbody>
         </table>
@@ -2351,7 +2351,7 @@
   <!-- ========================================================================= -->
   <div id="twin-persona-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-surface border border-lavender/30 rounded-3xl max-w-md w-full p-5 space-y-4 shadow-2xl relative">
-      <button onclick="closeTwinModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-stone-300 hover:text-white flex items-center justify-center text-xs">✕</button>
+      <button onclick="closeTwinModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-xs">✕</button>
 
       <div>
         <div class="flex items-center gap-1.5">
@@ -2359,7 +2359,7 @@
           <span class="text-xs font-bold text-lavender uppercase tracking-wider">AI Twin Persona Studio</span>
         </div>
         <h3 class="text-lg font-serif italic text-ivory mt-0.5">Customize Your Digital Twin</h3>
-        <p class="text-xs text-stone-400">Your Twin is saved so you can try on any outfit with a single tap.</p>
+        <p class="text-xs text-white/75">Your Twin is saved so you can try on any outfit with a single tap.</p>
       </div>
 
       <div class="relative w-28 h-28 mx-auto rounded-2xl bg-gradient-to-tr from-lavender via-sage to-amber-200 p-0.5 shadow-xl">
@@ -2367,22 +2367,22 @@
       </div>
 
       <div>
-        <label class="text-[11px] font-semibold text-stone-400 block mb-1">Twin Name</label>
+        <label class="text-[11px] font-semibold text-white/75 block mb-1">Twin Name</label>
         <input id="twin-name-input" type="text" value="User" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
       </div>
 
       <div>
-        <label class="text-[11px] font-semibold text-stone-400 block mb-1.5">Body Silhouette</label>
+        <label class="text-[11px] font-semibold text-white/75 block mb-1.5">Body Silhouette</label>
         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
           <button onclick="selectTwinShape(this, 'Athletic')" class="twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]">Athletic</button>
-          <button onclick="selectTwinShape(this, 'Lean')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-stone-300 text-[11px]">Lean</button>
-          <button onclick="selectTwinShape(this, 'Curvy')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-stone-300 text-[11px]">Curvy</button>
-          <button onclick="selectTwinShape(this, 'Regular')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-stone-300 text-[11px]">Regular</button>
+          <button onclick="selectTwinShape(this, 'Lean')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Lean</button>
+          <button onclick="selectTwinShape(this, 'Curvy')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Curvy</button>
+          <button onclick="selectTwinShape(this, 'Regular')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Regular</button>
         </div>
       </div>
 
       <div>
-        <div class="flex justify-between text-[11px] text-stone-400 mb-1">
+        <div class="flex justify-between text-[11px] text-white/75 mb-1">
           <span>Height</span>
           <span id="twin-height-val" class="text-lavender font-mono font-bold">178 cm</span>
         </div>
@@ -2397,7 +2397,7 @@
 
   <input type="file" id="screenshot-file-input" accept="image/*" class="hidden" onchange="handleScreenshotUpload(event)">
 
-  <footer class="mt-6 text-center text-xs text-stone-500">
+  <footer class="mt-6 text-center text-xs text-white/60">
     YURI AI · High-Fidelity AR Virtual Fitting Engine · Decart Lucy VTON + MediaPipe + 3D Mannequin Studio
   </footer>
 
@@ -2425,10 +2425,10 @@
       document.querySelectorAll('.nav-item').forEach(btn => {
         if (btn.getAttribute('data-tab') === tabId) {
           btn.classList.add('text-lavender');
-          btn.classList.remove('text-stone-400');
+          btn.classList.remove('text-white/75');
         } else {
           btn.classList.remove('text-lavender');
-          btn.classList.add('text-stone-400');
+          btn.classList.add('text-white/75');
         }
       });
       lucide.createIcons();
@@ -2460,7 +2460,7 @@
 
       // Reset buttons
       [liveBtn, photoBtn, mannequinBtn].forEach(b => {
-        b.className = 'flex-1 py-2 rounded-xl text-xs font-semibold text-stone-400 hover:text-white transition flex items-center justify-center gap-1';
+        b.className = 'flex-1 py-2 rounded-xl text-xs font-semibold text-white/75 hover:text-white transition flex items-center justify-center gap-1';
       });
 
       if (mode === 'live') {
@@ -2823,11 +2823,11 @@
       keyLight.shadow.mapSize.height = 1024;
       scene.add(keyLight);
 
-      const fillLight = new THREE.DirectionalLight(0xc7d2fe, 0.65);
+      const fillLight = new THREE.DirectionalLight(0xfef08a, 0.55);
       fillLight.position.set(-4.5, 2.5, 3.0);
       scene.add(fillLight);
 
-      const rimLight = new THREE.PointLight(0x6ee7b7, 1.1, 14);
+      const rimLight = new THREE.PointLight(0xfacc15, 1.25, 14);
       rimLight.position.set(0, 2.8, -4.5);
       scene.add(rimLight);
 
@@ -3170,10 +3170,10 @@
     function setMannequinPose(pose, btn) {
       currentMannequinPose = pose;
       document.querySelectorAll('.mannequin-pose-btn').forEach(b => {
-        b.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1';
+        b.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition flex items-center gap-1';
       });
       if (btn) {
-        btn.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md';
+        btn.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold transition flex items-center gap-1 shadow-md';
       }
       const labels = { stand: 'Atelier Stance', runway: 'Runway Pose', walk: 'Live Walk Motion' };
       showStudioToast('🕺 Mannequin Motion: ' + (labels[pose] || pose));
@@ -3202,7 +3202,7 @@
 
       if (btn) {
         document.querySelectorAll('.mannequin-rot-btn').forEach(b => {
-          b.className = 'mannequin-rot-btn px-2 py-1 rounded-xl text-stone-300 hover:text-white transition';
+          b.className = 'mannequin-rot-btn px-2 py-1 rounded-xl text-white/90 hover:text-white transition';
         });
         btn.className = 'mannequin-rot-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition';
       }
@@ -3256,7 +3256,7 @@
     function setMannequinForm(form, btn) {
       currentMannequinForm = form;
       document.querySelectorAll('.mannequin-form-btn').forEach(b => {
-        b.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition';
+        b.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl text-white/90 hover:text-white transition';
       });
       if (btn) btn.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition';
 
@@ -3301,7 +3301,7 @@
     function setMannequinSize(size, btn) {
       currentMannequinSize = size;
       document.querySelectorAll('.mannequin-size-btn').forEach(b => {
-        b.className = 'mannequin-size-btn px-1.5 py-0.5 rounded text-stone-300 hover:text-white transition';
+        b.className = 'mannequin-size-btn px-1.5 py-0.5 rounded text-white/90 hover:text-white transition';
       });
       if (btn) btn.className = 'mannequin-size-btn px-1.5 py-0.5 rounded bg-lavender text-midnight font-bold transition';
 
@@ -3379,12 +3379,12 @@
       if (titleBadge) titleBadge.textContent = title;
 
       document.querySelectorAll('.mannequin-garment-slot').forEach(s => {
-        s.classList.remove('border-emerald-400', 'border-2', 'shadow-md');
+        s.classList.remove('border-yellow-400', 'border-2', 'shadow-md');
         s.classList.add('border-border');
       });
 
       if (el) {
-        el.classList.add('border-emerald-400', 'border-2', 'shadow-md');
+        el.classList.add('border-yellow-400', 'border-2', 'shadow-md');
         el.classList.remove('border-border');
       }
 
@@ -3463,8 +3463,8 @@
 
     function showStudioToast(msg) {
       const toast = document.createElement('div');
-      toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-[#0e1017]/95 border border-emerald-400/60 text-white px-4 py-2.5 rounded-2xl shadow-2xl z-[150] text-xs font-semibold flex items-center gap-2 backdrop-blur-xl animate-bounce';
-      toast.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i><span>${msg}</span>`;
+      toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-black/95 border border-yellow-400/60 text-white px-4 py-2.5 rounded-2xl shadow-2xl z-[150] text-xs font-semibold flex items-center gap-2 backdrop-blur-xl animate-bounce';
+      toast.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4 text-yellow-400"></i><span>${msg}</span>`;
       document.body.appendChild(toast);
       if (typeof lucide !== 'undefined') lucide.createIcons();
       setTimeout(() => {
@@ -3645,7 +3645,7 @@
         document.getElementById('camera-placeholder').classList.add('hidden');
         document.getElementById('pose-guide').classList.remove('opacity-0');
         document.getElementById('ar-tracking-label').textContent = 'Live Body Tracking (MediaPipe)';
-        document.getElementById('ar-tracking-dot').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+        document.getElementById('ar-tracking-dot').className = 'w-2 h-2 rounded-full bg-yellow-400 animate-pulse';
 
         initMediaPipe();
         startRenderLoop();
@@ -3678,7 +3678,7 @@
       isDemoMode = true;
       document.getElementById('camera-placeholder').classList.add('hidden');
       document.getElementById('ar-tracking-label').textContent = 'Neural Stream (Demo)';
-      document.getElementById('ar-tracking-dot').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-ping';
+      document.getElementById('ar-tracking-dot').className = 'w-2 h-2 rounded-full bg-yellow-400 animate-ping';
       
       let t = 0;
       function renderDemo() {
@@ -3887,9 +3887,9 @@
             guideStatus.parentElement.className = 'flex items-center gap-1 bg-black/80 px-2.5 py-0.5 rounded-full text-[9px] text-amber-300 font-mono font-bold border border-amber-400/50';
             if (guideHint) guideHint.textContent = 'Camera is too close to capture full waist & hemline drape';
           } else {
-            guideBox.className = 'w-52 h-64 border-2 border-dashed border-emerald-400/70 rounded-3xl flex flex-col items-center justify-between p-3 bg-emerald-500/5 transition-all duration-300 shadow-[0_0_24px_rgba(52,211,153,0.2)]';
+            guideBox.className = 'w-52 h-64 border-2 border-dashed border-yellow-400/70 rounded-3xl flex flex-col items-center justify-between p-3 bg-emerald-500/5 transition-all duration-300 shadow-[0_0_24px_rgba(52,211,153,0.2)]';
             guideStatus.textContent = '✓ Framing Locked · Lucy V-TON Ready';
-            guideStatus.parentElement.className = 'flex items-center gap-1 bg-black/80 px-2.5 py-0.5 rounded-full text-[9px] text-emerald-300 font-mono font-bold border border-emerald-400/40';
+            guideStatus.parentElement.className = 'flex items-center gap-1 bg-black/80 px-2.5 py-0.5 rounded-full text-[9px] text-yellow-300 font-mono font-bold border border-yellow-400/40';
             if (guideHint) guideHint.textContent = 'Decart Video-Rate Physics · Real-Time Cloth Inertia';
           }
         }
@@ -4497,11 +4497,11 @@
       currentGarmentKey = key;
       document.getElementById('current-ar-garment-name').textContent = name;
       document.querySelectorAll('.ar-garment-btn').forEach(b => {
-        b.classList.remove('border-emerald-400', 'border-sage', 'border-2');
+        b.classList.remove('border-yellow-400', 'border-sage', 'border-2');
         b.classList.add('border-border');
       });
       if (btn) {
-        btn.classList.add('border-emerald-400', 'border-2');
+        btn.classList.add('border-yellow-400', 'border-2');
         btn.classList.remove('border-border');
       }
     }
@@ -4537,7 +4537,7 @@
       if (overlay) overlay.classList.toggle('hidden');
       if (btn) {
         btn.className = showPhotoHeatmap
-          ? 'text-[10px] px-2 py-1 rounded-lg bg-emerald-400 text-midnight font-bold flex items-center gap-1 shadow-md'
+          ? 'text-[10px] px-2 py-1 rounded-lg bg-yellow-400 text-midnight font-bold flex items-center gap-1 shadow-md'
           : 'text-[10px] px-2 py-1 rounded-lg bg-surface-light border border-border text-sage hover:border-sage transition flex items-center gap-1';
       }
     }
@@ -4790,7 +4790,7 @@
         aiMsg.className = 'flex items-start gap-2';
         aiMsg.innerHTML = `
           <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">AI</div>
-          <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-stone-200 leading-relaxed text-xs space-y-2">
+          <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-white leading-relaxed text-xs space-y-2">
             <p>I put together a sharp look for this! Pair your <strong>Classic Levi's 501 Jeans</strong> from your wardrobe with the <strong>Roadster Linen Shirt</strong> (₹1,199 on Myntra).</p>
             <div class="flex items-center gap-2 pt-1">
               <button onclick="tryInLiveAR('shirt', 'Roadster Linen Shirt')" class="px-2.5 py-1 bg-sage text-midnight font-bold rounded-lg text-[10px] flex items-center gap-1 shadow-md">
@@ -4816,7 +4816,7 @@
     function openTwinModal() { document.getElementById('twin-persona-modal').classList.remove('hidden'); lucide.createIcons(); }
     function closeTwinModal() { document.getElementById('twin-persona-modal').classList.add('hidden'); }
     function selectTwinShape(btn, shape) {
-      document.querySelectorAll('.twin-shape-btn').forEach(b => { b.className = 'twin-shape-btn p-2 rounded-xl bg-surface-light text-stone-300 text-[11px]'; });
+      document.querySelectorAll('.twin-shape-btn').forEach(b => { b.className = 'twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]'; });
       btn.className = 'twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]';
     }
     function saveTwinCalibration() {
@@ -4851,7 +4851,7 @@
     }
     function filterBrand(brand, btn) {
       document.querySelectorAll('.brand-filter-btn').forEach(b => {
-        b.className = 'brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-stone-300 hover:text-white whitespace-nowrap flex items-center gap-1.5 transition text-xs';
+        b.className = 'brand-filter-btn px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/90 hover:text-white whitespace-nowrap flex items-center gap-1.5 transition text-xs';
       });
       const activeBtn = btn || (window.event ? window.event.currentTarget || window.event.target : null);
       if (activeBtn) {
@@ -5180,7 +5180,7 @@
               (a === 'profile' && angle === 'profile')) {
             btn.className = 'flex-1 py-1 rounded-lg bg-emerald-500 text-midnight font-bold transition flex items-center justify-center gap-1 shadow-sm';
           } else {
-            btn.className = 'flex-1 py-1 rounded-lg text-stone-300 hover:text-white transition flex items-center justify-center gap-1';
+            btn.className = 'flex-1 py-1 rounded-lg text-white/90 hover:text-white transition flex items-center justify-center gap-1';
           }
         }
       });
@@ -5204,7 +5204,7 @@
   <!-- ========================================================================= -->
   <div id="mannequin-render-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[110] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-surface border border-white/15 rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl relative">
-      <button onclick="close3DRenderModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-light border border-white/20 text-stone-300 hover:text-white flex items-center justify-center text-sm shadow-md">✕</button>
+      <button onclick="close3DRenderModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-light border border-white/20 text-white/90 hover:text-white flex items-center justify-center text-sm shadow-md">✕</button>
 
       <div>
         <div class="flex items-center gap-1.5">
@@ -5212,7 +5212,7 @@
           <span class="text-xs font-bold text-lavender uppercase tracking-wider">3D Mannequin Visualizer</span>
         </div>
         <h3 id="render-modal-title" class="text-lg font-bold text-ivory mt-0.5">Sentinels 2026 Jersey — 3D Atelier Render</h3>
-        <p id="render-modal-caption" class="text-xs text-stone-400">High-resolution 3D garment drape on contoured luxury dress form.</p>
+        <p id="render-modal-caption" class="text-xs text-white/75">High-resolution 3D garment drape on contoured luxury dress form.</p>
       </div>
 
       <div class="relative w-full aspect-[4/5] sm:aspect-[16/11] max-h-[460px] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center">
@@ -5220,15 +5220,15 @@
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
-        <div class="flex items-center gap-2 text-xs text-stone-400 font-mono">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <div class="flex items-center gap-2 text-xs text-white/75 font-mono">
+          <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
           <span>Cloth Physics: Draped & Textured</span>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="close3DRenderModal()" class="px-4 py-2 bg-surface-light border border-white/10 text-stone-300 font-semibold rounded-xl text-xs hover:text-white transition">
+          <button onclick="close3DRenderModal()" class="px-4 py-2 bg-surface-light border border-white/10 text-white/90 font-semibold rounded-xl text-xs hover:text-white transition">
             Close
           </button>
-          <button onclick="transferMannequinToAR(); close3DRenderModal();" class="px-5 py-2 bg-gradient-to-r from-sage to-emerald-400 text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg flex items-center gap-1.5">
+          <button onclick="transferMannequinToAR(); close3DRenderModal();" class="px-5 py-2 bg-gradient-to-r from-sage to-amber-400 text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg flex items-center gap-1.5">
             <i data-lucide="video" class="w-3.5 h-3.5"></i> Try in Live AR Now
           </button>
         </div>
