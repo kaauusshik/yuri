@@ -7,7 +7,7 @@ const webDir = path.join(__dirname, 'web');
 
 // Find all asset files in web/
 const files = fs.readdirSync(webDir);
-const assetFiles = files.filter(f => f.match(/\.(html|webp|jpg|jpeg|png|svg|ico)$/i));
+const assetFiles = files.filter(f => f.match(/\.(html|webp|jpg|jpeg|png|svg|ico|js)$/i) && f !== 'server.ps1');
 
 targets.forEach(dir => {
   const destDirPath = path.join(__dirname, dir);
