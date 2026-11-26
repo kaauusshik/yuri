@@ -131,20 +131,14 @@
 
       <!-- Right Action Controls -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <button onclick="openTwinComparisonModal()" class="px-3 py-1.5 rounded-xl bg-lavender/10 hover:bg-lavender/20 border border-lavender/30 text-xs text-lavender font-semibold flex items-center gap-1.5 transition shadow-sm hover:border-lavender/60">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-lavender"></i>
-          <span class="hidden sm:inline">How We Are Better</span>
-          <span class="sm:hidden">Why Yuri?</span>
-        </button>
-        
         <div class="flex items-center gap-1.5 bg-surface px-3 py-1.5 rounded-xl border border-white/10 text-xs text-lavender font-mono font-semibold">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-lavender"></i>
           <span id="credit-count">25</span>
           <span class="hidden sm:inline">Credits</span>
         </div>
 
-        <button onclick="switchTab('profile')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-lavender/30 to-sage/30 border border-lavender/40 flex items-center justify-center font-bold text-xs text-lavender hover:scale-105 transition" title="User Profile">
-          KM
+        <button onclick="switchTab('profile')" class="w-8 h-8 rounded-full bg-gradient-to-tr from-lavender/30 to-sage/30 border border-lavender/40 flex items-center justify-center text-lavender hover:scale-105 transition" title="User Profile">
+          <i data-lucide="user" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -195,7 +189,7 @@
               </div>
               <div>
                 <div class="flex items-center gap-1.5">
-                  <h4 class="text-xs font-bold text-ivory">My AI Twin: Kaushik</h4>
+                  <h4 class="text-xs font-bold text-ivory">My AI Twin: User</h4>
                   <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded font-mono font-semibold">Active Clone</span>
                 </div>
                 <p class="text-[10px] text-stone-400">178 cm · Athletic · 1-Tap try any item</p>
@@ -1216,7 +1210,7 @@
               <div class="flex items-start gap-2">
                 <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">AI</div>
                 <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-stone-200 leading-relaxed">
-                  Namaste Kaushik! 👋 I've analyzed Bangalore's current weather (24°C, mild breeze) and your digital wardrobe. What occasion can I style you for today?
+                  Namaste! 👋 I've analyzed Bangalore's current weather (24°C, mild breeze) and your digital wardrobe. What occasion can I style you for today?
                 </div>
               </div>
               <div class="flex flex-wrap gap-1.5 pl-8">
@@ -2005,18 +1999,15 @@
         <div id="tab-profile" class="tab-pane hidden space-y-4">
           <div class="p-4 rounded-2xl bg-surface border border-border text-center">
             <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-lavender to-sage p-0.5 mb-2">
-              <div class="w-full h-full rounded-full bg-midnight flex items-center justify-center text-xl font-bold text-lavender">
-                KM
+              <div class="w-full h-full rounded-full bg-midnight flex items-center justify-center text-lavender">
+                <i data-lucide="user" class="w-9 h-9"></i>
               </div>
             </div>
-            <h3 class="text-base font-bold text-ivory">Kaushik Mosik</h3>
-            <p class="text-xs text-stone-400">kaushik@yuri.ai · India (IN)</p>
-            <div class="mt-3 flex justify-center gap-2">
-              <button onclick="openTwinModal()" class="px-3 py-1 rounded-full bg-lavender/10 border border-lavender/30 text-lavender text-xs font-semibold">
-                👤 Calibrate AI Twin
-              </button>
-              <button onclick="openTwinComparisonModal()" class="px-3 py-1 rounded-full bg-surface-light border border-border text-stone-300 text-xs font-semibold hover:text-white transition">
-                ⚡ How We Are Better
+            <h3 class="text-base font-bold text-ivory">User</h3>
+            <p class="text-xs text-stone-400">user@yuri.ai · India (IN)</p>
+            <div class="mt-3 flex justify-center">
+              <button onclick="openTwinModal()" class="px-4 py-1.5 rounded-full bg-lavender text-midnight text-xs font-bold shadow-md hover:bg-white transition flex items-center gap-1.5">
+                <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Calibrate AI Twin
               </button>
             </div>
           </div>
@@ -2148,7 +2139,7 @@
 
       <div>
         <label class="text-[11px] font-semibold text-stone-400 block mb-1">Twin Name</label>
-        <input id="twin-name-input" type="text" value="Kaushik" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        <input id="twin-name-input" type="text" value="User" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
       </div>
 
       <div>
@@ -3715,7 +3706,7 @@
       btn.className = 'twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]';
     }
     function saveTwinCalibration() {
-      const name = document.getElementById('twin-name-input').value || 'Kaushik';
+      const name = document.getElementById('twin-name-input').value || 'User';
       const height = document.getElementById('twin-height-val').textContent;
       alert(`✨ AI Twin Calibrated! Saved as "${name}" (${height}).`);
       closeTwinModal();
