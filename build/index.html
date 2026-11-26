@@ -1024,13 +1024,16 @@
                   <button onclick="setMannequinForm('chrome', this)" class="mannequin-form-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition">Chrome</button>
                 </div>
 
-                <!-- 3D Studio vs Tailor Form Toggle -->
+                <!-- Mannequin Pose & Motion Controls -->
                 <div class="flex bg-black/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 text-[10px] shadow-lg">
-                  <button id="btn-mannequin-render-mode" onclick="toggleMannequinStageMode('3d_render', this)" class="px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md">
-                    <i data-lucide="box" class="w-3 h-3"></i> 3D Mannequin
+                  <button onclick="setMannequinPose('stand', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md">
+                    <i data-lucide="user" class="w-3 h-3"></i> Stand
                   </button>
-                  <button id="btn-mannequin-tailor-mode" onclick="toggleMannequinStageMode('tailor_form', this)" class="px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
-                    <i data-lucide="scissors" class="w-3 h-3"></i> Dress Form
+                  <button onclick="setMannequinPose('runway', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i> Runway
+                  </button>
+                  <button onclick="setMannequinPose('walk', this)" class="mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1">
+                    <i data-lucide="activity" class="w-3 h-3"></i> Walk
                   </button>
                 </div>
 
@@ -2482,16 +2485,16 @@
     // 👗 HIGH-PRECISION 3D MANNEQUIN STUDIO ENGINE (360° DRAG + REAL MORPHOLOGY)
     // =========================================================================
     // =========================================================================
-    // 🌐 REAL-TIME 3D WEBGL MANNEQUIN ATELIER ENGINE (THREE.JS)
+    // 🌐 REAL-TIME ARTICULATED 3D MANNEQUIN & 3D T-SHIRT ENGINE (THREE.JS)
     // =========================================================================
     let currentMannequinAngle = 0;
     let currentMannequinForm = 'linen';
     let currentMannequinSize = 'M';
+    let currentMannequinPose = 'stand';
     let isMannequinOrbiting = false;
     let activeMannequinGarmentKey = 'sen_jersey';
     let activeMannequinGarmentTitle = 'Sentinels Pro Jersey 2026';
     let activeMannequinGarmentUrl = './sen_mannequin_front.jpg';
-    let mannequinTextureSource = 'auto';
 
     let mannequinMeasurements = {
       bust: 36,
@@ -2500,7 +2503,6 @@
       scale: 1.0
     };
 
-    // Three.js State Container
     const Mannequin3D = {
       initialized: false,
       renderer: null,
@@ -2508,33 +2510,273 @@
       camera: null,
       controls: null,
       mannequinGroup: null,
+      upperBodyGroup: null,
+      headGroup: null,
       torsoMesh: null,
-      finialMesh: null,
-      neckMesh: null,
+      shirtGroup: null,
+      shirtBodyMesh: null,
+      leftArmPivot: null,
+      rightArmPivot: null,
+      leftForearmPivot: null,
+      rightForearmPivot: null,
       standGroup: null,
-      textures: {},
       materials: {},
-      animId: null
+      clock: null,
+      animId: null,
+      pulseBoost: 0
     };
 
-    // Initialize WebGL Scene
+    // Build an elliptical anatomical torso or shirt shell with realistic chest/back proportions
+    function createAnatomicalShellGeometry(options) {
+      const {
+        isShirt = false,
+        offset = 0,
+        radialSegs = 64,
+        heightSegs = 36
+      } = options;
+
+      // Profile: [y, rx (width), rz (front-back depth)]
+      const profile = [
+        [ 1.38, 0.30, 0.28 ], // neck base
+        [ 1.24, 0.72, 0.36 ], // upper trapezius
+        [ 1.06, 1.08, 0.44 ], // shoulder breadth
+        [ 0.85, 0.98, 0.46 ], // upper chest / armhole
+        [ 0.56, 0.94, 0.50 ], // chest / bust apex
+        [ 0.24, 0.84, 0.44 ], // ribcage
+        [-0.12, 0.72, 0.38 ], // waist cinch
+        [-0.48, 0.82, 0.43 ], // high hip
+        [-0.86, 0.96, 0.50 ], // hip flare
+        [-1.18, 0.92, 0.48 ], // lower hip
+        [-1.38, 0.78, 0.40 ]  // bottom hem / thigh taper
+      ];
+
+      const positions = [];
+      const uvs = [];
+      const indices = [];
+
+      for (let iy = 0; iy <= heightSegs; iy++) {
+        const v = iy / heightSegs; // 0 (top) to 1 (bottom)
+        const pFloat = v * (profile.length - 1);
+        const i0 = Math.floor(pFloat);
+        const i1 = Math.min(i0 + 1, profile.length - 1);
+        const t = pFloat - i0;
+
+        const yBase = profile[i0][0] * (1 - t) + profile[i1][0] * t;
+        let rx = (profile[i0][1] * (1 - t) + profile[i1][1] * t) + offset;
+        let rz = (profile[i0][2] * (1 - t) + profile[i1][2] * t) + offset;
+
+        for (let ix = 0; ix <= radialSegs; ix++) {
+          const u = ix / radialSegs;
+          // Angle: u=0.25 is +Z (Front), u=0.75 is -Z (Back)
+          const theta = u * Math.PI * 2;
+          const cosT = Math.cos(theta);
+          const sinT = Math.sin(theta);
+
+          let x = rx * cosT;
+          let z = rz * sinT;
+          let y = yBase;
+
+          // Subtle chest & spine anatomical sculpting
+          if (sinT > 0 && v > 0.15 && v < 0.45) {
+            // Forward chest contour
+            z += 0.05 * Math.sin((v - 0.15) / 0.30 * Math.PI) * sinT;
+          }
+          if (sinT < 0 && Math.abs(cosT) < 0.35 && v > 0.15 && v < 0.7) {
+            // Subtle spine indentation on back
+            z += 0.03 * (1 - Math.abs(cosT) / 0.35);
+          }
+
+          if (isShirt) {
+            // Cloth drape ripples near waist & hem
+            const drapeAmp = 0.014 * Math.pow(v, 1.3);
+            const ripple = Math.sin(theta * 7 + v * 3) * drapeAmp;
+            x += cosT * ripple;
+            z += sinT * ripple;
+
+            // Sculpted V-neck dip at front center (sinT > 0, cosT near 0)
+            if (v < 0.16 && sinT > 0.4) {
+              const centerFactor = Math.max(0, 1 - Math.abs(cosT) / 0.42);
+              y -= centerFactor * (1 - v / 0.16) * 0.24;
+            }
+          }
+
+          positions.push(x, y, z);
+          // Map UV so Front (+Z) is on left half (0..0.5) and Back (-Z) is on right half (0.5..1.0)
+          // Standard theta: 0 is +X, PI/2 is +Z (front), PI is -X, 3PI/2 is -Z (back)
+          // Shift so front center (+Z, theta=PI/2) is at U=0.25, and back center (-Z, theta=3PI/2) is at U=0.75
+          uvs.push(u, 1 - v);
+        }
+      }
+
+      const rowStride = radialSegs + 1;
+      for (let iy = 0; iy < heightSegs; iy++) {
+        for (let ix = 0; ix < radialSegs; ix++) {
+          const a = iy * rowStride + ix;
+          const b = a + rowStride;
+          const c = b + 1;
+          const d = a + 1;
+          indices.push(a, b, d);
+          indices.push(b, c, d);
+        }
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // Create procedural woven athletic mesh bumpMap for 3D fabric realism
+    function createFabricBumpMap() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#808080';
+      ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#c8c8c8';
+      for (let y = 0; y < 256; y += 6) {
+        for (let x = 0; x < 256; x += 6) {
+          ctx.beginPath();
+          ctx.arc(x + (y % 12 === 0 ? 0 : 3), y, 1.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(16, 12);
+      return tex;
+    }
+
+    // Create high-resolution 3D UV Texture Atlas from the user's real Front & Back jersey images
+    function createRealJerseyAtlasTexture(onReady) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 2048;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+
+      function drawBaseDesign() {
+        // Rich crimson athletic mesh base
+        ctx.fillStyle = '#b91c1c';
+        ctx.fillRect(0, 0, 2048, 1024);
+
+        // Front Center is at U = 0.25 -> X = 512
+        // Back Center is at U = 0.75 -> X = 1536
+        // Left/Right Side Seams at U = 0.0/1.0 (X=0/2048) and U = 0.5 (X=1024)
+
+        // Satin top yoke sheen
+        const yokeGrad = ctx.createLinearGradient(0, 0, 0, 320);
+        yokeGrad.addColorStop(0, '#dc2626');
+        yokeGrad.addColorStop(1, '#991b1b');
+        ctx.fillStyle = yokeGrad;
+        ctx.fillRect(0, 0, 2048, 320);
+
+        // Black side athletic mesh panels
+        ctx.fillStyle = '#111216';
+        ctx.fillRect(0, 220, 120, 804);
+        ctx.fillRect(904, 220, 240, 804);
+        ctx.fillRect(1928, 220, 120, 804);
+
+        // Front details (X = 512)
+        ctx.fillStyle = '#09090b';
+        ctx.fillRect(520, 230, 210, 85); // VCT crest bar
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(575, 250); ctx.lineTo(592, 275); ctx.lineTo(575, 298); ctx.lineTo(558, 275);
+        ctx.closePath(); ctx.fill();
+
+        // SEN Crest
+        ctx.fillStyle = '#09090b';
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 4;
+        ctx.font = '900 105px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('SEN', 512, 460);
+
+        // Back details (X = 1536)
+        ctx.fillStyle = '#09090b';
+        ctx.font = '900 92px sans-serif';
+        ctx.fillText('JOHNQT', 1536, 260);
+        ctx.font = 'bold 34px sans-serif';
+        ctx.fillText('SANDISK', 1536, 390);
+        ctx.font = '600 28px sans-serif';
+        ctx.fillText('OPTIMUS', 1536, 430);
+
+        // Black bottom satin hem
+        ctx.fillStyle = '#0f1014';
+        ctx.fillRect(0, 945, 2048, 79);
+      }
+
+      drawBaseDesign();
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.anisotropy = 16;
+
+      // Overlay the user's real jersey photos cleanly onto the front & back panels
+      const frontImg = new Image();
+      const backImg = new Image();
+      let loadedCount = 0;
+
+      function tryComposite() {
+        loadedCount++;
+        if (loadedCount < 2) return;
+
+        // Draw Front jersey torso crop onto U = 0.25 (X: 160..864)
+        // In sen-jersey-front.jpg, the torso is centered ~28%..72% width, 12%..95% height
+        const fw = frontImg.naturalWidth;
+        const fh = frontImg.naturalHeight;
+        ctx.drawImage(
+          frontImg,
+          fw * 0.28, fh * 0.13, fw * 0.44, fh * 0.82,
+          160, 0, 704, 1024
+        );
+
+        // Draw Back jersey torso crop onto U = 0.75 (X: 1184..1888)
+        const bw = backImg.naturalWidth;
+        const bh = backImg.naturalHeight;
+        ctx.drawImage(
+          backImg,
+          bw * 0.26, bh * 0.12, bw * 0.48, bh * 0.82,
+          1184, 0, 704, 1024
+        );
+
+        // Re-apply clean black side seams & bottom hem band for seamless 3D wrap
+        ctx.fillStyle = '#101115';
+        ctx.fillRect(0, 180, 175, 844);
+        ctx.fillRect(849, 180, 350, 844);
+        ctx.fillRect(1873, 180, 175, 844);
+        ctx.fillRect(0, 955, 2048, 69);
+
+        texture.needsUpdate = true;
+        if (onReady) onReady(texture);
+      }
+
+      frontImg.onload = tryComposite;
+      backImg.onload = tryComposite;
+      frontImg.src = './sen-jersey-front.jpg';
+      backImg.src = './sen-jersey-back.jpg';
+
+      return texture;
+    }
+
     function initThreeMannequin() {
       const container = document.getElementById('mannequin-webgl-mount');
       if (!container || Mannequin3D.initialized || typeof THREE === 'undefined') return;
 
-      const width = container.clientWidth || 500;
-      const height = container.clientHeight || 450;
+      const width = container.clientWidth || 520;
+      const height = container.clientHeight || 460;
 
-      // 1. Scene
       const scene = new THREE.Scene();
       Mannequin3D.scene = scene;
+      Mannequin3D.clock = new THREE.Clock();
 
-      // 2. Camera
       const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-      camera.position.set(0, 0.4, 5.2);
+      camera.position.set(0, 0.45, 5.4);
       Mannequin3D.camera = camera;
 
-      // 3. Renderer
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
       renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2545,16 +2787,15 @@
       container.appendChild(renderer.domElement);
       Mannequin3D.renderer = renderer;
 
-      // 4. OrbitControls for genuine 3D interaction
       const controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
-      controls.dampingFactor = 0.08;
+      controls.dampingFactor = 0.07;
       controls.enablePan = false;
-      controls.minDistance = 3.0;
-      controls.maxDistance = 8.0;
-      controls.maxPolarAngle = Math.PI / 2 + 0.2; // Don't flip under pedestal
+      controls.minDistance = 2.8;
+      controls.maxDistance = 8.2;
+      controls.maxPolarAngle = Math.PI / 2 + 0.15;
       controls.minPolarAngle = Math.PI / 4;
-      controls.target.set(0, 0.1, 0);
+      controls.target.set(0, 0.15, 0);
       Mannequin3D.controls = controls;
 
       controls.addEventListener('start', () => {
@@ -2564,68 +2805,137 @@
       });
 
       controls.addEventListener('change', () => {
-        // Calculate current rotation angle around Y in degrees
         const rad = Math.atan2(camera.position.x, camera.position.z);
         let deg = Math.round((rad * 180) / Math.PI);
         if (deg < 0) deg += 360;
         currentMannequinAngle = deg;
-
         updateMannequinAngleHUD(deg);
       });
 
-      // 5. Studio Lighting
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+      // Studio Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.72);
       scene.add(ambientLight);
 
-      // Studio Key Light
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-      keyLight.position.set(4, 5, 5);
+      const keyLight = new THREE.DirectionalLight(0xfff8f0, 1.25);
+      keyLight.position.set(3.5, 5.5, 5.0);
       keyLight.castShadow = true;
       keyLight.shadow.mapSize.width = 1024;
       keyLight.shadow.mapSize.height = 1024;
       scene.add(keyLight);
 
-      // Studio Fill Light
-      const fillLight = new THREE.DirectionalLight(0xa5b4fc, 0.55);
-      fillLight.position.set(-4, 3, 2);
+      const fillLight = new THREE.DirectionalLight(0xc7d2fe, 0.65);
+      fillLight.position.set(-4.5, 2.5, 3.0);
       scene.add(fillLight);
 
-      // Studio Fashion Rim Light
-      const rimLight = new THREE.PointLight(0xa7f3d0, 1.0, 12);
-      rimLight.position.set(0, 2.5, -4);
+      const rimLight = new THREE.PointLight(0x6ee7b7, 1.1, 14);
+      rimLight.position.set(0, 2.8, -4.5);
       scene.add(rimLight);
 
-      // 6. Build the 3D Dress Form Mannequin Hierarchy
       const mannequinGroup = new THREE.Group();
       scene.add(mannequinGroup);
       Mannequin3D.mannequinGroup = mannequinGroup;
 
-      buildMannequin3DModel(mannequinGroup);
+      buildArticulatedMannequinAnd3DShirt(mannequinGroup);
 
-      // 7. Floor Shadow Disc
-      const shadowGeo = new THREE.PlaneGeometry(3.6, 3.6);
-      const shadowMat = new THREE.MeshBasicMaterial({
-        color: 0x000000,
-        transparent: true,
-        opacity: 0.5,
-        depthWrite: false
+      // Floor Shadow Plane
+      const shadowGeo = new THREE.CircleGeometry(1.75, 48);
+      const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.45, depthWrite: false });
+      const shadowDisc = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowDisc.rotation.x = -Math.PI / 2;
+      shadowDisc.position.y = -2.25;
+      scene.add(shadowDisc);
+
+      // Interactive Raycasting on Click (inspect 3D T-Shirt parts)
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+      let downPos = { x: 0, y: 0 };
+
+      renderer.domElement.addEventListener('pointerdown', (e) => {
+        downPos = { x: e.clientX, y: e.clientY };
       });
-      const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
-      shadowPlane.rotation.x = -Math.PI / 2;
-      shadowPlane.position.y = -2.1;
-      scene.add(shadowPlane);
 
-      // 8. Animation Render Loop
+      renderer.domElement.addEventListener('pointerup', (e) => {
+        const dist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
+        if (dist > 6) return; // Ignore drags
+
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObjects(mannequinGroup.children, true);
+        if (hits.length > 0) {
+          const hitObj = hits[0].object;
+          Mannequin3D.pulseBoost = 1.0;
+          if (hitObj.userData && hitObj.userData.partLabel) {
+            showStudioToast('✨ ' + hitObj.userData.partLabel);
+          } else {
+            const isBack = currentMannequinAngle > 90 && currentMannequinAngle < 270;
+            showStudioToast(isBack
+              ? '👕 3D Jersey Rear: Satin Shoulder Yoke + JOHNQT & SANDISK OPTIMUS'
+              : '👕 3D Jersey Front: Crimson Mesh + SEN Crest + V-Neck Collar');
+          }
+        }
+      });
+
+      // Main Animation Loop (drives articulated mannequin movement & breathing)
       function animate() {
         Mannequin3D.animId = requestAnimationFrame(animate);
+        const t = Mannequin3D.clock.getElapsedTime();
+
+        if (Mannequin3D.upperBodyGroup && Mannequin3D.leftArmPivot && Mannequin3D.rightArmPivot) {
+          // Decay click pulse
+          if (Mannequin3D.pulseBoost > 0) {
+            Mannequin3D.pulseBoost = Math.max(0, Mannequin3D.pulseBoost - 0.05);
+          }
+
+          if (currentMannequinPose === 'walk') {
+            // Dynamic Runway Walk Motion
+            const swing = Math.sin(t * 3.4);
+            Mannequin3D.leftArmPivot.rotation.x = swing * 0.38;
+            Mannequin3D.rightArmPivot.rotation.x = -swing * 0.38;
+            Mannequin3D.leftArmPivot.rotation.z = 0.22 + Math.abs(swing) * 0.04;
+            Mannequin3D.rightArmPivot.rotation.z = -0.22 - Math.abs(swing) * 0.04;
+            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.28 + swing * 0.15;
+            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.28 - swing * 0.15;
+            Mannequin3D.upperBodyGroup.rotation.y = swing * 0.12;
+            Mannequin3D.upperBodyGroup.position.y = Math.abs(Math.sin(t * 3.4)) * 0.05;
+            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = -swing * 0.08;
+          } else if (currentMannequinPose === 'runway') {
+            // Confident Runway Stance with subtle sway
+            const sway = Math.sin(t * 1.6);
+            Mannequin3D.leftArmPivot.rotation.x = -0.15 + sway * 0.06;
+            Mannequin3D.rightArmPivot.rotation.x = 0.12 - sway * 0.06;
+            Mannequin3D.leftArmPivot.rotation.z = 0.34;
+            Mannequin3D.rightArmPivot.rotation.z = -0.28;
+            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.55;
+            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.35;
+            Mannequin3D.upperBodyGroup.rotation.y = 0.08 + sway * 0.05;
+            Mannequin3D.upperBodyGroup.rotation.z = 0.04;
+            Mannequin3D.upperBodyGroup.position.y = Math.sin(t * 2.0) * 0.018;
+            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = -0.1 + sway * 0.06;
+          } else {
+            // Natural Idle Breathing & Micro-Motion
+            const breath = Math.sin(t * 1.8);
+            Mannequin3D.leftArmPivot.rotation.x = breath * 0.03;
+            Mannequin3D.rightArmPivot.rotation.x = -breath * 0.03;
+            Mannequin3D.leftArmPivot.rotation.z = 0.20 + breath * 0.015;
+            Mannequin3D.rightArmPivot.rotation.z = -0.20 - breath * 0.015;
+            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.15;
+            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.15;
+            Mannequin3D.upperBodyGroup.rotation.y = Math.sin(t * 0.7) * 0.04;
+            Mannequin3D.upperBodyGroup.rotation.z = 0;
+            Mannequin3D.upperBodyGroup.position.y = breath * 0.015 + Mannequin3D.pulseBoost * 0.04;
+            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = Math.sin(t * 0.9) * 0.07;
+          }
+        }
+
         controls.update();
         renderer.render(scene, camera);
       }
       animate();
 
       Mannequin3D.initialized = true;
-
-      // Handle Resize
       window.addEventListener('resize', onMannequinResize);
     }
 
@@ -2640,218 +2950,235 @@
       Mannequin3D.renderer.setSize(width, height);
     }
 
-    // Generate Seamless 360° Wrap Texture for the Sentinels Jersey
-    function create360JerseyTexture() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1024;
-      canvas.height = 1024;
-      const ctx = canvas.getContext('2d');
-
-      // Crimson base color
-      ctx.fillStyle = '#b91c1c';
-      ctx.fillRect(0, 0, 1024, 1024);
-
-      // Mesh athletic texture pattern
-      ctx.fillStyle = '#991b1b';
-      for (let y = 0; y < 1024; y += 8) {
-        for (let x = 0; x < 1024; x += 8) {
-          ctx.fillRect(x + (y % 16 === 0 ? 0 : 4), y, 2, 2);
-        }
-      }
-
-      // ==========================================
-      // FRONT HALF (Centered at X = 512, U = 0.5)
-      // ==========================================
-      // Black Satin Upper Chest Bar
-      ctx.fillStyle = '#111216';
-      ctx.fillRect(340, 260, 344, 90);
-
-      // Red Sentinels V-crest on chest bar
-      ctx.fillStyle = '#e11d48';
-      ctx.beginPath();
-      ctx.moveTo(512, 280);
-      ctx.lineTo(528, 310);
-      ctx.lineTo(512, 335);
-      ctx.lineTo(496, 310);
-      ctx.closePath();
-      ctx.fill();
-
-      // Bold Block "SEN" Center Crest
-      ctx.fillStyle = '#0a0a0c';
-      ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 80px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.strokeText('SEN', 512, 450);
-      ctx.fillText('SEN', 512, 450);
-
-      // Red Bull upper shoulder patch
-      ctx.fillStyle = '#fbbf24';
-      ctx.beginPath();
-      ctx.arc(420, 200, 20, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#dc2626';
-      ctx.font = 'bold 14px sans-serif';
-      ctx.fillText('Red Bull', 420, 202);
-
-      // Black V-Neck Collar
-      ctx.fillStyle = '#09090b';
-      ctx.beginPath();
-      ctx.moveTo(430, 80);
-      ctx.lineTo(512, 220);
-      ctx.lineTo(594, 80);
-      ctx.lineTo(550, 70);
-      ctx.lineTo(512, 170);
-      ctx.lineTo(474, 70);
-      ctx.closePath();
-      ctx.fill();
-
-      // Black Hem Band
-      ctx.fillStyle = '#18181b';
-      ctx.fillRect(320, 920, 384, 80);
-
-      // ==========================================
-      // BACK HALF (X = 0..256 and X = 768..1024, U = 0 / 1.0)
-      // ==========================================
-      function drawBackDetails(centerX) {
-        // Satin Upper Yoke
-        ctx.fillStyle = '#111216';
-        ctx.fillRect(centerX - 180, 200, 360, 160);
-
-        // Player Name: "JOHNQT"
-        ctx.fillStyle = '#09090b';
-        ctx.strokeStyle = '#27272a';
-        ctx.lineWidth = 3;
-        ctx.font = 'bold 74px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.strokeText('JOHNQT', centerX, 300);
-        ctx.fillText('JOHNQT', centerX, 300);
-
-        // Sponsor: "SANDISK OPTIMUS"
-        ctx.fillStyle = '#09090b';
-        ctx.font = 'bold 30px sans-serif';
-        ctx.fillText('SANDISK OPTIMUS', centerX, 440);
-
-        // Rear Hem
-        ctx.fillStyle = '#18181b';
-        ctx.fillRect(centerX - 180, 920, 360, 80);
-      }
-
-      // Draw back centered at seam (0 and 1024)
-      drawBackDetails(0);
-      drawBackDetails(1024);
-
-      // ==========================================
-      // SIDES: Black athletic mesh ventilation stripes
-      // ==========================================
-      ctx.fillStyle = '#18181b';
-      ctx.fillRect(230, 260, 70, 680);
-      ctx.fillRect(724, 260, 70, 680);
-
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.ClampToEdgeWrapping;
-      texture.anisotropy = 16;
-      return texture;
-    }
-
-    // Build the 3D Dress Form geometry with lathe curves
-    function buildMannequin3DModel(group) {
-      // 1. Contoured French Atelier Torso Lathe Curve
-      const points = [];
-      points.push(new THREE.Vector2(0.38, 1.45)); // Neck base
-      points.push(new THREE.Vector2(0.85, 1.32)); // Shoulder slope
-      points.push(new THREE.Vector2(1.22, 1.10)); // Shoulder apex
-      points.push(new THREE.Vector2(1.10, 0.85)); // Armhole taper
-      points.push(new THREE.Vector2(1.08, 0.55)); // Bust apex
-      points.push(new THREE.Vector2(0.95, 0.22)); // Underbust
-      points.push(new THREE.Vector2(0.78, -0.15)); // Waist cinch
-      points.push(new THREE.Vector2(0.88, -0.55)); // High hip
-      points.push(new THREE.Vector2(1.08, -0.95)); // Hips flare
-      points.push(new THREE.Vector2(1.02, -1.25)); // Lower hip
-      points.push(new THREE.Vector2(0.80, -1.45)); // Thigh base taper
-      points.push(new THREE.Vector2(0.01, -1.45)); // Bottom seal cap
-
-      const torsoGeo = new THREE.LatheGeometry(points, 48);
-
-      // Textures
-      const jerseyTexture = create360JerseyTexture();
-      Mannequin3D.textures['sen_jersey'] = jerseyTexture;
-
-      // Materials
-      const jerseyMaterial = new THREE.MeshStandardMaterial({
-        map: jerseyTexture,
-        roughness: 0.65,
-        metalness: 0.15,
-        bumpScale: 0.05
+    function buildArticulatedMannequinAnd3DShirt(rootGroup) {
+      // Base mannequin skin/form material (changes with Atelier Linen / Ghost / Obsidian / Chrome)
+      const bodyMat = new THREE.MeshStandardMaterial({
+        color: 0xe5d6c3,
+        roughness: 0.72,
+        metalness: 0.08
       });
-      Mannequin3D.materials['jersey'] = jerseyMaterial;
+      Mannequin3D.materials.body = bodyMat;
 
-      const linenMaterial = new THREE.MeshStandardMaterial({
-        color: 0xdfd2be,
-        roughness: 0.85,
-        metalness: 0.05
+      const jointMat = new THREE.MeshStandardMaterial({
+        color: 0xb89b7b,
+        roughness: 0.4,
+        metalness: 0.35
       });
-      Mannequin3D.materials['linen'] = linenMaterial;
+      Mannequin3D.materials.joint = jointMat;
 
-      const torsoMesh = new THREE.Mesh(torsoGeo, jerseyMaterial);
+      // Upper body articulated group (moves with breathing / runway / walk)
+      const upperBodyGroup = new THREE.Group();
+      rootGroup.add(upperBodyGroup);
+      Mannequin3D.upperBodyGroup = upperBodyGroup;
+
+      // 1. Sculpted Mannequin Torso (underneath shirt)
+      const torsoGeo = createAnatomicalShellGeometry({ isShirt: false, offset: 0 });
+      const torsoMesh = new THREE.Mesh(torsoGeo, bodyMat);
       torsoMesh.castShadow = true;
       torsoMesh.receiveShadow = true;
-      group.add(torsoMesh);
+      torsoMesh.userData = { partLabel: 'Sculpted Atelier Dress Form Core' };
+      upperBodyGroup.add(torsoMesh);
       Mannequin3D.torsoMesh = torsoMesh;
 
-      // 2. Neck
-      const neckGeo = new THREE.CylinderGeometry(0.36, 0.38, 0.35, 32);
-      const neckMat = new THREE.MeshStandardMaterial({ color: 0xc8b69b, roughness: 0.7 });
-      const neckMesh = new THREE.Mesh(neckGeo, neckMat);
-      neckMesh.position.y = 1.62;
-      group.add(neckMesh);
-      Mannequin3D.neckMesh = neckMesh;
+      // 2. Sculpted Mannequin Neck & Head
+      const headGroup = new THREE.Group();
+      headGroup.position.set(0, 1.40, 0);
+      upperBodyGroup.add(headGroup);
+      Mannequin3D.headGroup = headGroup;
 
-      // 3. Brass Neckplate Collar
-      const plateGeo = new THREE.CylinderGeometry(0.40, 0.40, 0.08, 32);
-      const plateMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.25 });
-      const plateMesh = new THREE.Mesh(plateGeo, plateMat);
-      plateMesh.position.y = 1.78;
-      group.add(plateMesh);
+      const neckMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.27, 0.42, 28), bodyMat);
+      neckMesh.position.y = 0.16;
+      headGroup.add(neckMesh);
 
-      // 4. Turned Wood/Linen Finial Ball
-      const finialGeo = new THREE.SphereGeometry(0.24, 24, 24);
-      const finialMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.5, metalness: 0.1 });
-      const finialMesh = new THREE.Mesh(finialGeo, finialMat);
-      finialMesh.position.y = 2.0;
-      group.add(finialMesh);
-      Mannequin3D.finialMesh = finialMesh;
+      const neckRing = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.025, 12, 32), jointMat);
+      neckRing.rotation.x = Math.PI / 2;
+      neckRing.position.y = 0.02;
+      headGroup.add(neckRing);
 
-      // 5. Cast Iron Stand Assembly
+      // Stylized Luxury Mannequin Head
+      const headGeo = new THREE.SphereGeometry(0.36, 32, 32);
+      headGeo.scale(0.86, 1.15, 0.96);
+      const headMesh = new THREE.Mesh(headGeo, bodyMat);
+      headMesh.position.set(0, 0.65, 0.03);
+      headMesh.castShadow = true;
+      headMesh.userData = { partLabel: 'Atelier Mannequin Head' };
+      headGroup.add(headMesh);
+
+      // 3. REAL 3D T-SHIRT MESH (Torso Shell + 3D Collar + 3D Hem + 3D Sleeves)
+      const shirtGroup = new THREE.Group();
+      upperBodyGroup.add(shirtGroup);
+      Mannequin3D.shirtGroup = shirtGroup;
+
+      const fabricBump = createFabricBumpMap();
+      const jerseyAtlas = createRealJerseyAtlasTexture();
+      Mannequin3D.textures.sen_jersey = jerseyAtlas;
+
+      const shirtBodyMat = new THREE.MeshStandardMaterial({
+        map: jerseyAtlas,
+        bumpMap: fabricBump,
+        bumpScale: 0.015,
+        roughness: 0.58,
+        metalness: 0.08,
+        side: THREE.DoubleSide
+      });
+      Mannequin3D.materials.shirtBody = shirtBodyMat;
+
+      const blackTrimMat = new THREE.MeshStandardMaterial({
+        color: 0x0e0f13,
+        bumpMap: fabricBump,
+        bumpScale: 0.008,
+        roughness: 0.38,
+        metalness: 0.18
+      });
+      Mannequin3D.materials.blackTrim = blackTrimMat;
+
+      const crimsonSleeveMat = new THREE.MeshStandardMaterial({
+        color: 0xb91c1c,
+        bumpMap: fabricBump,
+        bumpScale: 0.018,
+        roughness: 0.55,
+        metalness: 0.10
+      });
+      Mannequin3D.materials.sleeve = crimsonSleeveMat;
+
+      // 3A. 3D Shirt Torso Shell
+      const shirtGeo = createAnatomicalShellGeometry({ isShirt: true, offset: 0.045 });
+      const shirtBodyMesh = new THREE.Mesh(shirtGeo, shirtBodyMat);
+      shirtBodyMesh.castShadow = true;
+      shirtBodyMesh.receiveShadow = true;
+      shirtBodyMesh.userData = { partLabel: '3D Sentinels 2026 Jersey Torso (Drag to inspect Front & JOHNQT Back)' };
+      shirtGroup.add(shirtBodyMesh);
+      Mannequin3D.shirtBodyMesh = shirtBodyMesh;
+
+      // 3B. 3D Black V-Neck Ribbed Collar
+      const collarBack = new THREE.Mesh(new THREE.TorusGeometry(0.35, 0.045, 14, 32, Math.PI * 1.15), blackTrimMat);
+      collarBack.rotation.x = Math.PI / 2 + 0.15;
+      collarBack.rotation.z = -0.22;
+      collarBack.position.set(0, 1.36, 0.0);
+      shirtGroup.add(collarBack);
+
+      // V-neck front rib lines
+      const vLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.032, 0.42, 12), blackTrimMat);
+      vLeft.position.set(-0.15, 1.21, 0.31);
+      vLeft.rotation.z = -0.62;
+      vLeft.rotation.x = 0.25;
+      shirtGroup.add(vLeft);
+
+      const vRight = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.032, 0.42, 12), blackTrimMat);
+      vRight.position.set(0.15, 1.21, 0.31);
+      vRight.rotation.z = 0.62;
+      vRight.rotation.x = 0.25;
+      shirtGroup.add(vRight);
+
+      // 3C. 3D Bottom Satin Hem Ring
+      const hemGeo = new THREE.CylinderGeometry(0.84, 0.85, 0.11, 48, 1, true);
+      hemGeo.scale(1.0, 1.0, 0.54);
+      const hemMesh = new THREE.Mesh(hemGeo, blackTrimMat);
+      hemMesh.position.y = -1.34;
+      shirtGroup.add(hemMesh);
+
+      // 4. Articulated Left & Right Arms + 3D T-Shirt Sleeves
+      function createArmWithSleeve(isLeft) {
+        const sign = isLeft ? -1 : 1;
+        const armPivot = new THREE.Group();
+        armPivot.position.set(sign * 1.04, 1.04, -0.02);
+        upperBodyGroup.add(armPivot);
+
+        // Shoulder joint
+        const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.21, 20, 20), bodyMat);
+        armPivot.add(shoulder);
+
+        // 3D T-Shirt Sleeve (Draped over upper arm!)
+        const sleeveGeo = new THREE.CylinderGeometry(0.28, 0.27, 0.86, 28, 8, false);
+        sleeveGeo.scale(1.0, 1.0, 0.92);
+        const sleeveMesh = new THREE.Mesh(sleeveGeo, crimsonSleeveMat);
+        sleeveMesh.position.set(sign * 0.05, -0.34, 0);
+        sleeveMesh.rotation.z = sign * -0.08;
+        sleeveMesh.castShadow = true;
+        sleeveMesh.userData = { partLabel: (isLeft ? 'Left' : 'Right') + ' 3D Athletic Mesh Sleeve + Black Cuff' };
+        armPivot.add(sleeveMesh);
+
+        // Black Sleeve Cuff Band
+        const cuffGeo = new THREE.CylinderGeometry(0.275, 0.285, 0.12, 28);
+        cuffGeo.scale(1.0, 1.0, 0.92);
+        const cuffMesh = new THREE.Mesh(cuffGeo, blackTrimMat);
+        cuffMesh.position.set(sign * 0.02, -0.74, 0);
+        cuffMesh.rotation.z = sign * -0.08;
+        armPivot.add(cuffMesh);
+
+        // Black Underarm Panel Accent
+        const underarmGeo = new THREE.CylinderGeometry(0.22, 0.21, 0.62, 16, 1, false, 0, Math.PI * 0.7);
+        const underarmMesh = new THREE.Mesh(underarmGeo, blackTrimMat);
+        underarmMesh.position.set(sign * 0.02, -0.36, 0);
+        underarmMesh.rotation.y = isLeft ? 0 : Math.PI;
+        armPivot.add(underarmMesh);
+
+        // Mannequin Upper Arm (emerging below sleeve)
+        const upperArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.13, 0.55, 20), bodyMat);
+        upperArmMesh.position.y = -0.92;
+        upperArmMesh.castShadow = true;
+        armPivot.add(upperArmMesh);
+
+        // Elbow & Forearm Pivot
+        const forearmPivot = new THREE.Group();
+        forearmPivot.position.set(0, -1.20, 0);
+        armPivot.add(forearmPivot);
+
+        const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), jointMat);
+        forearmPivot.add(elbow);
+
+        const forearmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.09, 0.88, 20), bodyMat);
+        forearmMesh.position.y = -0.44;
+        forearmMesh.castShadow = true;
+        forearmPivot.add(forearmMesh);
+
+        const handMesh = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), bodyMat);
+        handMesh.scale.set(0.75, 1.25, 0.55);
+        handMesh.position.y = -0.94;
+        forearmPivot.add(handMesh);
+
+        return { armPivot, forearmPivot };
+      }
+
+      const leftArm = createArmWithSleeve(true);
+      const rightArm = createArmWithSleeve(false);
+      Mannequin3D.leftArmPivot = leftArm.armPivot;
+      Mannequin3D.leftForearmPivot = leftArm.forearmPivot;
+      Mannequin3D.rightArmPivot = rightArm.armPivot;
+      Mannequin3D.rightForearmPivot = rightArm.forearmPivot;
+
+      // 5. Cast Iron Pedestal Stand Assembly (stationary base under moving mannequin)
       const standGroup = new THREE.Group();
-      group.add(standGroup);
+      rootGroup.add(standGroup);
       Mannequin3D.standGroup = standGroup;
 
-      const standMat = new THREE.MeshStandardMaterial({ color: 0x27272a, metalness: 0.75, roughness: 0.35 });
-
-      // Pole
-      const poleGeo = new THREE.CylinderGeometry(0.06, 0.06, 1.8, 24);
-      const poleMesh = new THREE.Mesh(poleGeo, standMat);
-      poleMesh.position.y = -2.1;
+      const standMat = new THREE.MeshStandardMaterial({ color: 0x27272a, metalness: 0.78, roughness: 0.30 });
+      const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 24), standMat);
+      poleMesh.position.y = -1.65;
       standGroup.add(poleMesh);
 
-      // Knob
-      const knobGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.08, 16);
-      const knobMesh = new THREE.Mesh(knobGeo, plateMat);
-      knobMesh.position.y = -2.0;
+      const knobMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.08, 16), jointMat);
+      knobMesh.position.y = -1.75;
       standGroup.add(knobMesh);
 
-      // Heavy Base Disc
-      const baseGeo = new THREE.CylinderGeometry(1.15, 1.25, 0.12, 36);
-      const baseMesh = new THREE.Mesh(baseGeo, standMat);
-      baseMesh.position.y = -2.05;
+      const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.15, 0.11, 36), standMat);
+      baseMesh.position.y = -2.20;
       baseMesh.receiveShadow = true;
       standGroup.add(baseMesh);
     }
 
-    // Dynamic HUD Angle Updates
+    function setMannequinPose(pose, btn) {
+      currentMannequinPose = pose;
+      document.querySelectorAll('.mannequin-pose-btn').forEach(b => {
+        b.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl text-stone-300 hover:text-white transition flex items-center gap-1';
+      });
+      if (btn) {
+        btn.className = 'mannequin-pose-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold transition flex items-center gap-1 shadow-md';
+      }
+      const labels = { stand: 'Atelier Stance', runway: 'Runway Pose', walk: 'Live Walk Motion' };
+      showStudioToast('🕺 Mannequin Motion: ' + (labels[pose] || pose));
+    }
+
     function updateMannequinAngleHUD(deg) {
       const angleLabel = document.getElementById('mannequin-angle-label');
       if (!angleLabel) return;
@@ -2859,17 +3186,16 @@
       let label = 'Front (0°)';
       if (deg >= 337.5 || deg < 22.5) label = 'Front View (0°)';
       else if (deg >= 22.5 && deg < 67.5) label = '3/4 Perspective (45°)';
-      else if (deg >= 67.5 && deg < 112.5) label = 'Right Profile (90°)';
+      else if (deg >= 67.5 && deg < 112.5) label = 'Right Sleeve (90°)';
       else if (deg >= 112.5 && deg < 157.5) label = '3/4 Rear (135°)';
       else if (deg >= 157.5 && deg < 202.5) label = 'Back View — JOHNQT (180°)';
       else if (deg >= 202.5 && deg < 247.5) label = '3/4 Rear Left (225°)';
-      else if (deg >= 247.5 && deg < 292.5) label = 'Left Profile (270°)';
+      else if (deg >= 247.5 && deg < 292.5) label = 'Left Sleeve (270°)';
       else label = '3/4 Front Left (315°)';
 
       angleLabel.textContent = label;
     }
 
-    // Smooth WebGL Rotation to Preset Angles
     function rotateMannequin(deg, label, btn) {
       if (!Mannequin3D.camera || !Mannequin3D.controls) return;
       currentMannequinAngle = deg;
@@ -2882,34 +3208,29 @@
       }
 
       const rad = (deg * Math.PI) / 180;
-      const radius = 5.2;
+      const radius = 5.4;
       const targetX = Math.sin(rad) * radius;
       const targetZ = Math.cos(rad) * radius;
 
-      // Animate camera position smoothly
       const startX = Mannequin3D.camera.position.x;
       const startZ = Mannequin3D.camera.position.z;
       const startTime = performance.now();
-      const duration = 400; // ms
+      const duration = 420;
 
       function step(now) {
         const progress = Math.min((now - startTime) / duration, 1.0);
-        const ease = 0.5 - Math.cos(progress * Math.PI) / 2; // easeInOut
+        const ease = 0.5 - Math.cos(progress * Math.PI) / 2;
 
         Mannequin3D.camera.position.x = startX + (targetX - startX) * ease;
         Mannequin3D.camera.position.z = startZ + (targetZ - startZ) * ease;
         Mannequin3D.controls.update();
 
-        if (progress < 1.0) {
-          requestAnimationFrame(step);
-        } else {
-          updateMannequinAngleHUD(deg);
-        }
+        if (progress < 1.0) requestAnimationFrame(step);
+        else updateMannequinAngleHUD(deg);
       }
       requestAnimationFrame(step);
     }
 
-    // Continuous 360° Turntable Auto-Orbit
     function toggleMannequinOrbit() {
       const btn = document.getElementById('btn-mannequin-orbit');
       isMannequinOrbiting = !isMannequinOrbiting;
@@ -2932,7 +3253,6 @@
       }
     }
 
-    // Switch Form Materials in WebGL
     function setMannequinForm(form, btn) {
       currentMannequinForm = form;
       document.querySelectorAll('.mannequin-form-btn').forEach(b => {
@@ -2940,48 +3260,44 @@
       });
       if (btn) btn.className = 'mannequin-form-btn px-2.5 py-1 rounded-xl bg-lavender text-midnight font-bold transition';
 
-      if (!Mannequin3D.torsoMesh) return;
+      const bodyMat = Mannequin3D.materials.body;
+      if (!bodyMat) return;
 
       if (form === 'linen') {
-        Mannequin3D.torsoMesh.material = Mannequin3D.materials['jersey'];
+        bodyMat.color.setHex(0xe5d6c3);
+        bodyMat.roughness = 0.72;
+        bodyMat.metalness = 0.08;
+        bodyMat.transparent = false;
+        bodyMat.opacity = 1.0;
+        bodyMat.emissive.setHex(0x000000);
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
-        if (Mannequin3D.finialMesh) Mannequin3D.finialMesh.visible = true;
       } else if (form === 'ghost') {
-        const ghostMat = new THREE.MeshPhysicalMaterial({
-          color: 0x00f59b,
-          emissive: 0x00f59b,
-          emissiveIntensity: 0.35,
-          roughness: 0.1,
-          transmission: 0.85,
-          opacity: 0.6,
-          transparent: true,
-          wireframe: false
-        });
-        Mannequin3D.torsoMesh.material = ghostMat;
+        bodyMat.color.setHex(0x00f59b);
+        bodyMat.emissive.setHex(0x00f59b);
+        bodyMat.emissiveIntensity = 0.35;
+        bodyMat.transparent = true;
+        bodyMat.opacity = 0.22;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = false;
-        if (Mannequin3D.finialMesh) Mannequin3D.finialMesh.visible = false;
       } else if (form === 'matte') {
-        const matteMat = new THREE.MeshStandardMaterial({
-          color: 0x181920,
-          roughness: 0.4,
-          metalness: 0.8
-        });
-        Mannequin3D.torsoMesh.material = matteMat;
+        bodyMat.color.setHex(0x181920);
+        bodyMat.roughness = 0.45;
+        bodyMat.metalness = 0.65;
+        bodyMat.transparent = false;
+        bodyMat.opacity = 1.0;
+        bodyMat.emissive.setHex(0x000000);
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
-        if (Mannequin3D.finialMesh) Mannequin3D.finialMesh.visible = true;
       } else if (form === 'chrome') {
-        const chromeMat = new THREE.MeshStandardMaterial({
-          color: 0xe2e8f0,
-          metalness: 0.98,
-          roughness: 0.05
-        });
-        Mannequin3D.torsoMesh.material = chromeMat;
+        bodyMat.color.setHex(0xe2e8f0);
+        bodyMat.roughness = 0.08;
+        bodyMat.metalness = 0.96;
+        bodyMat.transparent = false;
+        bodyMat.opacity = 1.0;
+        bodyMat.emissive.setHex(0x000000);
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
-        if (Mannequin3D.finialMesh) Mannequin3D.finialMesh.visible = true;
       }
+      bodyMat.needsUpdate = true;
     }
 
-    // Dynamic 3D Morphology Mesh Scaling
     function setMannequinSize(size, btn) {
       currentMannequinSize = size;
       document.querySelectorAll('.mannequin-size-btn').forEach(b => {
@@ -3042,11 +3358,11 @@
     }
 
     function applyMorphTo3DMannequin() {
-      if (!Mannequin3D.torsoMesh) return;
-      const scaleX = (mannequinMeasurements.bust / 36);
-      const scaleZ = (mannequinMeasurements.waist / 28);
+      if (!Mannequin3D.upperBodyGroup) return;
+      const scaleX = mannequinMeasurements.bust / 36;
+      const scaleZ = mannequinMeasurements.waist / 28;
       const scaleY = mannequinMeasurements.scale;
-      Mannequin3D.torsoMesh.scale.set(scaleX, scaleY, scaleZ);
+      Mannequin3D.upperBodyGroup.scale.set(scaleX, scaleY, scaleZ);
 
       const mLabel = document.getElementById('mannequin-measurements-label');
       if (mLabel) {
@@ -3072,20 +3388,19 @@
         el.classList.remove('border-border');
       }
 
-      if (Mannequin3D.torsoMesh) {
+      if (Mannequin3D.shirtBodyMesh && Mannequin3D.materials.shirtBody) {
         if (key === 'sen_jersey') {
-          Mannequin3D.torsoMesh.material = Mannequin3D.materials['jersey'];
+          Mannequin3D.materials.shirtBody.map = Mannequin3D.textures.sen_jersey;
+          Mannequin3D.materials.shirtBody.needsUpdate = true;
+          if (Mannequin3D.materials.sleeve) Mannequin3D.materials.sleeve.color.setHex(0xb91c1c);
         } else {
-          // Dynamic cloth color / texture for other garments
           const textureLoader = new THREE.TextureLoader();
           textureLoader.load(url, (tex) => {
             tex.wrapS = THREE.RepeatWrapping;
             tex.wrapT = THREE.ClampToEdgeWrapping;
-            Mannequin3D.torsoMesh.material = new THREE.MeshStandardMaterial({
-              map: tex,
-              roughness: 0.7,
-              metalness: 0.1
-            });
+            Mannequin3D.materials.shirtBody.map = tex;
+            Mannequin3D.materials.shirtBody.needsUpdate = true;
+            if (Mannequin3D.materials.sleeve) Mannequin3D.materials.sleeve.color.setHex(0x3f3f46);
           });
         }
       }
@@ -3109,7 +3424,6 @@
       if (modal) modal.classList.add('hidden');
     }
 
-    // Initialize Three.js as soon as Studio tab or Mannequin subtab is opened
     const originalSetStudioMode = setStudioMode;
     setStudioMode = function(mode) {
       originalSetStudioMode(mode);
@@ -3117,11 +3431,10 @@
         setTimeout(() => {
           if (!Mannequin3D.initialized) initThreeMannequin();
           else onMannequinResize();
-        }, 50);
+        }, 60);
       }
     };
 
-    // Auto-init on page load if mannequin is open
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const mannequinView = document.getElementById('subtab-mannequin');
