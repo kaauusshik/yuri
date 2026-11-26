@@ -2774,7 +2774,7 @@
       Mannequin3D.clock = new THREE.Clock();
 
       const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-      camera.position.set(0, 0.45, 5.4);
+      camera.position.set(0, 0.15, 5.9);
       Mannequin3D.camera = camera;
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -2792,10 +2792,10 @@
       controls.dampingFactor = 0.07;
       controls.enablePan = false;
       controls.minDistance = 2.8;
-      controls.maxDistance = 8.2;
+      controls.maxDistance = 8.8;
       controls.maxPolarAngle = Math.PI / 2 + 0.15;
       controls.minPolarAngle = Math.PI / 4;
-      controls.target.set(0, 0.15, 0);
+      controls.target.set(0, -0.18, 0);
       Mannequin3D.controls = controls;
 
       controls.addEventListener('start', () => {
@@ -2842,7 +2842,7 @@
       const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.45, depthWrite: false });
       const shadowDisc = new THREE.Mesh(shadowGeo, shadowMat);
       shadowDisc.rotation.x = -Math.PI / 2;
-      shadowDisc.position.y = -2.25;
+      shadowDisc.position.y = -2.45;
       scene.add(shadowDisc);
 
       // Interactive Raycasting on Click (inspect 3D T-Shirt parts)
@@ -2892,41 +2892,33 @@
           if (currentMannequinPose === 'walk') {
             // Dynamic Runway Walk Motion
             const swing = Math.sin(t * 3.4);
-            Mannequin3D.leftArmPivot.rotation.x = swing * 0.38;
-            Mannequin3D.rightArmPivot.rotation.x = -swing * 0.38;
-            Mannequin3D.leftArmPivot.rotation.z = 0.22 + Math.abs(swing) * 0.04;
-            Mannequin3D.rightArmPivot.rotation.z = -0.22 - Math.abs(swing) * 0.04;
-            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.28 + swing * 0.15;
-            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.28 - swing * 0.15;
-            Mannequin3D.upperBodyGroup.rotation.y = swing * 0.12;
-            Mannequin3D.upperBodyGroup.position.y = Math.abs(Math.sin(t * 3.4)) * 0.05;
-            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = -swing * 0.08;
+            Mannequin3D.leftArmPivot.rotation.x = swing * 0.14;
+            Mannequin3D.rightArmPivot.rotation.x = -swing * 0.14;
+            Mannequin3D.leftArmPivot.rotation.z = -0.04 + Math.abs(swing) * 0.03;
+            Mannequin3D.rightArmPivot.rotation.z = 0.04 - Math.abs(swing) * 0.03;
+            Mannequin3D.upperBodyGroup.rotation.y = swing * 0.16;
+            Mannequin3D.upperBodyGroup.rotation.z = swing * 0.03;
+            Mannequin3D.upperBodyGroup.position.y = Math.abs(Math.sin(t * 3.4)) * 0.06;
           } else if (currentMannequinPose === 'runway') {
             // Confident Runway Stance with subtle sway
             const sway = Math.sin(t * 1.6);
-            Mannequin3D.leftArmPivot.rotation.x = -0.15 + sway * 0.06;
-            Mannequin3D.rightArmPivot.rotation.x = 0.12 - sway * 0.06;
-            Mannequin3D.leftArmPivot.rotation.z = 0.34;
-            Mannequin3D.rightArmPivot.rotation.z = -0.28;
-            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.55;
-            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.35;
-            Mannequin3D.upperBodyGroup.rotation.y = 0.08 + sway * 0.05;
-            Mannequin3D.upperBodyGroup.rotation.z = 0.04;
-            Mannequin3D.upperBodyGroup.position.y = Math.sin(t * 2.0) * 0.018;
-            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = -0.1 + sway * 0.06;
+            Mannequin3D.leftArmPivot.rotation.x = -0.05 + sway * 0.04;
+            Mannequin3D.rightArmPivot.rotation.x = 0.05 - sway * 0.04;
+            Mannequin3D.leftArmPivot.rotation.z = -0.03;
+            Mannequin3D.rightArmPivot.rotation.z = 0.03;
+            Mannequin3D.upperBodyGroup.rotation.y = 0.12 + sway * 0.06;
+            Mannequin3D.upperBodyGroup.rotation.z = 0.035;
+            Mannequin3D.upperBodyGroup.position.y = Math.sin(t * 2.0) * 0.02;
           } else {
             // Natural Idle Breathing & Micro-Motion
             const breath = Math.sin(t * 1.8);
-            Mannequin3D.leftArmPivot.rotation.x = breath * 0.03;
-            Mannequin3D.rightArmPivot.rotation.x = -breath * 0.03;
-            Mannequin3D.leftArmPivot.rotation.z = 0.20 + breath * 0.015;
-            Mannequin3D.rightArmPivot.rotation.z = -0.20 - breath * 0.015;
-            if (Mannequin3D.leftForearmPivot) Mannequin3D.leftForearmPivot.rotation.x = -0.15;
-            if (Mannequin3D.rightForearmPivot) Mannequin3D.rightForearmPivot.rotation.x = -0.15;
+            Mannequin3D.leftArmPivot.rotation.x = breath * 0.02;
+            Mannequin3D.rightArmPivot.rotation.x = -breath * 0.02;
+            Mannequin3D.leftArmPivot.rotation.z = breath * 0.015;
+            Mannequin3D.rightArmPivot.rotation.z = -breath * 0.015;
             Mannequin3D.upperBodyGroup.rotation.y = Math.sin(t * 0.7) * 0.04;
             Mannequin3D.upperBodyGroup.rotation.z = 0;
             Mannequin3D.upperBodyGroup.position.y = breath * 0.015 + Mannequin3D.pulseBoost * 0.04;
-            if (Mannequin3D.headGroup) Mannequin3D.headGroup.rotation.y = Math.sin(t * 0.9) * 0.07;
           }
         }
 
@@ -2951,19 +2943,20 @@
     }
 
     function buildArticulatedMannequinAnd3DShirt(rootGroup) {
-      // Base mannequin skin/form material (changes with Atelier Linen / Ghost / Obsidian / Chrome)
+      // Dark charcoal tailored dress-form fabric material (matches reference mannequin)
       const bodyMat = new THREE.MeshStandardMaterial({
-        color: 0xe5d6c3,
-        roughness: 0.72,
-        metalness: 0.08,
+        color: 0x1c1d22,
+        roughness: 0.85,
+        metalness: 0.05,
         side: THREE.DoubleSide
       });
       Mannequin3D.materials.body = bodyMat;
 
+      // Brushed dark gunmetal steel for finial, neck cap, and stand
       const jointMat = new THREE.MeshStandardMaterial({
-        color: 0xb89b7b,
-        roughness: 0.4,
-        metalness: 0.35
+        color: 0x52525b,
+        roughness: 0.25,
+        metalness: 0.85
       });
       Mannequin3D.materials.joint = jointMat;
 
@@ -2977,33 +2970,43 @@
       const torsoMesh = new THREE.Mesh(torsoGeo, bodyMat);
       torsoMesh.castShadow = true;
       torsoMesh.receiveShadow = true;
-      torsoMesh.userData = { partLabel: 'Sculpted Atelier Dress Form Core' };
+      torsoMesh.userData = { partLabel: 'Tailored Charcoal Atelier Dress Form' };
       upperBodyGroup.add(torsoMesh);
       Mannequin3D.torsoMesh = torsoMesh;
 
-      // 2. Sculpted Mannequin Neck & Head
+      // Exposed Charcoal Dress-Form Hip Base below jersey hem
+      const hipBaseGeo = new THREE.CylinderGeometry(0.80, 0.77, 0.24, 48);
+      hipBaseGeo.scale(1.0, 1.0, 0.51);
+      const hipBaseMesh = new THREE.Mesh(hipBaseGeo, bodyMat);
+      hipBaseMesh.position.y = -1.46;
+      hipBaseMesh.castShadow = true;
+      upperBodyGroup.add(hipBaseMesh);
+      Mannequin3D.hipBaseMesh = hipBaseMesh;
+
+      // 2. Tailored Charcoal Neck + Brushed Steel Neck Cap + Tapered Finial Handle (No Head)
       const headGroup = new THREE.Group();
-      headGroup.position.set(0, 1.40, 0);
+      headGroup.position.set(0, 1.36, 0);
       upperBodyGroup.add(headGroup);
       Mannequin3D.headGroup = headGroup;
 
-      const neckMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.27, 0.42, 28), bodyMat);
-      neckMesh.position.y = 0.16;
+      const neckMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.30, 0.34, 32), bodyMat);
+      neckMesh.position.y = 0.14;
+      neckMesh.castShadow = true;
       headGroup.add(neckMesh);
 
-      const neckRing = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.025, 12, 32), jointMat);
-      neckRing.rotation.x = Math.PI / 2;
-      neckRing.position.y = 0.02;
-      headGroup.add(neckRing);
+      const neckCapMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.255, 0.255, 0.05, 32), jointMat);
+      neckCapMesh.position.y = 0.32;
+      headGroup.add(neckCapMesh);
 
-      // Stylized Luxury Mannequin Head
-      const headGeo = new THREE.SphereGeometry(0.36, 32, 32);
-      headGeo.scale(0.86, 1.15, 0.96);
-      const headMesh = new THREE.Mesh(headGeo, bodyMat);
-      headMesh.position.set(0, 0.65, 0.03);
-      headMesh.castShadow = true;
-      headMesh.userData = { partLabel: 'Atelier Mannequin Head' };
-      headGroup.add(headMesh);
+      const finialStem = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.032, 0.26, 20), jointMat);
+      finialStem.position.y = 0.47;
+      finialStem.castShadow = true;
+      finialStem.userData = { partLabel: 'Brushed Steel Atelier Finial' };
+      headGroup.add(finialStem);
+
+      const finialTop = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16), jointMat);
+      finialTop.position.y = 0.60;
+      headGroup.add(finialTop);
 
       // 3. REAL 3D T-SHIRT MESH (Torso Shell + 3D Collar + 3D Hem + 3D Sleeves)
       const shirtGroup = new THREE.Group();
@@ -3078,92 +3081,76 @@
       hemMesh.position.y = -1.34;
       shirtGroup.add(hemMesh);
 
-      // 4. Articulated Left & Right Arms + 3D T-Shirt Sleeves
-      function createArmWithSleeve(isLeft) {
+      // 4. Tailored Short-Sleeve Dress Form Caps (No bare arms/hands)
+      const sleeveInteriorMat = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.95 });
+
+      function createDressFormSleeve(isLeft) {
         const sign = isLeft ? -1 : 1;
         const armPivot = new THREE.Group();
-        armPivot.position.set(sign * 1.04, 1.04, -0.02);
+        armPivot.position.set(sign * 1.02, 1.06, -0.02);
         upperBodyGroup.add(armPivot);
 
-        // Shoulder joint
-        const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.21, 20, 20), bodyMat);
-        armPivot.add(shoulder);
-
-        // 3D T-Shirt Sleeve (Draped over upper arm!)
-        const sleeveGeo = new THREE.CylinderGeometry(0.28, 0.27, 0.86, 28, 8, false);
-        sleeveGeo.scale(1.0, 1.0, 0.92);
+        // 3D T-Shirt Short Sleeve angled naturally off the shoulder
+        const sleeveGeo = new THREE.CylinderGeometry(0.28, 0.26, 0.72, 28, 8, false);
+        sleeveGeo.scale(1.0, 1.0, 0.88);
         const sleeveMesh = new THREE.Mesh(sleeveGeo, crimsonSleeveMat);
-        sleeveMesh.position.set(sign * 0.05, -0.34, 0);
-        sleeveMesh.rotation.z = sign * -0.08;
+        sleeveMesh.position.set(sign * 0.12, -0.28, 0);
+        sleeveMesh.rotation.z = sign * 0.38;
         sleeveMesh.castShadow = true;
         sleeveMesh.userData = { partLabel: (isLeft ? 'Left' : 'Right') + ' 3D Athletic Mesh Sleeve + Black Cuff' };
         armPivot.add(sleeveMesh);
 
         // Black Sleeve Cuff Band
-        const cuffGeo = new THREE.CylinderGeometry(0.275, 0.285, 0.12, 28);
-        cuffGeo.scale(1.0, 1.0, 0.92);
+        const cuffGeo = new THREE.CylinderGeometry(0.262, 0.272, 0.11, 28);
+        cuffGeo.scale(1.0, 1.0, 0.88);
         const cuffMesh = new THREE.Mesh(cuffGeo, blackTrimMat);
-        cuffMesh.position.set(sign * 0.02, -0.74, 0);
-        cuffMesh.rotation.z = sign * -0.08;
+        cuffMesh.position.set(sign * 0.24, -0.58, 0);
+        cuffMesh.rotation.z = sign * 0.38;
         armPivot.add(cuffMesh);
 
+        // Dark hollow interior cap at sleeve opening
+        const capGeo = new THREE.CircleGeometry(0.25, 24);
+        capGeo.scale(1.0, 0.88, 1.0);
+        const capMesh = new THREE.Mesh(capGeo, sleeveInteriorMat);
+        capMesh.position.set(sign * 0.26, -0.63, 0);
+        capMesh.rotation.x = Math.PI / 2;
+        capMesh.rotation.y = sign * -0.38;
+        armPivot.add(capMesh);
+
         // Black Underarm Panel Accent
-        const underarmGeo = new THREE.CylinderGeometry(0.22, 0.21, 0.62, 16, 1, false, 0, Math.PI * 0.7);
+        const underarmGeo = new THREE.CylinderGeometry(0.24, 0.22, 0.56, 16, 1, false, 0, Math.PI * 0.7);
         const underarmMesh = new THREE.Mesh(underarmGeo, blackTrimMat);
-        underarmMesh.position.set(sign * 0.02, -0.36, 0);
+        underarmMesh.position.set(sign * 0.08, -0.30, 0);
+        underarmMesh.rotation.z = sign * 0.38;
         underarmMesh.rotation.y = isLeft ? 0 : Math.PI;
         armPivot.add(underarmMesh);
 
-        // Mannequin Upper Arm (emerging below sleeve)
-        const upperArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.13, 0.55, 20), bodyMat);
-        upperArmMesh.position.y = -0.92;
-        upperArmMesh.castShadow = true;
-        armPivot.add(upperArmMesh);
-
-        // Elbow & Forearm Pivot
-        const forearmPivot = new THREE.Group();
-        forearmPivot.position.set(0, -1.20, 0);
-        armPivot.add(forearmPivot);
-
-        const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), jointMat);
-        forearmPivot.add(elbow);
-
-        const forearmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.09, 0.88, 20), bodyMat);
-        forearmMesh.position.y = -0.44;
-        forearmMesh.castShadow = true;
-        forearmPivot.add(forearmMesh);
-
-        const handMesh = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), bodyMat);
-        handMesh.scale.set(0.75, 1.25, 0.55);
-        handMesh.position.y = -0.94;
-        forearmPivot.add(handMesh);
-
-        return { armPivot, forearmPivot };
+        return { armPivot, forearmPivot: null };
       }
 
-      const leftArm = createArmWithSleeve(true);
-      const rightArm = createArmWithSleeve(false);
+      const leftArm = createDressFormSleeve(true);
+      const rightArm = createDressFormSleeve(false);
       Mannequin3D.leftArmPivot = leftArm.armPivot;
-      Mannequin3D.leftForearmPivot = leftArm.forearmPivot;
+      Mannequin3D.leftForearmPivot = null;
       Mannequin3D.rightArmPivot = rightArm.armPivot;
-      Mannequin3D.rightForearmPivot = rightArm.forearmPivot;
+      Mannequin3D.rightForearmPivot = null;
 
-      // 5. Cast Iron Pedestal Stand Assembly (stationary base under moving mannequin)
+      // 5. Tall Brushed-Steel Pedestal Stand Assembly (matches reference stand)
       const standGroup = new THREE.Group();
       rootGroup.add(standGroup);
       Mannequin3D.standGroup = standGroup;
 
-      const standMat = new THREE.MeshStandardMaterial({ color: 0x27272a, metalness: 0.78, roughness: 0.30 });
-      const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 24), standMat);
-      poleMesh.position.y = -1.65;
+      const standMat = new THREE.MeshStandardMaterial({ color: 0x3f3f46, metalness: 0.85, roughness: 0.28 });
+      const poleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.05, 24), standMat);
+      poleMesh.position.y = -1.90;
       standGroup.add(poleMesh);
 
-      const knobMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.08, 16), jointMat);
-      knobMesh.position.y = -1.75;
-      standGroup.add(knobMesh);
+      const collarRing = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.08, 20), jointMat);
+      collarRing.position.y = -1.62;
+      standGroup.add(collarRing);
 
-      const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.15, 0.11, 36), standMat);
-      baseMesh.position.y = -2.20;
+      const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.88, 0.94, 0.09, 40), standMat);
+      baseMesh.position.y = -2.40;
       baseMesh.receiveShadow = true;
       standGroup.add(baseMesh);
     }
@@ -3265,27 +3252,33 @@
       if (!bodyMat) return;
 
       if (form === 'linen') {
-        bodyMat.color.setHex(0xe5d6c3);
-        bodyMat.roughness = 0.72;
-        bodyMat.metalness = 0.08;
+        bodyMat.color.setHex(0x1c1d22);
+        bodyMat.roughness = 0.85;
+        bodyMat.metalness = 0.05;
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.emissive.setHex(0x000000);
+        if (Mannequin3D.headGroup) Mannequin3D.headGroup.visible = true;
+        if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = true;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
       } else if (form === 'ghost') {
-        bodyMat.color.setHex(0x00f59b);
-        bodyMat.emissive.setHex(0x00f59b);
+        bodyMat.color.setHex(0xfacc15);
+        bodyMat.emissive.setHex(0xfacc15);
         bodyMat.emissiveIntensity = 0.35;
         bodyMat.transparent = true;
-        bodyMat.opacity = 0.22;
+        bodyMat.opacity = 0.18;
+        if (Mannequin3D.headGroup) Mannequin3D.headGroup.visible = false;
+        if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = false;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = false;
       } else if (form === 'matte') {
-        bodyMat.color.setHex(0x181920);
+        bodyMat.color.setHex(0x09090b);
         bodyMat.roughness = 0.45;
         bodyMat.metalness = 0.65;
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.emissive.setHex(0x000000);
+        if (Mannequin3D.headGroup) Mannequin3D.headGroup.visible = true;
+        if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = true;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
       } else if (form === 'chrome') {
         bodyMat.color.setHex(0xe2e8f0);
@@ -3294,6 +3287,8 @@
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.emissive.setHex(0x000000);
+        if (Mannequin3D.headGroup) Mannequin3D.headGroup.visible = true;
+        if (Mannequin3D.hipBaseMesh) Mannequin3D.hipBaseMesh.visible = true;
         if (Mannequin3D.standGroup) Mannequin3D.standGroup.visible = true;
       }
       bodyMat.needsUpdate = true;
