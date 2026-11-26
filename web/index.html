@@ -183,22 +183,22 @@
             </div>
           </div>
 
-          <!-- 👤 MY AI TWIN CARD (TWIN! FEATURE) -->
-          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-surface to-surface-elevated border border-lavender/30 flex items-center justify-between shadow-lg shadow-lavender/5">
-            <div class="flex items-center space-x-3">
-              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-tr from-lavender to-sage p-0.5">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-[10px]">
+          <!-- 👤 MY AI TWIN CARD (TWIN! FEATURE - FULLY EDITABLE) -->
+          <div id="home-twin-card" class="p-3.5 rounded-2xl bg-gradient-to-r from-surface to-surface-elevated border border-lavender/30 flex items-center justify-between shadow-lg shadow-lavender/5">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="openTwinModal()">
+              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-tr from-lavender to-sage p-0.5 shrink-0">
+                <img id="home-twin-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-[10px]">
                 <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-lavender text-midnight text-[9px] font-extrabold rounded-full flex items-center justify-center shadow">AI</span>
               </div>
               <div>
-                <div class="flex items-center gap-1.5">
-                  <h4 class="text-xs font-bold text-ivory">My AI Twin: User</h4>
-                  <span class="text-[9px] bg-yellow-400/20 text-yellow-300 px-1.5 py-0.2 rounded font-mono font-semibold">Active Clone</span>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 id="home-twin-name" class="text-xs font-bold text-ivory">My AI Twin: User</h4>
+                  <span id="home-twin-badge" class="text-[9px] bg-yellow-400/20 text-yellow-300 px-1.5 py-0.2 rounded font-mono font-semibold">Active Clone</span>
                 </div>
-                <p class="text-[10px] text-white/75">178 cm · Athletic · 1-Tap try any item</p>
+                <p id="home-twin-specs" class="text-[10px] text-white/75">178 cm · 70 kg · Athletic · Size M · 1-Tap try</p>
               </div>
             </div>
-            <button onclick="openTwinModal()" class="px-2.5 py-1.5 rounded-xl bg-lavender/10 text-lavender border border-lavender/30 hover:bg-lavender hover:text-midnight text-[11px] font-bold transition flex items-center gap-1">
+            <button onclick="openTwinModal()" class="px-2.5 py-1.5 rounded-xl bg-lavender/10 text-lavender border border-lavender/30 hover:bg-lavender hover:text-midnight text-[11px] font-bold transition flex items-center gap-1 shrink-0">
               <i data-lucide="sliders" class="w-3 h-3"></i> Edit Twin
             </button>
           </div>
@@ -2226,17 +2226,43 @@
         <!-- SCREEN 6: USER PROFILE                     -->
         <!-- ========================================== -->
         <div id="tab-profile" class="tab-pane hidden space-y-4">
-          <div class="p-4 rounded-2xl bg-surface border border-border text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-lavender to-sage p-0.5 mb-2">
-              <div class="w-full h-full rounded-full bg-midnight flex items-center justify-center text-lavender">
-                <i data-lucide="user" class="w-9 h-9"></i>
+          <div class="p-5 rounded-2xl bg-surface border border-border text-center space-y-3">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-lavender to-sage p-0.5">
+              <img id="profile-twin-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
+            </div>
+            <div>
+              <h3 id="profile-twin-name" class="text-base font-bold text-ivory">User</h3>
+              <p id="profile-twin-meta" class="text-xs text-white/75">user@yuri.ai · India (IN)</p>
+            </div>
+            <div id="profile-twin-stats" class="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-2 text-[10px]">
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Height</span>
+                <span id="profile-stat-height" class="font-mono font-bold text-lavender">178 cm</span>
+              </div>
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Weight</span>
+                <span id="profile-stat-weight" class="font-mono font-bold text-lavender">70 kg</span>
+              </div>
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Silhouette</span>
+                <span id="profile-stat-shape" class="font-bold text-white">Athletic</span>
+              </div>
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Size</span>
+                <span id="profile-stat-size" class="font-mono font-bold text-lavender">M</span>
+              </div>
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Fit Style</span>
+                <span id="profile-stat-fit" class="font-bold text-white">Unisex</span>
+              </div>
+              <div class="p-2 rounded-xl bg-surface-light border border-border">
+                <span class="text-white/60 block">Bust/Waist</span>
+                <span id="profile-stat-bw" class="font-mono font-bold text-white">36" / 28"</span>
               </div>
             </div>
-            <h3 class="text-base font-bold text-ivory">User</h3>
-            <p class="text-xs text-white/75">user@yuri.ai · India (IN)</p>
-            <div class="mt-3 flex justify-center">
+            <div class="pt-1 flex justify-center">
               <button onclick="openTwinModal()" class="px-4 py-1.5 rounded-full bg-lavender text-midnight text-xs font-bold shadow-md hover:bg-white transition flex items-center gap-1.5">
-                <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Calibrate AI Twin
+                <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Edit My AI Twin
               </button>
             </div>
           </div>
@@ -2347,10 +2373,10 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 👤 MODAL 2: MY AI TWIN CUSTOMIZER                                         -->
+  <!-- 👤 MODAL 2: MY AI TWIN CUSTOMIZER (FULLY EDITABLE)                        -->
   <!-- ========================================================================= -->
-  <div id="twin-persona-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-surface border border-lavender/30 rounded-3xl max-w-md w-full p-5 space-y-4 shadow-2xl relative">
+  <div id="twin-persona-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-surface border border-lavender/35 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
       <button onclick="closeTwinModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-xs">✕</button>
 
       <div>
@@ -2359,39 +2385,154 @@
           <span class="text-xs font-bold text-lavender uppercase tracking-wider">AI Twin Persona Studio</span>
         </div>
         <h3 class="text-lg font-serif italic text-ivory mt-0.5">Customize Your Digital Twin</h3>
-        <p class="text-xs text-white/75">Your Twin is saved so you can try on any outfit with a single tap.</p>
+        <p class="text-xs text-white/75">Every field is editable and saved automatically across your profile, home card, and 3D mannequin.</p>
       </div>
 
-      <div class="relative w-28 h-28 mx-auto rounded-2xl bg-gradient-to-tr from-lavender via-sage to-amber-200 p-0.5 shadow-xl">
-        <img id="twin-modal-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-[14px]">
+      <!-- Editable Avatar Upload + Presets -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="relative w-24 h-24 rounded-2xl bg-gradient-to-tr from-lavender via-sage to-amber-200 p-0.5 shadow-xl group cursor-pointer" onclick="document.getElementById('twin-avatar-file').click()">
+          <img id="twin-modal-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-[14px]">
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 rounded-[14px] transition flex flex-col items-center justify-center text-[10px] text-lavender font-bold">
+            <i data-lucide="camera" class="w-4 h-4 mb-0.5"></i> Upload
+          </div>
+        </div>
+        <input type="file" id="twin-avatar-file" accept="image/*" class="hidden" onchange="handleTwinAvatarUpload(event)">
+        <div class="flex items-center gap-1.5 text-[10px] text-white/75">
+          <span>Presets:</span>
+          <button type="button" onclick="setTwinPresetAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80')" class="w-6 h-6 rounded-full overflow-hidden border border-border hover:border-lavender"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover"></button>
+          <button type="button" onclick="setTwinPresetAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80')" class="w-6 h-6 rounded-full overflow-hidden border border-border hover:border-lavender"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover"></button>
+          <button type="button" onclick="setTwinPresetAvatar('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80')" class="w-6 h-6 rounded-full overflow-hidden border border-border hover:border-lavender"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover"></button>
+          <button type="button" onclick="setTwinPresetAvatar('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80')" class="w-6 h-6 rounded-full overflow-hidden border border-border hover:border-lavender"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover"></button>
+          <button type="button" onclick="document.getElementById('twin-avatar-file').click()" class="px-2 py-0.5 rounded-lg bg-surface-light border border-border text-lavender hover:border-lavender font-semibold">Upload Photo</button>
+        </div>
       </div>
 
-      <div>
-        <label class="text-[11px] font-semibold text-white/75 block mb-1">Twin Name</label>
-        <input id="twin-name-input" type="text" value="User" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+      <!-- Identity Fields -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Twin Name</label>
+          <input id="twin-name-input" type="text" value="User" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Status Badge</label>
+          <input id="twin-badge-input" type="text" value="Active Clone" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Email / Handle</label>
+          <input id="twin-email-input" type="text" value="user@yuri.ai" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1">Location</label>
+          <input id="twin-location-input" type="text" value="India (IN)" class="w-full bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory outline-none focus:border-lavender">
+        </div>
       </div>
 
+      <!-- Body Silhouette -->
       <div>
         <label class="text-[11px] font-semibold text-white/75 block mb-1.5">Body Silhouette</label>
         <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
-          <button onclick="selectTwinShape(this, 'Athletic')" class="twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]">Athletic</button>
-          <button onclick="selectTwinShape(this, 'Lean')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Lean</button>
-          <button onclick="selectTwinShape(this, 'Curvy')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Curvy</button>
-          <button onclick="selectTwinShape(this, 'Regular')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Regular</button>
+          <button type="button" onclick="selectTwinShape(this, 'Athletic')" class="twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]">Athletic</button>
+          <button type="button" onclick="selectTwinShape(this, 'Lean')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Lean</button>
+          <button type="button" onclick="selectTwinShape(this, 'Curvy')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Curvy</button>
+          <button type="button" onclick="selectTwinShape(this, 'Regular')" class="twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]">Regular</button>
         </div>
       </div>
 
+      <!-- Fit Style & Preferred Size -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1.5">Fit Style</label>
+          <div class="grid grid-cols-2 gap-1 text-center">
+            <button type="button" onclick="selectTwinFit(this, 'Unisex')" class="twin-fit-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]">Unisex</button>
+            <button type="button" onclick="selectTwinFit(this, 'Oversized')" class="twin-fit-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">Oversized</button>
+            <button type="button" onclick="selectTwinFit(this, 'Menswear')" class="twin-fit-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">Menswear</button>
+            <button type="button" onclick="selectTwinFit(this, 'Womenswear')" class="twin-fit-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">Womenswear</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-white/75 block mb-1.5">Preferred Size</label>
+          <div class="grid grid-cols-3 gap-1 text-center">
+            <button type="button" onclick="selectTwinSize(this, 'XS')" class="twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XS</button>
+            <button type="button" onclick="selectTwinSize(this, 'S')" class="twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">S</button>
+            <button type="button" onclick="selectTwinSize(this, 'M')" class="twin-size-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]">M</button>
+            <button type="button" onclick="selectTwinSize(this, 'L')" class="twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">L</button>
+            <button type="button" onclick="selectTwinSize(this, 'XL')" class="twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XL</button>
+            <button type="button" onclick="selectTwinSize(this, 'XXL')" class="twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]">XXL</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skin Tone Swatches -->
       <div>
-        <div class="flex justify-between text-[11px] text-white/75 mb-1">
-          <span>Height</span>
-          <span id="twin-height-val" class="text-lavender font-mono font-bold">178 cm</span>
+        <div class="flex justify-between text-[11px] text-white/75 mb-1.5">
+          <span>Skin Tone</span>
+          <span id="twin-skin-label" class="text-lavender font-semibold">Warm Tan</span>
         </div>
-        <input type="range" min="145" max="205" value="178" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-height-val').textContent = this.value + ' cm'">
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="selectTwinSkin(this, 'Fair', '#F7D7C4')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent" style="background:#F7D7C4" title="Fair"></button>
+          <button type="button" onclick="selectTwinSkin(this, 'Light Beige', '#ECC4A8')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent" style="background:#ECC4A8" title="Light Beige"></button>
+          <button type="button" onclick="selectTwinSkin(this, 'Warm Tan', '#D69E76')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-lavender scale-110" style="background:#D69E76" title="Warm Tan"></button>
+          <button type="button" onclick="selectTwinSkin(this, 'Olive', '#B9835C')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent" style="background:#B9835C" title="Olive"></button>
+          <button type="button" onclick="selectTwinSkin(this, 'Rich Brown', '#8B5A3C')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent" style="background:#8B5A3C" title="Rich Brown"></button>
+          <button type="button" onclick="selectTwinSkin(this, 'Deep Ebony', '#573724')" class="twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent" style="background:#573724" title="Deep Ebony"></button>
+        </div>
       </div>
 
-      <button onclick="saveTwinCalibration()" class="w-full py-2.5 bg-gradient-to-r from-sage to-lavender text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg">
-        Save & Sync AI Twin
-      </button>
+      <!-- Editable Measurements Sliders -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <div class="flex justify-between text-[11px] text-white/75 mb-1">
+            <span>Height</span>
+            <span id="twin-height-val" class="text-lavender font-mono font-bold">178 cm</span>
+          </div>
+          <input id="twin-height-input" type="range" min="145" max="205" value="178" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-height-val').textContent = this.value + ' cm'">
+        </div>
+        <div>
+          <div class="flex justify-between text-[11px] text-white/75 mb-1">
+            <span>Weight</span>
+            <span id="twin-weight-val" class="text-lavender font-mono font-bold">70 kg</span>
+          </div>
+          <input id="twin-weight-input" type="range" min="40" max="130" value="70" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-weight-val').textContent = this.value + ' kg'">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <div>
+          <div class="flex justify-between text-[10px] text-white/75 mb-1">
+            <span>Chest</span>
+            <span id="twin-bust-val" class="text-lavender font-mono font-bold">36"</span>
+          </div>
+          <input id="twin-bust-input" type="range" min="30" max="46" value="36" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-bust-val').textContent = this.value + '&quot;'">
+        </div>
+        <div>
+          <div class="flex justify-between text-[10px] text-white/75 mb-1">
+            <span>Waist</span>
+            <span id="twin-waist-val" class="text-lavender font-mono font-bold">28"</span>
+          </div>
+          <input id="twin-waist-input" type="range" min="22" max="40" value="28" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-waist-val').textContent = this.value + '&quot;'">
+        </div>
+        <div>
+          <div class="flex justify-between text-[10px] text-white/75 mb-1">
+            <span>Hips</span>
+            <span id="twin-hips-val" class="text-lavender font-mono font-bold">38"</span>
+          </div>
+          <input id="twin-hips-input" type="range" min="30" max="48" value="38" class="w-full accent-lavender h-1.5 bg-surface-light rounded-lg cursor-pointer" oninput="document.getElementById('twin-hips-val').textContent = this.value + '&quot;'">
+        </div>
+      </div>
+
+      <label class="flex items-center gap-2 text-[11px] text-white/90 cursor-pointer select-none">
+        <input id="twin-sync-mannequin" type="checkbox" checked class="accent-lavender rounded">
+        <span>Sync measurements with 3D Mannequin Studio</span>
+      </label>
+
+      <div class="flex gap-2">
+        <button type="button" onclick="resetTwinDefaults()" class="px-3.5 py-2.5 bg-surface-light border border-border text-white/80 hover:text-white font-semibold rounded-xl text-xs transition">
+          Reset
+        </button>
+        <button type="button" onclick="saveTwinCalibration()" class="flex-1 py-2.5 bg-gradient-to-r from-sage to-lavender text-midnight font-bold rounded-xl text-xs hover:opacity-95 transition shadow-lg">
+          Save & Sync AI Twin
+        </button>
+      </div>
     </div>
   </div>
 
@@ -4806,21 +4947,207 @@
     function shareOutfit() { navigator.clipboard?.writeText(window.location.href); alert('🔗 Look link copied to clipboard!'); }
     function openAddWardrobeModal() { alert('👗 Wardrobe Scanner: Take or upload a photo of your clothing item to auto-classify category, color, and fabric weave.'); }
 
-    // Modals & Twin logic
+    // Modals & Editable AI Twin Logic (Persisted to localStorage)
+    const DEFAULT_AI_TWIN = {
+      name: 'User',
+      badge: 'Active Clone',
+      email: 'user@yuri.ai',
+      location: 'India (IN)',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      shape: 'Athletic',
+      fitStyle: 'Unisex',
+      size: 'M',
+      skinTone: 'Warm Tan',
+      skinHex: '#D69E76',
+      height: 178,
+      weight: 70,
+      bust: 36,
+      waist: 28,
+      hips: 38
+    };
+
+    let aiTwinProfile = (() => {
+      try {
+        const saved = localStorage.getItem('yuri_ai_twin_v1');
+        return saved ? { ...DEFAULT_AI_TWIN, ...JSON.parse(saved) } : { ...DEFAULT_AI_TWIN };
+      } catch (e) {
+        return { ...DEFAULT_AI_TWIN };
+      }
+    })();
+
     function openTwinComparisonModal() { document.getElementById('twin-comparison-modal').classList.remove('hidden'); lucide.createIcons(); }
     function closeTwinComparisonModal() { document.getElementById('twin-comparison-modal').classList.add('hidden'); }
-    function openTwinModal() { document.getElementById('twin-persona-modal').classList.remove('hidden'); lucide.createIcons(); }
+
+    function populateTwinModalFields() {
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+      const preview = document.getElementById('twin-modal-preview');
+      if (preview) preview.src = aiTwinProfile.avatar;
+
+      setVal('twin-name-input', aiTwinProfile.name);
+      setVal('twin-badge-input', aiTwinProfile.badge);
+      setVal('twin-email-input', aiTwinProfile.email);
+      setVal('twin-location-input', aiTwinProfile.location);
+      setVal('twin-height-input', aiTwinProfile.height);
+      setVal('twin-weight-input', aiTwinProfile.weight);
+      setVal('twin-bust-input', aiTwinProfile.bust);
+      setVal('twin-waist-input', aiTwinProfile.waist);
+      setVal('twin-hips-input', aiTwinProfile.hips);
+
+      setText('twin-height-val', aiTwinProfile.height + ' cm');
+      setText('twin-weight-val', aiTwinProfile.weight + ' kg');
+      setText('twin-bust-val', aiTwinProfile.bust + '"');
+      setText('twin-waist-val', aiTwinProfile.waist + '"');
+      setText('twin-hips-val', aiTwinProfile.hips + '"');
+      setText('twin-skin-label', aiTwinProfile.skinTone);
+
+      document.querySelectorAll('.twin-shape-btn').forEach(b => {
+        const active = b.textContent.trim() === aiTwinProfile.shape;
+        b.className = active
+          ? 'twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]'
+          : 'twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]';
+      });
+      document.querySelectorAll('.twin-fit-btn').forEach(b => {
+        const active = b.textContent.trim() === aiTwinProfile.fitStyle;
+        b.className = active
+          ? 'twin-fit-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]'
+          : 'twin-fit-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]';
+      });
+      document.querySelectorAll('.twin-size-btn').forEach(b => {
+        const active = b.textContent.trim() === aiTwinProfile.size;
+        b.className = active
+          ? 'twin-size-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]'
+          : 'twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]';
+      });
+      document.querySelectorAll('.twin-skin-btn').forEach(b => {
+        const active = b.getAttribute('title') === aiTwinProfile.skinTone;
+        b.className = active
+          ? 'twin-skin-btn w-7 h-7 rounded-full border-2 border-lavender scale-110'
+          : 'twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent';
+      });
+    }
+
+    function openTwinModal() {
+      populateTwinModalFields();
+      document.getElementById('twin-persona-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
     function closeTwinModal() { document.getElementById('twin-persona-modal').classList.add('hidden'); }
+
+    function handleTwinAvatarUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        aiTwinProfile.avatar = e.target.result;
+        const preview = document.getElementById('twin-modal-preview');
+        if (preview) preview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setTwinPresetAvatar(url) {
+      aiTwinProfile.avatar = url;
+      const preview = document.getElementById('twin-modal-preview');
+      if (preview) preview.src = url;
+    }
+
     function selectTwinShape(btn, shape) {
+      aiTwinProfile.shape = shape;
       document.querySelectorAll('.twin-shape-btn').forEach(b => { b.className = 'twin-shape-btn p-2 rounded-xl bg-surface-light text-white/90 text-[11px]'; });
       btn.className = 'twin-shape-btn p-2 rounded-xl bg-lavender text-midnight font-bold text-[11px]';
     }
+
+    function selectTwinFit(btn, fit) {
+      aiTwinProfile.fitStyle = fit;
+      document.querySelectorAll('.twin-fit-btn').forEach(b => { b.className = 'twin-fit-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]'; });
+      btn.className = 'twin-fit-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]';
+    }
+
+    function selectTwinSize(btn, size) {
+      aiTwinProfile.size = size;
+      document.querySelectorAll('.twin-size-btn').forEach(b => { b.className = 'twin-size-btn py-1.5 rounded-lg bg-surface-light text-white/90 text-[10px]'; });
+      btn.className = 'twin-size-btn py-1.5 rounded-lg bg-lavender text-midnight font-bold text-[10px]';
+    }
+
+    function selectTwinSkin(btn, label, hex) {
+      aiTwinProfile.skinTone = label;
+      aiTwinProfile.skinHex = hex;
+      const skinEl = document.getElementById('twin-skin-label');
+      if (skinEl) skinEl.textContent = label;
+      document.querySelectorAll('.twin-skin-btn').forEach(b => { b.className = 'twin-skin-btn w-7 h-7 rounded-full border-2 border-transparent'; });
+      btn.className = 'twin-skin-btn w-7 h-7 rounded-full border-2 border-lavender scale-110';
+    }
+
+    function syncAITwinUI() {
+      const homeAvatar = document.getElementById('home-twin-avatar');
+      const homeName = document.getElementById('home-twin-name');
+      const homeBadge = document.getElementById('home-twin-badge');
+      const homeSpecs = document.getElementById('home-twin-specs');
+      if (homeAvatar) homeAvatar.src = aiTwinProfile.avatar;
+      if (homeName) homeName.textContent = `My AI Twin: ${aiTwinProfile.name}`;
+      if (homeBadge) homeBadge.textContent = aiTwinProfile.badge;
+      if (homeSpecs) homeSpecs.textContent = `${aiTwinProfile.height} cm · ${aiTwinProfile.weight} kg · ${aiTwinProfile.shape} · Size ${aiTwinProfile.size} · ${aiTwinProfile.fitStyle}`;
+
+      const profAvatar = document.getElementById('profile-twin-avatar');
+      const profName = document.getElementById('profile-twin-name');
+      const profMeta = document.getElementById('profile-twin-meta');
+      if (profAvatar) profAvatar.src = aiTwinProfile.avatar;
+      if (profName) profName.textContent = aiTwinProfile.name;
+      if (profMeta) profMeta.textContent = `${aiTwinProfile.email} · ${aiTwinProfile.location}`;
+
+      const setStat = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      setStat('profile-stat-height', aiTwinProfile.height + ' cm');
+      setStat('profile-stat-weight', aiTwinProfile.weight + ' kg');
+      setStat('profile-stat-shape', aiTwinProfile.shape);
+      setStat('profile-stat-size', aiTwinProfile.size);
+      setStat('profile-stat-fit', aiTwinProfile.fitStyle);
+      setStat('profile-stat-bw', `${aiTwinProfile.bust}" / ${aiTwinProfile.waist}"`);
+    }
+
+    function resetTwinDefaults() {
+      aiTwinProfile = { ...DEFAULT_AI_TWIN };
+      populateTwinModalFields();
+      showStudioToast('↺ Reset AI Twin fields to default');
+    }
+
     function saveTwinCalibration() {
-      const name = document.getElementById('twin-name-input').value || 'User';
-      const height = document.getElementById('twin-height-val').textContent;
-      alert(`✨ AI Twin Calibrated! Saved as "${name}" (${height}).`);
+      aiTwinProfile.name = (document.getElementById('twin-name-input')?.value || '').trim() || 'User';
+      aiTwinProfile.badge = (document.getElementById('twin-badge-input')?.value || '').trim() || 'Active Clone';
+      aiTwinProfile.email = (document.getElementById('twin-email-input')?.value || '').trim() || 'user@yuri.ai';
+      aiTwinProfile.location = (document.getElementById('twin-location-input')?.value || '').trim() || 'India (IN)';
+      aiTwinProfile.height = parseInt(document.getElementById('twin-height-input')?.value) || 178;
+      aiTwinProfile.weight = parseInt(document.getElementById('twin-weight-input')?.value) || 70;
+      aiTwinProfile.bust = parseInt(document.getElementById('twin-bust-input')?.value) || 36;
+      aiTwinProfile.waist = parseInt(document.getElementById('twin-waist-input')?.value) || 28;
+      aiTwinProfile.hips = parseInt(document.getElementById('twin-hips-input')?.value) || 38;
+
+      try {
+        localStorage.setItem('yuri_ai_twin_v1', JSON.stringify(aiTwinProfile));
+      } catch (e) {}
+
+      syncAITwinUI();
+
+      // Sync measurements to 3D Mannequin Studio if checked
+      const syncCheckbox = document.getElementById('twin-sync-mannequin');
+      if (syncCheckbox && syncCheckbox.checked && typeof mannequinMeasurements !== 'undefined') {
+        mannequinMeasurements.bust = aiTwinProfile.bust;
+        mannequinMeasurements.waist = aiTwinProfile.waist;
+        mannequinMeasurements.hips = aiTwinProfile.hips;
+        mannequinMeasurements.scale = parseFloat((((aiTwinProfile.bust / 36) + (aiTwinProfile.waist / 28) + (aiTwinProfile.hips / 38)) / 3).toFixed(2));
+        if (typeof applyMorphTo3DMannequin === 'function') applyMorphTo3DMannequin();
+      }
+
+      if (typeof showStudioToast === 'function') {
+        showStudioToast(`✨ AI Twin "${aiTwinProfile.name}" saved & synced (${aiTwinProfile.height} cm · ${aiTwinProfile.shape} · Size ${aiTwinProfile.size})!`);
+      }
       closeTwinModal();
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      syncAITwinUI();
+    });
     function tryOnMyTwin(garmentKey, garmentName) {
       openStudio('photo');
       document.getElementById('selected-garment-title').textContent = garmentName;
