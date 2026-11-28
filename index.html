@@ -130,6 +130,18 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    .fixed:not(.hidden) > div {
+      animation: modalReveal 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalReveal {
+      from { opacity: 0; transform: scale(0.97) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    button:active:not(:disabled) { transform: scale(0.98); }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid rgba(250, 204, 21, 0.78);
+      outline-offset: 2px;
+    }
     .pulse-glow { animation: pulseGlow 3s infinite ease-in-out; }
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 16px rgba(250, 204, 21, 0.22); }
@@ -1161,10 +1173,10 @@
               </div>
 
               <!-- Interactive Split Slider -->
-              <div class="relative w-full h-72 rounded-xl overflow-hidden bg-black select-none border border-white/10" id="slider-container">
-                <img id="after-img" src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
-                <div id="before-wrapper" class="absolute inset-y-0 left-0 overflow-hidden w-1/2 border-r-2 border-yellow-400 shadow-2xl">
-                  <img id="before-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" class="absolute inset-0 w-full h-full object-cover" style="width: 398px; max-width: none;">
+              <div class="relative w-full h-80 sm:h-96 rounded-xl overflow-hidden bg-[#08080b] select-none border border-white/10" id="slider-container">
+                <img id="after-img" src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-contain bg-[#08080b]">
+                <div id="before-wrapper" class="absolute inset-y-0 left-0 overflow-hidden w-1/2 border-r-2 border-yellow-400 shadow-2xl bg-[#08080b]">
+                  <img id="before-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" class="h-full object-contain object-center" style="max-width: none;">
                 </div>
                 
                 <!-- Tension Overlay Mesh (Hidden by default) -->
@@ -1360,7 +1372,221 @@
               </div>
             </div>
 
-            
+            <!-- Any-Store Dress Link Drape Section (Directly beneath 3D Mannequin Viewport) -->
+            <div class="p-4 rounded-2xl bg-[#070709] border border-lavender/40 space-y-3 shadow-lg atelier-frame">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-[0.18em] text-lavender font-bold">Any-Store 3D Dress Bridge</span>
+                  <h4 class="text-xs sm:text-sm font-display font-bold text-ivory flex items-center gap-1.5 mt-0.5">
+                    <i data-lucide="link-2" class="w-3.5 h-3.5 text-lavender"></i> Paste Dress or Outfit Link From Any Store
+                  </h4>
+                  <p class="text-[10px] text-white/70">Paste any product link or copied cloth image URL from Zara, Myntra, H&M, AJIO, SHEIN, FabIndia, Amazon, or Shopify — YURI extracts & drapes the actual cloth onto the 3D form.</p>
+                </div>
+                <div id="mannequin-linked-preview-wrap" class="hidden items-center gap-2.5 bg-black/80 border border-lavender/45 px-2.5 py-1.5 rounded-xl shadow-md">
+                  <img id="mannequin-linked-preview-img" src="" class="w-10 h-10 rounded-lg object-cover border border-white/20 bg-black">
+                  <div class="text-left min-w-0">
+                    <div id="mannequin-linked-store" class="text-[9px] font-mono font-bold text-lavender uppercase truncate max-w-[140px]">Store Detected</div>
+                    <div id="mannequin-linked-meta" class="text-[10px] font-mono text-white/85 truncate max-w-[170px]">Silk Slip · Draped</div>
+                  </div>
+                  <button type="button" onclick="saveActiveMannequinCloth()" class="px-2 py-1 rounded-lg bg-lavender text-midnight font-bold text-[10px] hover:bg-white transition flex items-center gap-1 whitespace-nowrap" title="Save to Saved Tab">
+                    <i data-lucide="bookmark-plus" class="w-3 h-3"></i> Save
+                  </button>
+                  <button type="button" onclick="shareMannequinBridgeLink()" class="px-2 py-1 rounded-lg bg-surface-light border border-lavender/40 text-lavender font-bold text-[10px] hover:bg-lavender hover:text-midnight transition flex items-center gap-1 whitespace-nowrap" title="Copy Shareable Link">
+                    <i data-lucide="share-2" class="w-3 h-3"></i> Share
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input id="mannequin-store-url-input" type="text" inputmode="url" onkeydown="if(event.key==='Enter'){event.preventDefault();loadStoreLinkOnMannequin();}" placeholder="Paste any store product URL, share text, or copied cloth image link (https://...)" class="flex-1 bg-surface-light border border-border rounded-xl px-3 py-2 text-xs text-ivory placeholder:text-white/40 outline-none focus:border-lavender font-mono">
+                <select id="mannequin-link-silhouette" class="bg-surface-light border border-border rounded-xl px-2.5 py-2 text-xs text-ivory outline-none focus:border-lavender font-mono">
+                  <option value="auto">Auto-Detect Cut</option>
+                  <option value="slip">Silk Slip Dress</option>
+                  <option value="bodycon">Bodycon Midi Dress</option>
+                  <option value="aline_dress">A-Line Flared Dress</option>
+                  <option value="maxi_dress">Evening Maxi Gown</option>
+                  <option value="corset">Corset Top</option>
+                  <option value="kurta">Anarkali / Silk Kurta</option>
+                  <option value="shirt">Relaxed Shirt</option>
+                  <option value="tee">Graphic Tee</option>
+                  <option value="blazer">Tailored Blazer</option>
+                  <option value="hoodie">Fleece Hoodie</option>
+                  <option value="biker">Leather Biker</option>
+                </select>
+                <button type="button" id="mannequin-drape-link-btn" onclick="loadStoreLinkOnMannequin()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sage to-lavender text-midnight font-extrabold text-xs hover:opacity-95 transition shadow-md flex items-center justify-center gap-1.5 whitespace-nowrap">
+                  <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> Drape on Mannequin
+                </button>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-1.5 text-[10px]">
+                <span class="text-white/55 font-mono uppercase">Quick Store Links:</span>
+                <button type="button" onclick="tryQuickStoreLinkOnMannequin('https://www.zara.com/in/en/liquid-emerald-satin-slip-dress-p04387.html', 'Zara Emerald Satin Slip Dress', 'slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80')" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/85 hover:text-lavender transition font-mono">Zara Emerald Slip</button>
+                <button type="button" onclick="tryQuickStoreLinkOnMannequin('https://www.myntra.com/dresses/mango/pleated-floral-a-line-midi-dress/284910/buy', 'Myntra Floral A-Line Midi', 'aline_dress', 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80')" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/85 hover:text-lavender transition font-mono">Myntra Floral Midi</button>
+                <button type="button" onclick="tryQuickStoreLinkOnMannequin('https://www2.hm.com/en_in/productpage.crimson-ribbed-bodycon-dress.html', 'H&M Crimson Ribbed Bodycon', 'bodycon', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80')" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/85 hover:text-lavender transition font-mono">H&M Ruby Bodycon</button>
+                <button type="button" onclick="tryQuickStoreLinkOnMannequin('https://www.fabindia.com/navy-gold-silk-anarkali-gown', 'FabIndia Navy Gold Anarkali', 'maxi_dress', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80')" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/85 hover:text-lavender transition font-mono">FabIndia Evening Gown</button>
+                <button type="button" onclick="tryQuickStoreLinkOnMannequin('https://www.snitch.co.in/products/cobalt-relaxed-linen-shirt', 'Snitch Cobalt Linen Shirt', 'shirt', 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80')" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/85 hover:text-lavender transition font-mono">Snitch Linen Shirt</button>
+                <button type="button" onclick="pasteClothImageToMannequin()" class="px-2.5 py-1 rounded-lg bg-lavender/15 border border-lavender/40 text-lavender hover:bg-lavender hover:text-midnight transition font-mono font-bold flex items-center gap-1">
+                  <i data-lucide="clipboard-paste" class="w-3 h-3"></i> Paste Copied Cloth Image
+                </button>
+              </div>
+
+              <!-- Live Recent Copied Store Links Bar -->
+              <div id="mannequin-bridge-recent-strip" class="hidden pt-2 border-t border-white/10 flex-wrap items-center gap-1.5 text-[10px]"></div>
+            </div>
+
+            <!-- Mannequin Wardrobe Rack (Capsule · Recent · Saved Tabs) -->
+            <div class="p-4 rounded-2xl bg-surface border border-border space-y-3 shadow-md">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <div>
+                    <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
+                      <i data-lucide="layers" class="w-3.5 h-3.5 text-yellow-400"></i> Mannequin Wardrobe
+                    </h4>
+                    <p class="text-[10px] text-white/75">Browse capsule garments, recently copied store links, or saved dresses</p>
+                  </div>
+                  <div class="flex items-center gap-1 bg-black/60 p-1 rounded-xl border border-white/10 text-[10px] font-mono">
+                    <button type="button" onclick="setMannequinRackTab('capsule', this)" data-rack-tab="capsule" class="mannequin-rack-tab px-2.5 py-1 rounded-lg bg-lavender text-midnight font-bold transition">Capsule (10)</button>
+                    <button type="button" onclick="setMannequinRackTab('recent', this)" data-rack-tab="recent" class="mannequin-rack-tab px-2.5 py-1 rounded-lg text-white/80 hover:text-lavender transition">Recent (<span id="mannequin-recent-count">0</span>)</button>
+                    <button type="button" onclick="setMannequinRackTab('saved', this)" data-rack-tab="saved" class="mannequin-rack-tab px-2.5 py-1 rounded-lg text-white/80 hover:text-lavender transition">Saved (<span id="mannequin-saved-count">0</span>)</button>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <button type="button" onclick="saveActiveMannequinCloth()" class="px-2.5 py-1 rounded-lg bg-surface-light border border-lavender/40 text-lavender font-bold text-[10px] flex items-center gap-1 hover:bg-lavender hover:text-midnight transition">
+                    <i data-lucide="bookmark-plus" class="w-3 h-3"></i> Save Active Cloth
+                  </button>
+                  <button type="button" onclick="document.getElementById('mannequin-custom-tee-input').click()" class="px-2.5 py-1 rounded-lg bg-lavender text-midnight font-bold text-[10px] flex items-center gap-1 hover:bg-white transition shadow">
+                    <i data-lucide="upload" class="w-3 h-3"></i> Upload Tee/Dress
+                  </button>
+                  <input type="file" id="mannequin-custom-tee-input" accept="image/*" class="hidden" onchange="handleMannequinCustomUpload(event)">
+                  <span id="mannequin-active-garment-title" class="text-[11px] font-mono font-bold text-yellow-400 bg-yellow-400/15 px-2 py-0.5 rounded-lg border border-yellow-400/35">
+                    Sentinels Pro Jersey 2026
+                  </span>
+                </div>
+              </div>
+
+              <!-- Tab 1: Capsule Grid -->
+              <div id="mannequin-rack-capsule" class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-2">
+                
+                <!-- 1. Sentinels Pro Jersey 2026 -->
+                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen_mannequin_front.jpg', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-yellow-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
+                  <span class="text-[8px] text-rose-400 font-bold uppercase mb-0.5">VCT 2026</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/60 p-0.5">
+                    <img src="./sen-jersey.webp" class="w-full h-full object-contain">
+                  </div>
+                  <span class="text-[9px] text-white font-medium truncate w-full">SEN Pro</span>
+                </div>
+
+                <!-- 2. H&M Resort Linen Shirt -->
+                <div onclick="selectMannequinGarment('hm_shirt', 'H&M Relaxed Linen Shirt', 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
+                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Linen Shirt</span>
+                </div>
+
+                <!-- 3. Emerald Silk Slip Dress -->
+                <div onclick="selectMannequinGarment('dress_emerald', 'Zara Liquid Emerald Silk Slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
+                  <span class="text-[8px] text-yellow-300 font-bold uppercase mb-0.5">Dress</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Slip</span>
+                </div>
+
+                <!-- 4. Zudio Graphic Tee -->
+                <div onclick="selectMannequinGarment('zudio_tee', 'Zudio Drop-Shoulder Graphic Tee', 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
+                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Zudio</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Graphic Tee</span>
+                </div>
+
+                <!-- 5. GAP Arch Fleece Hoodie -->
+                <div onclick="selectMannequinGarment('gap_hoodie', 'GAP Arch Logo Fleece Hoodie', 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-blue-400 hover:scale-105 group">
+                  <span class="text-[8px] text-blue-300 font-bold uppercase mb-0.5">AJIO/GAP</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">GAP Hoodie</span>
+                </div>
+
+                <!-- 6. SHEIN Y2K Rhinestone Corset Top -->
+                <div onclick="selectMannequinGarment('shein_corset', 'SHEIN Y2K Rhinestone Corset Top', 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
+                  <span class="text-[8px] text-yellow-400 font-bold uppercase mb-0.5">SHEIN</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Corset Top</span>
+                </div>
+
+                <!-- 7. Mast & Harbour Tailored Blazer -->
+                <div onclick="selectMannequinGarment('blazer', 'Mast & Harbour Tailored Blazer', 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-pink-400 hover:scale-105 group">
+                  <span class="text-[8px] text-pink-400 font-bold uppercase mb-0.5">Myntra</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Blazer</span>
+                </div>
+
+                <!-- 8. H&M Ribbed Bodycon Midi Dress -->
+                <div onclick="selectMannequinGarment('dress_bodycon', 'H&M Ribbed Bodycon Midi Dress', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
+                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Bodycon</span>
+                </div>
+
+                <!-- 9. FabIndia Mulberry Silk Kurta -->
+                <div onclick="selectMannequinGarment('kurta', 'FabIndia Mulberry Silk Kurta', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
+                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Ethnic</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Kurta</span>
+                </div>
+
+                <!-- 10. Zara Leather Biker Jacket -->
+                <div onclick="selectMannequinGarment('biker', 'Zara Asymmetric Leather Biker', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender hover:scale-105 group">
+                  <span class="text-[8px] text-white/75 font-bold uppercase mb-0.5">Zara</span>
+                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Biker Moto</span>
+                </div>
+
+              </div>
+
+              <!-- Tab 2: Recent Store Links & Draped Clothes -->
+              <div id="mannequin-rack-recent" class="hidden grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2.5"></div>
+
+              <!-- Tab 3: Saved Clothes & Dresses -->
+              <div id="mannequin-rack-saved" class="hidden grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2.5"></div>
+            </div>
+
+            <!-- Live 3D Mannequin Snapshot Preview (Captured Directly from WebGL) -->
+            <div id="mannequin-snapshot-card" class="hidden p-4 rounded-2xl bg-surface border border-lavender/45 space-y-3 shadow-2xl">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-lavender flex items-center gap-1.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-lavender"></i> 3D Atelier Snapshot Captured!
+                </span>
+                <button type="button" onclick="document.getElementById('mannequin-snapshot-card').classList.add('hidden')" class="text-white/75 hover:text-white text-xs">✕</button>
+              </div>
+              <div class="w-full h-56 rounded-xl overflow-hidden bg-black border border-border flex items-center justify-center">
+                <img id="mannequin-snapshot-preview" class="w-full h-full object-contain">
+              </div>
+              <div class="flex gap-2">
+                <a id="download-mannequin-snapshot-btn" download="yuri-3d-mannequin.png" class="flex-1 py-2 bg-lavender text-midnight rounded-xl text-xs font-bold hover:bg-white transition flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i> Download 3D PNG
+                </a>
+                <button type="button" onclick="saveMannequinLookToWardrobe()" class="flex-1 py-2 bg-surface-light border border-border text-ivory rounded-xl text-xs font-semibold hover:border-lavender/50 transition flex items-center justify-center gap-1.5">
+                  <i data-lucide="bookmark" class="w-3.5 h-3.5 text-lavender"></i> Save Look
+                </button>
+              </div>
+            </div>
+
             <!-- ========================================================================= -->
             <!-- 🌟 3D MANNEQUIN PRODUCT RENDERS & 360° DEPTH SHOWCASE                       -->
             <!-- ========================================================================= -->
@@ -1490,143 +1716,7 @@
 
               </div>
             </div>
-
-            <!-- Live 3D Mannequin Snapshot Preview (Captured Directly from WebGL) -->
-            <div id="mannequin-snapshot-card" class="hidden p-4 rounded-2xl bg-surface border border-lavender/45 space-y-3 shadow-2xl">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-lavender flex items-center gap-1.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-lavender"></i> 3D Atelier Snapshot Captured!
-                </span>
-                <button type="button" onclick="document.getElementById('mannequin-snapshot-card').classList.add('hidden')" class="text-white/75 hover:text-white text-xs">✕</button>
-              </div>
-              <div class="w-full h-56 rounded-xl overflow-hidden bg-black border border-border flex items-center justify-center">
-                <img id="mannequin-snapshot-preview" class="w-full h-full object-contain">
-              </div>
-              <div class="flex gap-2">
-                <a id="download-mannequin-snapshot-btn" download="yuri-3d-mannequin.png" class="flex-1 py-2 bg-lavender text-midnight rounded-xl text-xs font-bold hover:bg-white transition flex items-center justify-center gap-1.5 cursor-pointer">
-                  <i data-lucide="download" class="w-3.5 h-3.5"></i> Download 3D PNG
-                </a>
-                <button type="button" onclick="saveMannequinLookToWardrobe()" class="flex-1 py-2 bg-surface-light border border-border text-ivory rounded-xl text-xs font-semibold hover:border-lavender/50 transition flex items-center justify-center gap-1.5">
-                  <i data-lucide="bookmark" class="w-3.5 h-3.5 text-lavender"></i> Save Look
-                </button>
-              </div>
-            </div>
-
-            <!-- Mannequin Capsule Garment Selector (All Categories & Stores + Custom Upload) -->
-            <div class="p-4 rounded-2xl bg-surface border border-border space-y-3 shadow-md">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
-                    <i data-lucide="layers" class="w-3.5 h-3.5 text-yellow-400"></i> Mannequin Wardrobe Capsule
-                  </h4>
-                  <p class="text-[10px] text-white/75">Select any garment to drape on the form, or upload your own T-shirt graphic</p>
-                </div>
-                <div class="flex items-center gap-2">
-                  <button type="button" onclick="document.getElementById('mannequin-custom-tee-input').click()" class="px-2.5 py-1 rounded-lg bg-lavender text-midnight font-bold text-[10px] flex items-center gap-1 hover:bg-white transition shadow">
-                    <i data-lucide="upload" class="w-3 h-3"></i> Upload Tee/Dress
-                  </button>
-                  <input type="file" id="mannequin-custom-tee-input" accept="image/*" class="hidden" onchange="handleMannequinCustomUpload(event)">
-                  <span id="mannequin-active-garment-title" class="text-[11px] font-mono font-bold text-yellow-400 bg-yellow-400/15 px-2 py-0.5 rounded-lg border border-yellow-400/35">
-                    Sentinels Pro Jersey 2026
-                  </span>
-                </div>
-              </div>
-
-              <!-- Capsule Grid -->
-              <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-2">
-                
-                <!-- 1. Sentinels Pro Jersey 2026 -->
-                <div onclick="selectMannequinGarment('sen_jersey', 'Sentinels Pro Jersey 2026', './sen_mannequin_front.jpg', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border-2 border-yellow-400 cursor-pointer flex flex-col items-center text-center transition group hover:scale-105 shadow-sm">
-                  <span class="text-[8px] text-rose-400 font-bold uppercase mb-0.5">VCT 2026</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1 flex items-center justify-center bg-black/60 p-0.5">
-                    <img src="./sen-jersey.webp" class="w-full h-full object-contain">
-                  </div>
-                  <span class="text-[9px] text-white font-medium truncate w-full">SEN Pro</span>
-                </div>
-
-                <!-- 2. H&M Resort Linen Shirt -->
-                <div onclick="selectMannequinGarment('hm_shirt', 'H&M Relaxed Linen Shirt', 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
-                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Linen Shirt</span>
-                </div>
-
-                <!-- 3. Emerald Silk Slip Dress -->
-                <div onclick="selectMannequinGarment('dress_emerald', 'Zara Liquid Emerald Silk Slip', 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
-                  <span class="text-[8px] text-yellow-300 font-bold uppercase mb-0.5">Dress</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Slip</span>
-                </div>
-
-                <!-- 4. Zudio Graphic Tee -->
-                <div onclick="selectMannequinGarment('zudio_tee', 'Zudio Drop-Shoulder Graphic Tee', 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
-                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Zudio</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Graphic Tee</span>
-                </div>
-
-                <!-- 5. GAP Arch Fleece Hoodie -->
-                <div onclick="selectMannequinGarment('gap_hoodie', 'GAP Arch Logo Fleece Hoodie', 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-blue-400 hover:scale-105 group">
-                  <span class="text-[8px] text-blue-300 font-bold uppercase mb-0.5">AJIO/GAP</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">GAP Hoodie</span>
-                </div>
-
-                <!-- 6. SHEIN Y2K Rhinestone Corset Top -->
-                <div onclick="selectMannequinGarment('shein_corset', 'SHEIN Y2K Rhinestone Corset Top', 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-yellow-400 hover:scale-105 group">
-                  <span class="text-[8px] text-yellow-400 font-bold uppercase mb-0.5">SHEIN</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Corset Top</span>
-                </div>
-
-                <!-- 7. Mast & Harbour Tailored Blazer -->
-                <div onclick="selectMannequinGarment('blazer', 'Mast & Harbour Tailored Blazer', 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-pink-400 hover:scale-105 group">
-                  <span class="text-[8px] text-pink-400 font-bold uppercase mb-0.5">Myntra</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Blazer</span>
-                </div>
-
-                <!-- 8. H&M Ribbed Bodycon Midi Dress -->
-                <div onclick="selectMannequinGarment('dress_bodycon', 'H&M Ribbed Bodycon Midi Dress', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-red-400 hover:scale-105 group">
-                  <span class="text-[8px] text-red-400 font-bold uppercase mb-0.5">H&M</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Bodycon</span>
-                </div>
-
-                <!-- 9. FabIndia Mulberry Silk Kurta -->
-                <div onclick="selectMannequinGarment('kurta', 'FabIndia Mulberry Silk Kurta', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-amber-400 hover:scale-105 group">
-                  <span class="text-[8px] text-amber-300 font-bold uppercase mb-0.5">Ethnic</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Silk Kurta</span>
-                </div>
-
-                <!-- 10. Zara Leather Biker Jacket -->
-                <div onclick="selectMannequinGarment('biker', 'Zara Asymmetric Leather Biker', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', this)" class="mannequin-garment-slot p-2 rounded-xl bg-surface-light border border-border cursor-pointer flex flex-col items-center text-center transition hover:border-lavender hover:scale-105 group">
-                  <span class="text-[8px] text-white/75 font-bold uppercase mb-0.5">Zara</span>
-                  <div class="w-10 h-10 rounded-lg overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                  </div>
-                  <span class="text-[9px] text-white group-hover:text-white truncate w-full">Biker Moto</span>
-                </div>
-
-              </div>
-            </div>          </div>
+          </div>
 
         </div>
 
@@ -1660,29 +1750,44 @@
         <!-- ========================================== -->
         <div id="tab-stylist" class="tab-pane hidden flex flex-col min-h-[520px] max-h-[80vh] justify-between pb-6">
           <div class="space-y-3 overflow-y-auto pr-1">
-            <div class="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-lavender to-sage text-midnight flex items-center justify-center font-bold">
-                <i data-lucide="sparkles" class="w-5 h-5"></i>
+            <div class="p-3 rounded-2xl bg-surface border border-border flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-lavender to-sage text-midnight flex items-center justify-center font-bold">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-ivory flex items-center gap-1.5">
+                    Yuri AI Stylist
+                    <span id="genius-mode-pill" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-lavender text-midnight uppercase">Genius Mode ON</span>
+                  </h4>
+                  <p class="text-[10px] text-sage">Natural Language Styling · Cross-Brand Mix &amp; Match · INR Budgets</p>
+                </div>
               </div>
-              <div>
-                <h4 class="text-xs font-bold text-ivory">Yuri AI Stylist</h4>
-                <p class="text-[10px] text-sage">Weather-aware · Wardrobe synced · INR Budgets</p>
-              </div>
+              <button type="button" id="btn-toggle-genius-mode" onclick="toggleGeniusMode()" class="px-3 py-1.5 rounded-xl bg-lavender text-midnight font-mono font-bold text-[10px] flex items-center gap-1.5 shadow-md hover:bg-white transition">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                <span id="genius-toggle-label">Genius Mode: ON</span>
+              </button>
             </div>
 
             <div id="chat-messages" class="space-y-3 text-xs">
               <div class="flex items-start gap-2">
                 <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">AI</div>
                 <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-white leading-relaxed">
-                  Namaste! 👋 I've analyzed Bangalore's current weather (24°C, mild breeze) and your digital wardrobe. What occasion can I style you for today?
+                  Namaste! 👋 <strong>Genius Mode</strong> is synced to your AI Twin &amp; digital wardrobe. Ask anything naturally—from <em>"revenge dress under ₹3k"</em> to <em>"oversized blazer that works with jeans"</em>—and I'll build a cross-brand look ready for your Twin.
                 </div>
               </div>
               <div class="flex flex-wrap gap-1.5 pl-8">
-                <button onclick="sendStylistPrompt('College tech event look under ₹2,000')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
-                  🎓 College event &lt; ₹2k
+                <button onclick="sendStylistPrompt('A revenge dress for cocktail night under ₹4,000')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
+                  💃 Revenge Dress
                 </button>
-                <button onclick="sendStylistPrompt('Casual Friday office outfit with my Zara blazer')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
-                  💼 Office Friday Look
+                <button onclick="sendStylistPrompt('Oversized blazer that works with relaxed jeans for Friday office')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
+                  💼 Blazer + Jeans Edit
+                </button>
+                <button onclick="sendStylistPrompt('College tech fest streetwear fit under ₹2,000')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
+                  🎓 College Tech Look &lt; ₹2k
+                </button>
+                <button onclick="sendStylistPrompt('Red dress that is chic and not too revealing')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-[11px] text-lavender hover:bg-lavender hover:text-midnight transition">
+                  ❤️ Chic Red Dress
                 </button>
               </div>
             </div>
@@ -1704,7 +1809,7 @@
         <div id="tab-shop" class="tab-pane hidden space-y-3.5">
           <div class="space-y-2">
             <div class="relative">
-              <input id="vibe-search-input" type="text" placeholder="Vibe Search: 'Oversized linen shirt for brunch under ₹2k'..." class="w-full bg-surface border border-border rounded-xl pl-9 pr-9 py-2.5 text-xs text-ivory placeholder-stone-500 outline-none focus:border-lavender">
+              <input id="vibe-search-input" type="text" onkeydown="if(event.key==='Enter'){event.preventDefault();handleVibeSearch();}" placeholder="Ask naturally: 'revenge dress', 'blazer with jeans', 'red dress not too revealing'..." class="w-full bg-surface border border-border rounded-xl pl-9 pr-9 py-2.5 text-xs text-ivory placeholder-stone-500 outline-none focus:border-lavender">
               <i data-lucide="sparkles" class="w-4 h-4 text-lavender absolute left-3 top-3"></i>
               <button onclick="handleVibeSearch()" class="absolute right-2.5 top-2 p-1 rounded-lg bg-lavender/20 text-lavender hover:bg-lavender hover:text-midnight transition">
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
@@ -1712,14 +1817,20 @@
             </div>
 
             <div class="flex space-x-1.5 overflow-x-auto scrollbar-hide text-[11px] pb-1">
-              <button onclick="applyVibe('Old Money Brunch')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
-                🍸 Old Money Brunch
+              <button onclick="applyVibe('Revenge dress')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+                💃 Revenge Dress
               </button>
-              <button onclick="applyVibe('Revenge Look under ₹2,500')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
-                💃 Revenge Look &lt; ₹2.5k
+              <button onclick="applyVibe('Oversized blazer that works with jeans')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+                🧥 Blazer + Jeans
+              </button>
+              <button onclick="applyVibe('Red dress chic evening')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+                ❤️ Chic Red Dress
+              </button>
+              <button onclick="applyVibe('Old Money Linen Brunch')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
+                🍸 Old Money Linen
               </button>
               <button onclick="applyVibe('Korean Oversized Streetwear')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
-                ⚡ Korean Streetwear
+                ⚡ Streetwear
               </button>
               <button onclick="applyVibe('Festive Indo-Western')" class="px-2.5 py-1 rounded-full bg-surface-light border border-border text-white/90 hover:text-lavender hover:border-lavender transition whitespace-nowrap">
                 🪔 Indo-Western
@@ -1734,11 +1845,85 @@
                 <i data-lucide="camera" class="w-4 h-4"></i>
               </div>
               <div>
-                <h4 class="text-xs font-bold text-ivory">Screenshot Search</h4>
-                <p class="text-[10px] text-white/75">Upload Insta / Pinterest inspo to split & try-on</p>
+                <h4 class="text-xs font-bold text-ivory">Screenshot-to-Shop Search</h4>
+                <p class="text-[10px] text-white/75">Upload any Insta / Pinterest inspo screenshot to match garments across stores &amp; try on your AI Twin</p>
               </div>
             </div>
-            <span class="px-2.5 py-1 bg-lavender/20 text-lavender rounded-lg text-[10px] font-bold">Snap & Try</span>
+            <span class="px-2.5 py-1 bg-lavender/20 text-lavender rounded-lg text-[10px] font-bold">Snap &amp; Match</span>
+          </div>
+
+          <!-- Live Conversational Search & Screenshot Match Results -->
+          <div id="twin-vibe-results" class="hidden p-4 rounded-2xl bg-[#070709] border border-lavender/45 space-y-3 shadow-lg atelier-frame">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/10">
+              <div class="flex items-center gap-2.5">
+                <div id="twin-vibe-screenshot-wrap" class="hidden w-10 h-10 rounded-lg overflow-hidden border border-lavender/50 shrink-0">
+                  <img id="twin-vibe-screenshot-img" src="" class="w-full h-full object-cover">
+                </div>
+                <div>
+                  <span class="text-[9px] font-mono font-bold uppercase tracking-widest text-lavender block">Natural Language &amp; Visual Match</span>
+                  <h4 id="twin-vibe-query-label" class="text-xs font-bold text-ivory">Matched Outfits</h4>
+                </div>
+              </div>
+              <button type="button" onclick="clearVibeSearch()" class="px-2.5 py-1 rounded-lg bg-surface-light border border-border text-[10px] font-mono text-white/80 hover:text-lavender transition">Clear Matches ✕</button>
+            </div>
+            <div id="twin-vibe-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+          </div>
+
+          <!-- Cross-Brand Mix & Match Outfit Studio (Same as TWIN! App) -->
+          <div id="twin-mixmatch-panel" class="p-4 rounded-2xl bg-surface border border-lavender/35 space-y-3 shadow-md atelier-frame">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-lavender/15 border border-lavender/40 text-lavender flex items-center justify-center font-bold">
+                  <i data-lucide="layers" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-xs sm:text-sm font-display font-bold text-ivory">Mix &amp; Match Across Brands</h4>
+                    <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-lavender text-midnight">AI TWIN LOOK</span>
+                  </div>
+                  <p class="text-[10px] text-white/75">Combine Top + Bottom + Outerwear from different brands &amp; test on your AI Twin</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="mixmatch-total-label" class="text-xs font-mono font-bold text-lavender bg-black/70 px-2.5 py-1 rounded-lg border border-lavender/30">Total: ₹6,989 · 3 Stores</span>
+                <button type="button" onclick="randomizeMixMatch()" class="px-2.5 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/90 text-[10px] font-mono flex items-center gap-1 transition">
+                  <i data-lucide="shuffle" class="w-3 h-3 text-lavender"></i> Shuffle Look
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+              <!-- AI Twin Dressed Editorial Preview Card -->
+              <div class="lg:col-span-3 p-3 rounded-xl bg-black/75 border border-lavender/35 flex flex-row lg:flex-col items-center gap-3 text-left lg:text-center">
+                <div class="relative w-24 sm:w-28 lg:w-32 aspect-[3/4] rounded-2xl overflow-hidden border-2 border-lavender/70 shrink-0 shadow-xl bg-[#08080b]">
+                  <img id="mixmatch-twin-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover object-top">
+                  <span class="absolute top-1.5 left-1.5 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-black/80 text-lavender border border-lavender/35 uppercase">Live Fit</span>
+                  <span class="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-yellow-400 ring-2 ring-black"></span>
+                </div>
+                <div class="min-w-0 flex-1 space-y-1">
+                  <div class="text-[10px] font-mono uppercase tracking-wider text-lavender font-bold" id="mixmatch-twin-name">User · AI Twin</div>
+                  <p id="mixmatch-twin-specs" class="text-[10px] text-white/75 font-mono">178cm · Athletic · Size M</p>
+                  <div class="flex flex-wrap lg:justify-center gap-1 pt-1">
+                    <button type="button" onclick="tryMixMatchOnTwin()" class="px-2.5 py-1 rounded-lg bg-lavender text-midnight font-bold text-[10px] hover:bg-white transition flex items-center gap-1">
+                      <i data-lucide="sparkles" class="w-3 h-3"></i> Studio View
+                    </button>
+                    <button type="button" onclick="tryMixMatchOnMannequin()" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-white text-[10px] font-semibold transition">
+                      3D Form
+                    </button>
+                    <button type="button" onclick="saveMixMatchToWardrobe()" class="px-2 py-1 rounded-lg bg-surface-light border border-border hover:border-lavender text-lavender text-[10px] font-semibold transition">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 Mixable Outfit Slots -->
+              <div class="lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div id="mixmatch-slot-top" class="p-2.5 rounded-xl bg-surface-light border border-border flex flex-col justify-between gap-2"></div>
+                <div id="mixmatch-slot-bottom" class="p-2.5 rounded-xl bg-surface-light border border-border flex flex-col justify-between gap-2"></div>
+                <div id="mixmatch-slot-layer" class="p-2.5 rounded-xl bg-surface-light border border-border flex flex-col justify-between gap-2"></div>
+              </div>
+            </div>
           </div>
 
           <!-- Shop Wishlist Bar & Add Your Dress CTA -->
@@ -2429,9 +2614,9 @@
               <!-- Sentinels Pro 2026 Jersey Card -->
               <div class="rounded-2xl bg-surface border-2 border-rose-500/50 hover:border-rose-400 p-2.5 flex flex-col justify-between group shadow-lg transition" data-brand="sentinels">
                 <div>
-                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-black/60 mb-2 flex items-center justify-center p-1">
-                    <img src="./sen-jersey.webp" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider">
+                  <div class="relative w-full h-36 rounded-xl overflow-hidden bg-black mb-2">
+                    <img src="./sen_mannequin_front.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 left-2 text-[9px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white uppercase tracking-wider shadow">
                       SEN 2026 VCT
                     </span>
                     <button onclick="tryInLiveAR('sen_jersey', 'Sentinels Pro Jersey 2026')" class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-rose-500 text-white font-bold text-[10px] flex items-center gap-1 shadow-lg hover:scale-105 transition">
@@ -2683,7 +2868,7 @@
   <!-- ⚡ MODAL 1: YURI AI vs TWIN! APP DIFFERENTIATION MATRIX                   -->
   <!-- ========================================================================= -->
   <div id="twin-comparison-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-surface border border-lavender/30 rounded-3xl max-w-2xl w-full p-5 sm:p-7 space-y-4 shadow-2xl relative">
+    <div class="bg-surface border border-lavender/35 rounded-3xl max-w-2xl w-full p-5 sm:p-7 space-y-4 shadow-2xl relative atelier-frame">
       <button onclick="closeTwinComparisonModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center">✕</button>
 
       <div>
@@ -2691,7 +2876,7 @@
           <span class="text-xs bg-lavender/20 text-lavender font-mono px-2.5 py-0.5 rounded-full font-bold">THE YURI ADVANTAGE</span>
           <span class="text-xs text-sage font-medium">Why We Outperform Traditional VTON</span>
         </div>
-        <h2 class="text-xl sm:text-2xl font-serif italic text-ivory mt-1">How We Are Better</h2>
+        <h2 class="text-xl sm:text-2xl font-display font-extrabold tracking-tight uppercase text-ivory mt-1">How We Are Better</h2>
         <p class="text-xs text-white/75 mt-1">How Yuri AI fundamentally out-engineers traditional 2D virtual try-on apps like Twin! with real-time 3D AR, cloth physics, and multi-store draping.</p>
       </div>
 
@@ -2756,7 +2941,7 @@
   <!-- 👤 MODAL 2: MY AI TWIN CUSTOMIZER (FULLY EDITABLE)                        -->
   <!-- ========================================================================= -->
   <div id="twin-persona-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-surface border border-lavender/35 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
+    <div class="bg-surface border border-lavender/35 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto atelier-frame">
       <button onclick="closeTwinModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-xs">✕</button>
 
       <div>
@@ -2764,7 +2949,7 @@
           <i data-lucide="sparkles" class="w-4 h-4 text-lavender"></i>
           <span class="text-xs font-bold text-lavender uppercase tracking-wider">AI Twin Persona Studio</span>
         </div>
-        <h3 class="text-lg font-serif italic text-ivory mt-0.5">Customize Your Digital Twin</h3>
+        <h3 class="text-lg font-display font-extrabold tracking-tight uppercase text-ivory mt-0.5">Customize Your Digital Twin</h3>
         <p class="text-xs text-white/75">Every field is editable and saved automatically across your profile, home card, and 3D mannequin.</p>
       </div>
 
@@ -2920,7 +3105,7 @@
   <!-- ❤️ MODAL: ADD YOUR DRESS TO SHOP WISHLIST                                  -->
   <!-- ========================================================================= -->
   <div id="shop-wishlist-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-[105] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-surface border border-lavender/40 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
+    <div class="bg-surface border border-lavender/40 rounded-3xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto atelier-frame">
       <button type="button" onclick="closeAddWishlistDressModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-xs">✕</button>
 
       <div>
@@ -2928,7 +3113,7 @@
           <i data-lucide="heart" class="w-4 h-4 text-rose-500 fill-rose-500"></i>
           <span class="text-xs font-bold text-lavender uppercase tracking-wider">Shop Wishlist Studio</span>
         </div>
-        <h3 class="text-lg font-serif italic text-ivory mt-0.5">Add Your Dress to Wishlist</h3>
+        <h3 class="text-lg font-display font-extrabold tracking-tight uppercase text-ivory mt-0.5">Add Your Dress to Wishlist</h3>
         <p class="text-xs text-white/75">Upload a dress photo or paste an image link to save it in your Shop Wishlist and try it on.</p>
       </div>
 
@@ -3150,19 +3335,35 @@
       XXL: { chest: 48, waist: 45, lengthIn: 31.5, shoulder: 1.17, sleeveScale: 1.24, sleeveLen: 1.21, hemY: -1.46 }
     };
 
-    // Tailored 3D Garment Cut & Fabric Profiles for Capsule Wardrobe
-    const CAPSULE_GARMENT_SPECS = {
-      sen_jersey:    { style: 'jersey',  base: '#9f1219', accent: '#0c0d11', trim: '#111216', sleeveless: false, hemDelta: 0.00, easeMult: 1.00, label: 'PRO JERSEY' },
-      hm_shirt:      { style: 'shirt',   base: '#e8e4dc', accent: '#cfc8ba', trim: '#d6d0c4', sleeveless: false, hemDelta: 0.02, easeMult: 1.02, label: 'LINEN SHIRT' },
-      dress_emerald: { style: 'slip',    base: '#0f5c46', accent: '#198265', trim: '#09382a', sleeveless: true,  hemDelta: -0.18, easeMult: 0.96, label: 'SILK SLIP' },
-      zudio_tee:     { style: 'tee',     base: '#18181b', accent: '#facc15', trim: '#09090b', sleeveless: false, hemDelta: -0.04, easeMult: 1.05, label: 'GRAPHIC TEE' },
-      gap_hoodie:    { style: 'hoodie',  base: '#1e3a8a', accent: '#e2e8f0', trim: '#172554', sleeveless: false, hemDelta: -0.03, easeMult: 1.08, label: 'ARCH FLEECE' },
-      shein_corset:  { style: 'corset',  base: '#18181b', accent: '#fde047', trim: '#09090b', sleeveless: true,  hemDelta: 0.36, easeMult: 0.93, label: 'Y2K CORSET' },
-      blazer:        { style: 'blazer',  base: '#27272a', accent: '#52525b', trim: '#18181b', sleeveless: false, hemDelta: -0.08, easeMult: 1.05, label: 'WOOL BLAZER' },
-      dress_bodycon: { style: 'slip',    base: '#9f1239', accent: '#be123c', trim: '#4c0519', sleeveless: true,  hemDelta: -0.16, easeMult: 0.94, label: 'MIDI DRESS' },
-      kurta:         { style: 'kurta',   base: '#172554', accent: '#eab308', trim: '#0f172a', sleeveless: false, hemDelta: -0.20, easeMult: 1.01, label: 'SILK KURTA' },
-      biker:         { style: 'biker',   base: '#111215', accent: '#94a3b8', trim: '#09090b', sleeveless: false, hemDelta: 0.08, easeMult: 1.03, label: 'MOTO BIKER' }
+    // Tailored 3D Garment Cut, Skirt Drape & Fabric Profiles (Supports Shirts, Jackets, Corsets & Full Dresses)
+    const GARMENT_SILHOUETTE_PRESETS = {
+      jersey:      { style: 'jersey',     base: '#9f1219', accent: '#0c0d11', trim: '#111216', sleeveless: false, hideCollar: false, sleeveLenMult: 1.00, hemDelta:  0.00, easeMult: 1.00, skirtFlare: 0.00, pleatCount: 0,  pleatAmp: 0.000, neckStyle: 'vneck',      straps: false, label: 'PRO JERSEY' },
+      tee:         { style: 'tee',        base: '#18181b', accent: '#facc15', trim: '#09090b', sleeveless: false, hideCollar: false, sleeveLenMult: 1.06, hemDelta: -0.04, easeMult: 1.05, skirtFlare: 0.02, pleatCount: 0,  pleatAmp: 0.000, neckStyle: 'crew',       straps: false, label: 'GRAPHIC TEE' },
+      shirt:       { style: 'shirt',      base: '#e8e4dc', accent: '#cfc8ba', trim: '#d6d0c4', sleeveless: false, hideCollar: false, sleeveLenMult: 1.38, hemDelta:  0.02, easeMult: 1.02, skirtFlare: 0.03, pleatCount: 4,  pleatAmp: 0.005, neckStyle: 'vneck',      straps: false, label: 'LINEN SHIRT' },
+      slip:        { style: 'slip',       base: '#0f5c46', accent: '#34d399', trim: '#064e3b', sleeveless: true,  hideCollar: true,  sleeveLenMult: 1.00, hemDelta: -0.68, easeMult: 0.98, skirtFlare: 0.36, pleatCount: 10, pleatAmp: 0.030, neckStyle: 'scoop',      straps: true,  label: 'SILK SLIP DRESS' },
+      bodycon:     { style: 'bodycon',    base: '#9f1239', accent: '#fb7185', trim: '#4c0519', sleeveless: true,  hideCollar: true,  sleeveLenMult: 1.00, hemDelta: -0.62, easeMult: 0.94, skirtFlare: 0.06, pleatCount: 6,  pleatAmp: 0.012, neckStyle: 'scoop',      straps: true,  label: 'BODYCON MIDI' },
+      aline_dress: { style: 'aline',      base: '#92400e', accent: '#fde047', trim: '#451a03', sleeveless: true,  hideCollar: true,  sleeveLenMult: 1.00, hemDelta: -0.74, easeMult: 0.97, skirtFlare: 0.56, pleatCount: 14, pleatAmp: 0.042, neckStyle: 'scoop',      straps: true,  label: 'A-LINE MIDI DRESS' },
+      maxi_dress:  { style: 'maxi',       base: '#1e1b4b', accent: '#facc15', trim: '#0f172a', sleeveless: true,  hideCollar: true,  sleeveLenMult: 1.00, hemDelta: -0.88, easeMult: 0.98, skirtFlare: 0.64, pleatCount: 16, pleatAmp: 0.048, neckStyle: 'sweetheart', straps: true,  label: 'EVENING GOWN' },
+      corset:      { style: 'corset',     base: '#18181b', accent: '#fde047', trim: '#09090b', sleeveless: true,  hideCollar: true,  sleeveLenMult: 1.00, hemDelta:  0.42, easeMult: 0.94, skirtFlare: 0.02, pleatCount: 6,  pleatAmp: 0.004, neckStyle: 'sweetheart', straps: true,  label: 'CORSET TOP' },
+      kurta:       { style: 'kurta',      base: '#172554', accent: '#eab308', trim: '#0f172a', sleeveless: false, hideCollar: false, sleeveLenMult: 1.38, hemDelta: -0.52, easeMult: 1.02, skirtFlare: 0.28, pleatCount: 12, pleatAmp: 0.026, neckStyle: 'vneck',      straps: false, label: 'SILK KURTA' },
+      blazer:      { style: 'blazer',     base: '#27272a', accent: '#52525b', trim: '#18181b', sleeveless: false, hideCollar: false, sleeveLenMult: 1.42, hemDelta: -0.10, easeMult: 1.05, skirtFlare: 0.04, pleatCount: 0,  pleatAmp: 0.000, neckStyle: 'vneck',      straps: false, label: 'WOOL BLAZER' },
+      hoodie:      { style: 'hoodie',     base: '#1e3a8a', accent: '#e2e8f0', trim: '#172554', sleeveless: false, hideCollar: false, sleeveLenMult: 1.44, hemDelta: -0.05, easeMult: 1.08, skirtFlare: 0.02, pleatCount: 0,  pleatAmp: 0.000, neckStyle: 'crew',       straps: false, label: 'ARCH FLEECE' },
+      biker:       { style: 'biker',      base: '#111215', accent: '#94a3b8', trim: '#09090b', sleeveless: false, hideCollar: false, sleeveLenMult: 1.40, hemDelta:  0.08, easeMult: 1.03, skirtFlare: 0.02, pleatCount: 0,  pleatAmp: 0.000, neckStyle: 'vneck',      straps: false, label: 'MOTO BIKER' }
     };
+
+    const CAPSULE_GARMENT_SPECS = {
+      sen_jersey:    { ...GARMENT_SILHOUETTE_PRESETS.jersey },
+      hm_shirt:      { ...GARMENT_SILHOUETTE_PRESETS.shirt },
+      dress_emerald: { ...GARMENT_SILHOUETTE_PRESETS.slip, base: '#0f5c46', accent: '#34d399', trim: '#064e3b' },
+      zudio_tee:     { ...GARMENT_SILHOUETTE_PRESETS.tee },
+      gap_hoodie:    { ...GARMENT_SILHOUETTE_PRESETS.hoodie },
+      shein_corset:  { ...GARMENT_SILHOUETTE_PRESETS.corset },
+      blazer:        { ...GARMENT_SILHOUETTE_PRESETS.blazer },
+      dress_bodycon: { ...GARMENT_SILHOUETTE_PRESETS.bodycon, base: '#9f1239', accent: '#fb7185', trim: '#4c0519' },
+      kurta:         { ...GARMENT_SILHOUETTE_PRESETS.kurta },
+      biker:         { ...GARMENT_SILHOUETTE_PRESETS.biker }
+    };
+    let activeDynamicMannequinSpec = null;
 
     const Mannequin3D = {
       initialized: false,
@@ -3280,26 +3481,52 @@
       };
     }
 
-    // Build high-resolution, spline-smoothed dress-form or size-graded 3D garment shell
+    function getActiveMannequinSpec(key) {
+      return activeDynamicMannequinSpec || CAPSULE_GARMENT_SPECS[key] || GARMENT_SILHOUETTE_PRESETS.sen_jersey || CAPSULE_GARMENT_SPECS.sen_jersey;
+    }
+
+    // Build high-resolution, spline-smoothed dress-form or size-graded 3D garment shell (Tees, Blazers & Full Flared Dresses)
     function createAnatomicalShellGeometry(options) {
       const {
         isShirt = false,
         offset = 0,
         radialSegs = 96,
-        heightSegs = 56,
+        heightSegs = isShirt ? 72 : 56,
         body = mannequinMeasurements,
         sizeKey = currentMannequinSize,
-        garmentSpec = CAPSULE_GARMENT_SPECS[activeMannequinGarmentKey] || CAPSULE_GARMENT_SPECS.sen_jersey
+        garmentSpec = getActiveMannequinSpec(activeMannequinGarmentKey)
       } = options;
 
       const teeSpec = GARMENT_SIZE_CHART[sizeKey] || GARMENT_SIZE_CHART.M;
-      const targetHemY = Math.max(-1.48, Math.min(-0.55, teeSpec.hemY + (garmentSpec.hemDelta || 0)));
+      const targetHemY = Math.max(-2.34, Math.min(-0.42, teeSpec.hemY + (garmentSpec.hemDelta || 0)));
+      const skirtFlare = garmentSpec.skirtFlare || 0;
+      const pleatCount = garmentSpec.pleatCount || 0;
+      const pleatAmp = garmentSpec.pleatAmp || 0;
+      const neckStyle = garmentSpec.neckStyle || 'vneck';
       const garmentChestMult = (teeSpec.chest / 39) * (garmentSpec.easeMult || 1.0);
       const garmentWaistMult = (teeSpec.waist / 36) * (garmentSpec.easeMult || 1.0);
       const garmentShoulderMult = teeSpec.shoulder;
 
-      // Tailored jersey profile (hem dynamically stretches/shortens with T-shirt size & garment cut)
-      const shirtProfile = [
+      const waistHipY = -0.24;
+      const midSkirtY = 0.5 * (waistHipY + targetHemY);
+      const skirtSpan = Math.max(0.25, waistHipY - targetHemY);
+      const isLongDress = targetHemY < -1.42;
+
+      // Tailored garment profile (waist-cinched bodice + smooth flowing A-line/slip/midi/maxi skirt below hips)
+      const shirtProfile = isLongDress ? [
+        [ 1.24, 0.300, 0.265,  0.000 ],
+        [ 1.16, 0.505, 0.315,  0.008 ],
+        [ 1.05, 0.770, 0.365,  0.015 ],
+        [ 0.92, 0.945, 0.420,  0.022 ],
+        [ 0.70, 0.915, 0.465,  0.030 ],
+        [ 0.44, 0.890, 0.485,  0.035 ],
+        [ 0.14, 0.805, 0.435,  0.020 ],
+        [-0.20, 0.790, 0.420,  0.008 ],
+        [ 0.72 * waistHipY + 0.28 * targetHemY, 0.865 + skirtFlare * 0.22, 0.460 + skirtFlare * 0.20, 0.000 ],
+        [ midSkirtY,                            0.905 + skirtFlare * 0.54, 0.485 + skirtFlare * 0.50, 0.000 ],
+        [ targetHemY + 0.24,                    0.935 + skirtFlare * 0.84, 0.500 + skirtFlare * 0.78, 0.000 ],
+        [ targetHemY,                           0.950 + skirtFlare * 0.96, 0.510 + skirtFlare * 0.90, 0.000 ]
+      ] : [
         [ 1.25, 0.290, 0.260,  0.000 ],
         [ 1.19, 0.500, 0.310,  0.008 ],
         [ 1.09, 0.785, 0.365,  0.015 ],
@@ -3308,10 +3535,10 @@
         [ 0.46, 0.925, 0.505,  0.040 ],
         [ 0.12, 0.865, 0.465,  0.024 ],
         [-0.24, 0.835, 0.445,  0.010 ],
-        [ 0.5 * (-0.24 + targetHemY) - 0.10, 0.865, 0.460, 0.000 ],
-        [ targetHemY + 0.18, 0.895, 0.475, 0.000 ],
-        [ targetHemY,        0.905, 0.480, 0.000 ],
-        [ targetHemY - 0.01, 0.870, 0.455, 0.000 ]
+        [ 0.5 * (-0.24 + targetHemY) - 0.10, 0.865 + skirtFlare * 0.25, 0.460 + skirtFlare * 0.22, 0.000 ],
+        [ targetHemY + 0.18, 0.895 + skirtFlare * 0.50, 0.475 + skirtFlare * 0.45, 0.000 ],
+        [ targetHemY,        0.905 + skirtFlare * 0.65, 0.480 + skirtFlare * 0.60, 0.000 ],
+        [ targetHemY - 0.01, 0.870 + skirtFlare * 0.60, 0.455 + skirtFlare * 0.55, 0.000 ]
       ];
 
       const profile = isShirt ? shirtProfile : DRESS_FORM_PROFILE;
@@ -3342,7 +3569,7 @@
         let rzRow = sampled[2] + offset;
         let zCenter = sampled[3];
         let bodyRow = null;
-        const minClearance = (iy >= heightSegs - 1) ? 0.012 : 0.026;
+        const minClearance = (iy >= heightSegs - 1) ? 0.014 : 0.028;
 
         if (!isShirt) {
           const mult = computeBodyMultipliers(v, body);
@@ -3350,18 +3577,22 @@
           rzRow *= mult.rzMult;
         } else {
           const neckBlend = Math.min(1, Math.max(0, v / 0.22));
-          const waistFactor = Math.exp(-Math.pow((v - 0.62) / 0.28, 2));
-          const shoulderZone = Math.exp(-Math.pow((v - 0.24) / 0.14, 2));
+          const waistFactor = Math.exp(-Math.pow((v - 0.55) / 0.24, 2));
+          const shoulderZone = Math.exp(-Math.pow((v - 0.22) / 0.14, 2));
           const widthMult = 1 + (
-            (garmentChestMult - 1) * (1 - waistFactor * 0.35) +
-            (garmentWaistMult - 1) * (waistFactor * 0.35) +
-            (garmentShoulderMult - 1) * shoulderZone * 0.25
+            (garmentChestMult - 1) * (1 - waistFactor * 0.38) +
+            (garmentWaistMult - 1) * (waistFactor * 0.38) +
+            (garmentShoulderMult - 1) * shoulderZone * 0.24
           ) * neckBlend;
 
           rxRow *= widthMult;
           rzRow *= widthMult;
-          bodyRow = sampleBodyCrossSectionAtY(yBase, body);
+          bodyRow = yBase >= -1.52 ? sampleBodyCrossSectionAtY(yBase, body) : null;
         }
+
+        const skirtProgress = isShirt && yBase < waistHipY
+          ? Math.min(1, (waistHipY - yBase) / skirtSpan)
+          : 0;
 
         for (let ix = 0; ix <= radialSegs; ix++) {
           const u = ix / radialSegs;
@@ -3370,24 +3601,43 @@
           const sinT = Math.sin(theta);
 
           let y = yBase;
-          let inVNeck = false;
-          if (isShirt && v < 0.16 && sinT > 0.20) {
+          let inNeckCut = false;
+          if (isShirt && v < 0.20) {
             const frontAngle = Math.abs(Math.atan2(cosT, sinT));
-            if (frontAngle < 0.72) {
+            const neckDecay = 1 - v / 0.20;
+            if ((neckStyle === 'scoop' || neckStyle === 'sweetheart') && frontAngle < 1.15) {
+              const sFactor = Math.cos((frontAngle / 1.15) * (Math.PI * 0.5));
+              const plunge = neckStyle === 'sweetheart'
+                ? (0.28 * Math.pow(sFactor, 1.1) + 0.06 * Math.sin(frontAngle * 4.5))
+                : 0.30 * Math.pow(sFactor, 1.15);
+              y -= Math.max(0, plunge) * neckDecay;
+              inNeckCut = true;
+            } else if (neckStyle === 'scoop' && sinT < -0.25) {
+              // Back scoop cut for silk slip & evening gowns
+              const backAngle = Math.abs(Math.atan2(cosT, -sinT));
+              if (backAngle < 0.95) {
+                y -= Math.cos((backAngle / 0.95) * (Math.PI * 0.5)) * neckDecay * 0.24;
+                inNeckCut = true;
+              }
+            } else if (sinT > 0.20 && frontAngle < 0.72) {
               const vFactor = 1 - frontAngle / 0.72;
-              const neckDecay = 1 - v / 0.16;
-              y -= Math.pow(vFactor, 1.35) * neckDecay * 0.27;
-              inVNeck = true;
+              const depth = neckStyle === 'crew' ? 0.14 : 0.27;
+              y -= Math.pow(vFactor, 1.35) * neckDecay * depth;
+              inNeckCut = true;
             }
           }
 
           let rx = rxRow;
           let rz = rzRow;
           let effZCenter = zCenter;
-          if (isShirt) {
-            const bodyAtVert = inVNeck ? sampleBodyCrossSectionAtY(y, body) : bodyRow;
+          if (isShirt && bodyRow) {
+            const bodyAtVert = inNeckCut ? sampleBodyCrossSectionAtY(Math.max(-1.49, y), body) : bodyRow;
             rx = Math.max(rx, bodyAtVert.rx + minClearance);
             rz = Math.max(rz, bodyAtVert.rz + minClearance + Math.abs(effZCenter - bodyAtVert.zCenter));
+          } else if (isShirt && isLongDress) {
+            // Keep flared dress skirt safely outside hip base stand disk at y=-1.50
+            rx = Math.max(rx, 0.84);
+            rz = Math.max(rz, 0.44);
           }
 
           let x = rx * cosT;
@@ -3395,8 +3645,13 @@
 
           if (isShirt) {
             const easeScale = Math.max(0.45, Math.min(1.8, teeSpec.chest / (body.bust || 36)));
-            const drapeEnv = Math.pow(Math.max(0, (v - 0.25) / 0.75), 1.35) * easeScale;
-            const ripple = (Math.sin(theta * 8 + v * 2.5) * 0.008 + Math.cos(theta * 5 - v * 2.0) * 0.005) * drapeEnv;
+            const drapeEnv = Math.pow(Math.max(0, (v - 0.22) / 0.78), 1.25) * easeScale;
+            let ripple = (Math.sin(theta * 8 + v * 2.5) * 0.008 + Math.cos(theta * 5 - v * 2.0) * 0.005) * drapeEnv;
+            if (pleatCount > 0 && skirtProgress > 0) {
+              ripple += Math.sin(theta * pleatCount + skirtProgress * 1.6) * pleatAmp * Math.pow(skirtProgress, 0.72);
+              // Gentle organic hem wave on skirts & gowns
+              y += Math.sin(theta * pleatCount) * pleatAmp * 0.35 * Math.pow(skirtProgress, 1.4);
+            }
             x += cosT * ripple;
             z += sinT * ripple;
 
@@ -3932,81 +4187,425 @@
       return texture;
     }
 
-    // Generate clean tailored 3D UV fabric texture for Capsule Wardrobe & custom uploaded garments
+    // Normalize pasted WhatsApp/mobile share text, schemeless domains, or wrapped search image links into a clean URL
+    function normalizeExternalStoreInput(rawInput) {
+      let text = String(rawInput || '').trim();
+      if (!text) return '';
+      if (/^data:image\//i.test(text) || text.startsWith('/api/') || text.startsWith('./')) return text;
+
+      const embeddedHttp = text.match(/https?:\/\/[^\s<>"')]+/i);
+      if (embeddedHttp) {
+        text = embeddedHttp[0];
+      } else if (/^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#]|$)/i.test(text)) {
+        text = 'https://' + text;
+      } else if (text.startsWith('//')) {
+        text = 'https:' + text;
+      }
+
+      // Unwrap Google Images / Bing / Pinterest redirect URLs containing ?imgurl=, ?mediaurl=, or ?url=
+      try {
+        const u = new URL(text);
+        for (const paramKey of ['imgurl', 'mediaurl', 'img', 'src', 'media', 'u']) {
+          const inner = u.searchParams.get(paramKey);
+          if (inner && /^https?:\/\//i.test(inner)) {
+            text = inner;
+            break;
+          }
+        }
+      } catch (e) {}
+
+      return text.replace(/[),.;]+$/, '');
+    }
+
+    function isLocalServerOrigin() {
+      return window.location.protocol.startsWith('http') && (
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1'
+      );
+    }
+
+    // Build an ordered list of CORS-clean URLs for loading any external cloth photo into WebGL CanvasTexture
+    function buildExternalCorsImageQueue(rawUrl) {
+      if (!rawUrl) return [];
+      if (rawUrl.startsWith('data:image/') || rawUrl.startsWith('./')) return [rawUrl];
+
+      let target = rawUrl;
+      if (rawUrl.startsWith('/api/proxy-image')) {
+        try {
+          const u = new URL(rawUrl, window.location.origin);
+          const orig = u.searchParams.get('url');
+          if (orig && isLocalServerOrigin()) {
+            return [rawUrl, 'https://wsrv.nl/?url=' + encodeURIComponent(orig) + '&w=1024&output=png', orig];
+          }
+          if (orig) target = orig;
+        } catch (e) {}
+      }
+
+      const queue = [target];
+      if (isLocalServerOrigin()) {
+        queue.push('/api/proxy-image?url=' + encodeURIComponent(target));
+      }
+      if (/^https?:\/\//i.test(target) && !target.includes('wsrv.nl') && !target.includes('weserv.nl')) {
+        queue.push('https://wsrv.nl/?url=' + encodeURIComponent(target) + '&w=1024&output=png');
+      }
+      return Array.from(new Set(queue));
+    }
+
+    // Classify store URL / garment title into authentic 3D drape cut, fabric, palette & store label
+    function classifyGarmentFromInput(rawUrl, rawTitle, forcedCut) {
+      const urlStr = normalizeExternalStoreInput(rawUrl);
+      const lowerUrl = urlStr.toLowerCase();
+      const lowerTitle = String(rawTitle || '').toLowerCase();
+      const combined = lowerUrl + ' ' + lowerTitle;
+
+      // 1. Detect store name
+      let storeName = 'Custom Store';
+      const storeHosts = [
+        ['zara', 'Zara'], ['myntra', 'Myntra'], ['myntassets', 'Myntra'],
+        ['hm.com', 'H&M'], ['ajio', 'AJIO'], ['shein', 'SHEIN'], ['ltwebstatic', 'SHEIN'],
+        ['fabindia', 'FabIndia'], ['snitch', 'Snitch India'],
+        ['amazon', 'Amazon Fashion'], ['amzn.', 'Amazon Fashion'], ['media-amazon', 'Amazon Fashion'],
+        ['flipkart', 'Flipkart'], ['rukminim', 'Flipkart'],
+        ['asos', 'ASOS'], ['nykaa', 'Nykaa Fashion'], ['uniqlo', 'Uniqlo'],
+        ['urbanic', 'Urbanic'], ['westside', 'Westside'], ['zudio', 'Zudio'],
+        ['meesho', 'Meesho'], ['maxesport', 'Maxesport'], ['shopify', 'Shopify Store'], ['unsplash', 'Studio Catalog']
+      ];
+      for (const [needle, label] of storeHosts) {
+        if (lowerUrl.includes(needle) || lowerTitle.includes(needle)) { storeName = label; break; }
+      }
+      if (storeName === 'Custom Store' && /^https?:\/\//i.test(urlStr)) {
+        try {
+          storeName = new URL(urlStr).hostname.replace(/^www\d*\./i, '').split('.')[0].toUpperCase();
+        } catch (e) {}
+      }
+
+      // 2. Detect 3D silhouette cut
+      let cutKey = (forcedCut && forcedCut !== 'auto' && GARMENT_SILHOUETTE_PRESETS[forcedCut]) ? forcedCut : '';
+      if (!cutKey) {
+        if (combined.includes('maxi') || combined.includes('gown') || combined.includes('evening')) cutKey = 'maxi_dress';
+        else if (combined.includes('anarkali') || combined.includes('kurta') || combined.includes('ethnic') || combined.includes('salwar')) cutKey = 'kurta';
+        else if (combined.includes('a-line') || combined.includes('aline') || combined.includes('floral') || combined.includes('sundress') || combined.includes('flare') || combined.includes('pleated')) cutKey = 'aline_dress';
+        else if (combined.includes('bodycon') || combined.includes('ribbed') || combined.includes('sheath') || combined.includes('bandage')) cutKey = 'bodycon';
+        else if (combined.includes('slip') || combined.includes('satin') || combined.includes('midi') || combined.includes('dress') || combined.includes('silk') || combined.includes('one-piece') || combined.includes('onepiece')) cutKey = 'slip';
+        else if (combined.includes('corset') || combined.includes('bustier') || combined.includes('camisole') || combined.includes('crop')) cutKey = 'corset';
+        else if (combined.includes('blazer') || combined.includes('coat') || combined.includes('trench') || combined.includes('suit')) cutKey = 'blazer';
+        else if (combined.includes('biker') || combined.includes('leather') || combined.includes('moto') || combined.includes('jacket')) cutKey = 'biker';
+        else if (combined.includes('hoodie') || combined.includes('sweatshirt') || combined.includes('fleece') || combined.includes('pullover')) cutKey = 'hoodie';
+        else if (combined.includes('shirt') || combined.includes('linen') || combined.includes('polo') || combined.includes('blouse')) cutKey = 'shirt';
+        else if (combined.includes('jersey') || combined.includes('sentinels') || combined.includes('vct')) cutKey = 'jersey';
+        else cutKey = 'slip';
+      }
+
+      const baseSpec = { ...(GARMENT_SILHOUETTE_PRESETS[cutKey] || GARMENT_SILHOUETTE_PRESETS.slip) };
+
+      // 3. Detect color palette from URL / title
+      const paletteRules = [
+        [['emerald', 'forest', 'pine', 'teal'], '#0f5c46', '#34d399', '#064e3b'],
+        [['crimson', 'ruby', 'red', 'scarlet', 'cherry', 'maroon', 'wine', 'burgundy'], '#9f1239', '#fb7185', '#4c0519'],
+        [['navy', 'midnight', 'cobalt', 'royal', 'sapphire', 'blue', 'denim'], '#1e3a8a', '#93c5fd', '#0f172a'],
+        [['gold', 'amber', 'mustard', 'yellow', 'sunflower', 'ochre'], '#92400e', '#facc15', '#451a03'],
+        [['pink', 'rose', 'blush', 'coral', 'magenta', 'fuschia'], '#9d174d', '#f9a8d4', '#500724'],
+        [['lavender', 'lilac', 'purple', 'violet', 'plum'], '#581c87', '#d8b4fe', '#2e1065'],
+        [['sage', 'olive', 'mint', 'khaki', 'moss', 'green'], '#365314', '#bef264', '#1a2e05'],
+        [['ivory', 'cream', 'white', 'pearl', 'beige', 'linen', 'champagne', 'sand'], '#e7e2d8', '#c7bfb0', '#b5ad9c'],
+        [['silver', 'grey', 'gray', 'charcoal', 'slate'], '#3f3f46', '#d4d4d8', '#18181b'],
+        [['black', 'obsidian', 'noir', 'onyx', 'char'], '#141418', '#52525b', '#070709']
+      ];
+      for (const [words, base, accent, trim] of paletteRules) {
+        if (words.some(w => combined.includes(w))) {
+          baseSpec.base = base;
+          baseSpec.accent = accent;
+          baseSpec.trim = trim;
+          break;
+        }
+      }
+
+      const isFloral = combined.includes('floral') || combined.includes('flower') || combined.includes('print') || combined.includes('botanical');
+      baseSpec.floralPrint = isFloral;
+
+      // 4. Derive human-readable garment title from URL slug if title wasn't given
+      let cleanTitle = rawTitle && rawTitle.trim() ? rawTitle.trim() : '';
+      if (!cleanTitle) {
+        let slug = urlStr;
+        try {
+          const uObj = new URL(urlStr);
+          const parts = uObj.pathname.split('/').filter(Boolean).filter(p => !/^(in|en|en_in|products?|p|dp|buy|item|dresses|women|men|s|files|\d+)$/i.test(p));
+          slug = parts.reduce((best, cur) => (cur.length > best.length ? cur : best), '') || uObj.hostname;
+        } catch (e) {}
+        slug = slug.replace(/\.(html?|php|aspx?|jpe?g|png|webp|avif).*$/i, '').replace(/[-_]+/g, ' ').replace(/\bp\d+\b/gi, '').trim();
+        const words = slug.split(/\s+/).filter(Boolean).slice(0, 5).map(w => w.charAt(0).toUpperCase() + w.slice(1));
+        cleanTitle = words.length ? `${storeName} ${words.join(' ')}` : `${storeName} ${baseSpec.label}`;
+      }
+
+      // 5. Choose clean fallback preview photo per garment cut
+      const previewFallbacks = {
+        slip: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80',
+        bodycon: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80',
+        aline_dress: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80',
+        maxi_dress: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80',
+        kurta: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80',
+        corset: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80',
+        shirt: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80',
+        tee: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80',
+        blazer: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80',
+        hoodie: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80',
+        biker: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80',
+        jersey: './sen-jersey.webp'
+      };
+      const isImageUrl = /^data:image\//i.test(urlStr) ||
+        /\.(jpe?g|png|webp|avif|gif)(\?.*)?$/i.test(urlStr) ||
+        /images\.unsplash\.com|assets\.myntassets\.com|static\.zara\.net\/photos|lp2\.hm\.com|m\.media-amazon\.com\/images|rukminim|cdn\.shopify\.com\/s\/files|images\.asos-media\.com|img\.ltwebstatic\.com|wsrv\.nl|weserv\.nl/i.test(urlStr);
+
+      return {
+        normalizedUrl: urlStr,
+        storeName,
+        title: cleanTitle,
+        cutKey,
+        spec: baseSpec,
+        isImageUrl,
+        previewUrl: isImageUrl ? urlStr : (previewFallbacks[cutKey] || previewFallbacks.slip)
+      };
+    }
+
+    // Safely extract dominant garment colors from a loaded image while skipping white studio backgrounds
+    function sampleGarmentPaletteFromImage(img) {
+      try {
+        const sCanvas = document.createElement('canvas');
+        const sw = 72, sh = 72;
+        sCanvas.width = sw;
+        sCanvas.height = sh;
+        const sCtx = sCanvas.getContext('2d');
+        sCtx.drawImage(img, 0, 0, sw, sh);
+        const data = sCtx.getImageData(Math.floor(sw * 0.28), Math.floor(sh * 0.30), Math.floor(sw * 0.44), Math.floor(sh * 0.44)).data;
+        let rSum = 0, gSum = 0, bSum = 0, count = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+          if (a < 180) continue;
+          const isStudioWhite = r > 236 && g > 236 && b > 236;
+          if (isStudioWhite) continue;
+          rSum += r; gSum += g; bSum += b; count++;
+        }
+        if (count < 18) return null;
+        const r = Math.round(rSum / count), g = Math.round(gSum / count), b = Math.round(bSum / count);
+        const toHex = n => Math.max(0, Math.min(255, n)).toString(16).padStart(2, '0');
+        return {
+          base: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
+          accent: `#${toHex(r + 36)}${toHex(g + 36)}${toHex(b + 36)}`,
+          trim: `#${toHex(r - 36)}${toHex(g - 36)}${toHex(b - 36)}`
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // Generate seamless 360° 3D UV dress / top textile atlas for every dress, preset, upload & store link
     function createTailoredGarmentAtlas(spec, title, customImgUrl, onReady) {
       const canvas = document.createElement('canvas');
       canvas.width = 1024;
       canvas.height = 1024;
       const ctx = canvas.getContext('2d');
 
-      function drawBase() {
-        ctx.fillStyle = spec.base;
+      function drawTextileAtlas(activeSpec, photoImg) {
+        const baseColor = activeSpec.base || '#18181b';
+        const accentColor = activeSpec.accent || '#facc15';
+        const trimColor = activeSpec.trim || '#09090b';
+        const style = activeSpec.style || 'slip';
+
+        // Rich full-wrap silk/cotton body gradient
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, 1024);
+        bgGrad.addColorStop(0.0, baseColor);
+        bgGrad.addColorStop(0.42, baseColor);
+        bgGrad.addColorStop(1.0, trimColor);
+        ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, 1024, 1024);
 
-        // Subtle woven fabric texture lines
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-        ctx.lineWidth = 1;
-        for (let i = 0; i < 1024; i += 8) {
-          ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(1024, i); ctx.stroke();
+        // Woven or Silk Lustre micro-texture across UV circumference
+        if (style === 'slip' || style === 'maxi' || style === 'aline' || style === 'kurta') {
+          for (let x = 0; x < 1024; x += 64) {
+            const sheen = ctx.createLinearGradient(x, 0, x + 64, 1024);
+            sheen.addColorStop(0.0, 'rgba(255,255,255,0.00)');
+            sheen.addColorStop(0.5, 'rgba(255,255,255,0.08)');
+            sheen.addColorStop(1.0, 'rgba(0,0,0,0.08)');
+            ctx.fillStyle = sheen;
+            ctx.fillRect(x, 260, 64, 764);
+          }
+        } else if (style === 'bodycon') {
+          // Fine vertical ribbed knit texture
+          for (let x = 0; x < 1024; x += 10) {
+            ctx.fillStyle = x % 20 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)';
+            ctx.fillRect(x, 0, 4, 1024);
+          }
+        } else {
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+          ctx.lineWidth = 1;
+          for (let i = 0; i < 1024; i += 8) {
+            ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(1024, i); ctx.stroke();
+          }
         }
 
-        // Front center U=0.75 (X=768), Back center U=0.25 (X=256)
-        if (spec.style === 'shirt' || spec.style === 'blazer' || spec.style === 'kurta') {
-          ctx.fillStyle = spec.accent;
-          ctx.fillRect(756, 20, 24, 920); // Front placket
-          ctx.fillStyle = spec.trim;
-          for (let y = 110; y < 860; y += 115) {
-            ctx.beginPath(); ctx.arc(768, y, 7, 0, Math.PI * 2); ctx.fill();
+        // Render actual copied store cloth or uploaded photo prominently across front & back of the 3D mannequin
+        const isFullClothRender = Boolean(photoImg && (activeSpec.renderActualCloth || (customImgUrl && (customImgUrl.startsWith('data:image/') || customImgUrl.startsWith('/api/proxy-image')))));
+        if (photoImg) {
+          try {
+            const sw = photoImg.naturalWidth || photoImg.width;
+            const sh = photoImg.naturalHeight || photoImg.height;
+            const sx = sw * 0.16, sy = sh * 0.12, sW = sw * 0.68, sH = sh * 0.78;
+
+            // Front Panel (U=0.50..1.00 -> X=512..1024, centered at X=768)
+            ctx.save();
+            ctx.globalAlpha = isFullClothRender ? 0.95 : (style === 'tee' || style === 'hoodie' ? 0.88 : 0.48);
+            const fx = isFullClothRender ? 536 : 602;
+            const fy = isFullClothRender ? 28 : 120;
+            const fw = isFullClothRender ? 464 : 332;
+            const fh = isFullClothRender ? 912 : 760;
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(fx, fy, fw, fh, isFullClothRender ? 28 : 90);
+            else ctx.rect(fx, fy, fw, fh);
+            ctx.clip();
+            ctx.drawImage(photoImg, sx, sy, sW, sH, fx, fy, fw, fh);
+            ctx.restore();
+
+            // Back Panel (U=0.00..0.50 -> X=0..512, centered at X=256)
+            ctx.save();
+            ctx.globalAlpha = isFullClothRender ? 0.84 : 0.26;
+            const bx = isFullClothRender ? 36 : 110;
+            const by = isFullClothRender ? 28 : 160;
+            const bw = isFullClothRender ? 440 : 292;
+            const bh = isFullClothRender ? 912 : 700;
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(bx, by, bw, bh, isFullClothRender ? 28 : 80);
+            else ctx.rect(bx, by, bw, bh);
+            ctx.clip();
+            ctx.drawImage(photoImg, sx, sy, sW, sH, bx, by, bw, bh);
+            ctx.restore();
+          } catch (e) {}
+        }
+
+        // Procedural Dress & Top Details (Skipped when showing user's exact full copied cloth texture)
+        if (!isFullClothRender) {
+          if (activeSpec.floralPrint) {
+            ctx.save();
+            for (let r = 0; r < 68; r++) {
+              const px = ((r * 173) % 980) + 22;
+              const py = ((r * 251) % 880) + 70;
+              ctx.fillStyle = accentColor;
+              ctx.globalAlpha = 0.26;
+              ctx.beginPath();
+              ctx.ellipse(px, py, 14, 7, r * 0.6, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.beginPath();
+              ctx.ellipse(px, py, 7, 14, r * 0.6, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.restore();
           }
-          if (spec.style === 'blazer') {
-            ctx.fillStyle = spec.trim;
-            ctx.beginPath(); ctx.moveTo(690, 0); ctx.lineTo(768, 280); ctx.lineTo(665, 210); ctx.closePath(); ctx.fill();
-            ctx.beginPath(); ctx.moveTo(846, 0); ctx.lineTo(768, 280); ctx.lineTo(871, 210); ctx.closePath(); ctx.fill();
+
+          if (style === 'slip' || style === 'bodycon' || style === 'aline' || style === 'maxi') {
+            ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(690, 90); ctx.quadraticCurveTo(705, 340, 680, 920); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(846, 90); ctx.quadraticCurveTo(831, 340, 856, 920); ctx.stroke();
+            ctx.fillStyle = accentColor;
+            ctx.fillRect(0, 0, 1024, 14);
+            ctx.fillRect(654, 0, 16, 120);
+            ctx.fillRect(866, 0, 16, 120);
+            if (style === 'aline' || style === 'maxi') {
+              ctx.fillStyle = trimColor;
+              ctx.fillRect(0, 392, 1024, 16);
+              ctx.fillStyle = accentColor;
+              ctx.fillRect(0, 398, 1024, 4);
+            }
+          } else if (style === 'corset') {
+            ctx.strokeStyle = accentColor;
+            ctx.lineWidth = 4;
+            [648, 708, 768, 828, 888].forEach(bx => {
+              ctx.beginPath(); ctx.moveTo(bx, 60); ctx.lineTo(bx, 910); ctx.stroke();
+            });
+            ctx.fillStyle = accentColor;
+            ctx.fillRect(0, 0, 1024, 18);
+          } else if (style === 'kurta') {
+            ctx.fillStyle = accentColor;
+            ctx.fillRect(748, 15, 40, 440);
+            ctx.fillStyle = trimColor;
+            ctx.fillRect(756, 25, 24, 420);
+            ctx.fillStyle = accentColor;
+            for (let y = 60; y < 420; y += 52) {
+              ctx.beginPath(); ctx.arc(768, y, 5, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.fillRect(0, 900, 1024, 18);
+          } else if (style === 'shirt' || style === 'blazer') {
+            ctx.fillStyle = accentColor;
+            ctx.fillRect(756, 20, 24, 920);
+            ctx.fillStyle = trimColor;
+            for (let y = 110; y < 860; y += 115) {
+              ctx.beginPath(); ctx.arc(768, y, 7, 0, Math.PI * 2); ctx.fill();
+            }
+            if (style === 'blazer') {
+              ctx.fillStyle = trimColor;
+              ctx.beginPath(); ctx.moveTo(685, 0); ctx.lineTo(768, 290); ctx.lineTo(660, 215); ctx.closePath(); ctx.fill();
+              ctx.beginPath(); ctx.moveTo(851, 0); ctx.lineTo(768, 290); ctx.lineTo(876, 215); ctx.closePath(); ctx.fill();
+            }
+          } else if (style === 'biker') {
+            ctx.strokeStyle = accentColor;
+            ctx.lineWidth = 8;
+            ctx.beginPath(); ctx.moveTo(740, 20); ctx.lineTo(790, 920); ctx.stroke();
+          } else if (style === 'hoodie') {
+            ctx.fillStyle = accentColor;
+            ctx.font = '900 72px "Syne", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('GAP', 768, 340);
+            ctx.fillStyle = 'rgba(0,0,0,0.28)';
+            ctx.fillRect(660, 620, 216, 190);
+          } else if (style === 'tee') {
+            ctx.fillStyle = accentColor;
+            ctx.font = '900 44px "Syne", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('STUDIO 26', 768, 320);
           }
-        } else if (spec.style === 'biker') {
-          ctx.strokeStyle = spec.accent;
-          ctx.lineWidth = 8;
-          ctx.beginPath(); ctx.moveTo(740, 20); ctx.lineTo(790, 920); ctx.stroke();
-        } else if (spec.style === 'hoodie') {
-          ctx.fillStyle = spec.accent;
-          ctx.font = '900 72px "Syne", sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('GAP', 768, 340);
-          ctx.fillStyle = 'rgba(0,0,0,0.28)';
-          ctx.fillRect(660, 620, 216, 190);
-        } else if (spec.style === 'tee') {
-          ctx.fillStyle = spec.accent;
-          ctx.font = '900 48px "Syne", sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('STUDIO 26', 768, 360);
         }
 
         // Bottom tailored hem stitch
-        ctx.fillStyle = spec.trim;
-        ctx.fillRect(0, 945, 1024, 79);
+        ctx.fillStyle = trimColor;
+        ctx.fillRect(0, 954, 1024, 70);
       }
 
-      drawBase();
+      drawTextileAtlas(spec, null);
       const tex = new THREE.CanvasTexture(canvas);
       tex.anisotropy = 8;
 
-      if (customImgUrl) {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          // Place crisp centered graphic print on front chest (X=620..916, Y=180..620)
-          ctx.save();
-          ctx.beginPath();
-          ctx.roundRect ? ctx.roundRect(628, 190, 280, 410, 18) : ctx.rect(628, 190, 280, 410);
-          ctx.clip();
-          ctx.drawImage(img, 628, 190, 280, 410);
-          ctx.restore();
-          tex.needsUpdate = true;
-          if (onReady) onReady(tex);
+      const queue = buildExternalCorsImageQueue(customImgUrl);
+      const shouldLoadExternalTex = Boolean(
+        customImgUrl && !customImgUrl.startsWith('./') && (
+          customImgUrl.startsWith('data:image/') ||
+          customImgUrl.startsWith('/api/proxy-image') ||
+          spec.renderActualCloth ||
+          /\.(jpe?g|png|webp|avif|gif)(\?.*)?$/i.test(customImgUrl)
+        )
+      );
+
+      if (shouldLoadExternalTex && queue.length > 0) {
+        const tryQueue = (idx) => {
+          if (idx >= queue.length) {
+            if (onReady) onReady(tex, spec);
+            return;
+          }
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            const sampled = sampleGarmentPaletteFromImage(img);
+            const mergedSpec = sampled
+              ? { ...spec, base: sampled.base, accent: sampled.accent, trim: sampled.trim }
+              : spec;
+            drawTextileAtlas(mergedSpec, img);
+            tex.needsUpdate = true;
+            if (onReady) onReady(tex, mergedSpec);
+          };
+          img.onerror = () => tryQueue(idx + 1);
+          img.src = queue[idx];
         };
-        img.src = customImgUrl;
+        tryQueue(0);
       } else if (onReady) {
-        onReady(tex);
+        onReady(tex, spec);
       }
 
       return tex;
@@ -4593,12 +5192,10 @@
       setMannequinSize('M', null);
     }
 
-    // Real-time anatomical vertex morphing + size-graded shirt geometry & sleeve fitting
+    // Real-time anatomical vertex morphing + size-graded shirt/dress geometry & sleeve fitting
     function applyMorphTo3DMannequin() {
       const teeSpec = GARMENT_SIZE_CHART[currentMannequinSize] || GARMENT_SIZE_CHART.M;
-      const capSpec = CAPSULE_GARMENT_SPECS[activeMannequinGarmentKey] || {
-        style: 'slip', base: '#18181b', accent: '#facc15', trim: '#09090b', sleeveless: false, hemDelta: 0, easeMult: 1.0
-      };
+      const capSpec = getActiveMannequinSpec(activeMannequinGarmentKey);
 
       if (Mannequin3D.initialized && Mannequin3D.torsoMesh && Mannequin3D.shirtBodyMesh) {
         // 1. Rebuild Body Form Torso cleanly with Bust/Waist/Hip weights (pedestal & neck remain docked!)
@@ -4608,10 +5205,12 @@
 
         if (Mannequin3D.hipBaseMesh) {
           const hipBaseMult = computeBodyMultipliers(1.0, mannequinMeasurements);
-          Mannequin3D.hipBaseMesh.scale.set(hipBaseMult.rxMult, 1, hipBaseMult.rzMult);
+          const isDress = (teeSpec.hemY + (capSpec.hemDelta || 0)) < -1.52;
+          const trimScale = isDress ? 0.84 : 1.0;
+          Mannequin3D.hipBaseMesh.scale.set(hipBaseMult.rxMult * trimScale, 1, hipBaseMult.rzMult * trimScale);
         }
 
-        // 2. Rebuild Graded 3D Shirt Shell using active Tee Size + anti-clipping body clearance
+        // 2. Rebuild Graded 3D Dress / Top Shell using active Size + Dress Skirt Draping + anti-clipping body clearance
         const newShirtGeo = createAnatomicalShellGeometry({
           isShirt: true,
           offset: 0,
@@ -4622,23 +5221,35 @@
         Mannequin3D.shirtBodyMesh.geometry.dispose();
         Mannequin3D.shirtBodyMesh.geometry = newShirtGeo;
 
-        // 3. Re-sweep V-neck collar flush onto updated neckline
-        if (Mannequin3D.collarMesh && newShirtGeo.userData && newShirtGeo.userData.neckRing) {
-          const newCollarGeo = createVNeckCollarGeometry(newShirtGeo.userData.neckRing);
-          Mannequin3D.collarMesh.geometry.dispose();
-          Mannequin3D.collarMesh.geometry = newCollarGeo;
+        // 2B. Dynamic Fabric Satin vs Matte Sheen
+        if (Mannequin3D.materials.shirtBody) {
+          const isSilky = ['slip', 'maxi', 'aline', 'kurta'].includes(capSpec.style);
+          Mannequin3D.materials.shirtBody.roughness = isSilky ? 0.36 : 0.62;
+          Mannequin3D.materials.shirtBody.metalness = isSilky ? 0.14 : 0.06;
+          Mannequin3D.materials.shirtBody.needsUpdate = true;
         }
 
-        // 4. Sync Sleeve Size, Shoulder Drop Anchor, and Sleeveless Dress visibility
+        // 3. Re-sweep V-neck collar flush onto updated neckline, hiding bulky ring on sleeveless slip/corset dresses
+        if (Mannequin3D.collarMesh && newShirtGeo.userData && newShirtGeo.userData.neckRing) {
+          Mannequin3D.collarMesh.visible = !capSpec.hideCollar;
+          if (!capSpec.hideCollar) {
+            const newCollarGeo = createVNeckCollarGeometry(newShirtGeo.userData.neckRing);
+            Mannequin3D.collarMesh.geometry.dispose();
+            Mannequin3D.collarMesh.geometry = newCollarGeo;
+          }
+        }
+
+        // 4. Sync Sleeve Size, Long/Short Sleeve Length, Shoulder Anchor, and Sleeveless Dress visibility
         const bodyAtShoulder = sampleBodyCrossSectionAtY(0.92, mannequinMeasurements);
         const effShoulder = Math.max(teeSpec.shoulder, bodyAtShoulder.rx / 0.92);
+        const sLenMult = capSpec.sleeveLenMult || 1.0;
         if (Mannequin3D.leftArmPivot && Mannequin3D.rightArmPivot) {
           Mannequin3D.leftArmPivot.visible = !capSpec.sleeveless;
           Mannequin3D.rightArmPivot.visible = !capSpec.sleeveless;
           Mannequin3D.leftArmPivot.position.set(-0.76 * effShoulder, 0.80, 0.02);
           Mannequin3D.rightArmPivot.position.set(0.76 * effShoulder, 0.80, 0.02);
-          Mannequin3D.leftArmPivot.scale.set(teeSpec.sleeveLen, teeSpec.sleeveScale, teeSpec.sleeveScale);
-          Mannequin3D.rightArmPivot.scale.set(teeSpec.sleeveLen, teeSpec.sleeveScale, teeSpec.sleeveScale);
+          Mannequin3D.leftArmPivot.scale.set(teeSpec.sleeveLen * sLenMult, teeSpec.sleeveScale, teeSpec.sleeveScale);
+          Mannequin3D.rightArmPivot.scale.set(teeSpec.sleeveLen * sLenMult, teeSpec.sleeveScale, teeSpec.sleeveScale);
         }
       }
 
@@ -4689,10 +5300,36 @@
       }
     }
 
-    function selectMannequinGarment(key, title, url, el) {
+    function updateMannequinLinkPreviewCard(storeName, metaLabel, imgUrl) {
+      const wrap = document.getElementById('mannequin-linked-preview-wrap');
+      const img = document.getElementById('mannequin-linked-preview-img');
+      const storeEl = document.getElementById('mannequin-linked-store');
+      const metaEl = document.getElementById('mannequin-linked-meta');
+      if (!wrap) return;
+      if (imgUrl && img) img.src = imgUrl;
+      if (storeEl) storeEl.textContent = storeName || 'Store Detected';
+      if (metaEl) metaEl.textContent = metaLabel || 'Draped on 3D Form';
+      wrap.classList.remove('hidden');
+      wrap.classList.add('flex');
+    }
+
+    function selectMannequinGarment(key, title, url, el, customSpecOverride) {
       activeMannequinGarmentKey = key;
       activeMannequinGarmentTitle = title;
       activeMannequinGarmentUrl = url;
+
+      let capSpec = null;
+      if (customSpecOverride) {
+        capSpec = customSpecOverride;
+      } else if (key === 'sen_jersey') {
+        capSpec = CAPSULE_GARMENT_SPECS.sen_jersey;
+      } else if (CAPSULE_GARMENT_SPECS[key]) {
+        capSpec = CAPSULE_GARMENT_SPECS[key];
+      } else {
+        const classified = classifyGarmentFromInput(url, title, key && GARMENT_SILHOUETTE_PRESETS[key] ? key : 'auto');
+        capSpec = classified.spec;
+      }
+      activeDynamicMannequinSpec = (key === 'sen_jersey') ? null : capSpec;
 
       const titleBadge = document.getElementById('mannequin-active-garment-title');
       if (titleBadge) titleBadge.textContent = title;
@@ -4727,11 +5364,20 @@
             Mannequin3D.materials.rightSleeve.needsUpdate = true;
           }
         } else {
-          const capSpec = CAPSULE_GARMENT_SPECS[key] || {
-            style: 'tee', base: '#18181b', accent: '#facc15', trim: '#09090b', sleeveless: false, hemDelta: 0, easeMult: 1.0
-          };
-          const customGraphic = key.startsWith('wishlist_') || key.startsWith('upload_') ? url : null;
-          const tailoredTex = createTailoredGarmentAtlas(capSpec, title, customGraphic);
+          const texUrl = (url && !url.includes('sen_mannequin') && !url.includes('sen-jersey')) ? url : null;
+          const tailoredTex = createTailoredGarmentAtlas(capSpec, title, texUrl, (_tex, resolvedSpec) => {
+            if (resolvedSpec && resolvedSpec.trim && Mannequin3D.materials.blackTrim) {
+              Mannequin3D.materials.blackTrim.color.setStyle(resolvedSpec.trim);
+            }
+            const refreshedSleeves = createCapsuleSleeveTexture(resolvedSpec || capSpec);
+            [Mannequin3D.materials.leftSleeve, Mannequin3D.materials.rightSleeve].forEach(mat => {
+              if (mat) {
+                mat.map = refreshedSleeves;
+                mat.color.setHex(0xffffff);
+                mat.needsUpdate = true;
+              }
+            });
+          });
           Mannequin3D.materials.shirtBody.map = tailoredTex;
           Mannequin3D.materials.shirtBody.needsUpdate = true;
           if (Mannequin3D.materials.blackTrim) {
@@ -4751,15 +5397,451 @@
       applyMorphTo3DMannequin();
     }
 
+    const MANNEQUIN_RECENT_KEY = 'yuri_mannequin_recent_v1';
+    const MANNEQUIN_SAVED_KEY = 'yuri_mannequin_saved_v1';
+    let activeMannequinRackTab = 'capsule';
+    let activeBridgeClothEntry = null;
+
+    function loadMannequinCollection(storageKey) {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveMannequinCollection(storageKey, items) {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(items));
+      } catch (e) {}
+    }
+
+    function addMannequinRecentItem(entry) {
+      activeBridgeClothEntry = entry;
+      let items = loadMannequinCollection(MANNEQUIN_RECENT_KEY);
+      items = items.filter(i => i.title !== entry.title && i.sourceUrl !== entry.sourceUrl);
+      items.unshift(entry);
+      items = items.slice(0, 12);
+      saveMannequinCollection(MANNEQUIN_RECENT_KEY, items);
+      renderMannequinRecentAndSaved();
+    }
+
+    function saveActiveMannequinCloth() {
+      const target = activeBridgeClothEntry || {
+        id: 'm_' + Date.now(),
+        title: activeMannequinGarmentTitle || 'Draped Outfit',
+        storeName: 'Mannequin Studio',
+        cutKey: activeMannequinSpecCut(),
+        cutLabel: getActiveMannequinSpec(activeMannequinGarmentKey).label || 'Draped Fit',
+        sourceUrl: document.getElementById('mannequin-store-url-input')?.value.trim() || '',
+        img: activeMannequinGarmentUrl || './sen-jersey.webp',
+        clothUrl: activeMannequinGarmentUrl || './sen-jersey.webp'
+      };
+      toggleSaveMannequinItem(target);
+    }
+
+    function activeMannequinSpecCut() {
+      const s = getActiveMannequinSpec(activeMannequinGarmentKey);
+      return s && s.style ? s.style : 'slip';
+    }
+
+    function toggleSaveMannequinItem(itemObj) {
+      let saved = loadMannequinCollection(MANNEQUIN_SAVED_KEY);
+      const existsIdx = saved.findIndex(i => i.title === itemObj.title && i.img === itemObj.img);
+      if (existsIdx >= 0) {
+        showStudioToast(`"${itemObj.title}" is already in your Saved tab!`);
+        return;
+      }
+      saved.unshift({ ...itemObj, id: 'saved_' + Date.now(), savedAt: Date.now() });
+      saved = saved.slice(0, 20);
+      saveMannequinCollection(MANNEQUIN_SAVED_KEY, saved);
+      renderMannequinRecentAndSaved();
+      showStudioToast(`❤️ Saved "${itemObj.title}" to Mannequin Saved tab!`);
+    }
+
+    function saveRecentMannequinItemById(id) {
+      const recent = loadMannequinCollection(MANNEQUIN_RECENT_KEY);
+      const found = recent.find(i => i.id === id);
+      if (found) toggleSaveMannequinItem(found);
+    }
+
+    function removeMannequinRackItem(kind, id) {
+      const key = kind === 'saved' ? MANNEQUIN_SAVED_KEY : MANNEQUIN_RECENT_KEY;
+      const filtered = loadMannequinCollection(key).filter(i => i.id !== id);
+      saveMannequinCollection(key, filtered);
+      renderMannequinRecentAndSaved();
+      showStudioToast(`Removed item from ${kind === 'saved' ? 'Saved' : 'Recent'}.`);
+    }
+
+    function drapeMannequinRackItem(kind, id) {
+      const key = kind === 'saved' ? MANNEQUIN_SAVED_KEY : MANNEQUIN_RECENT_KEY;
+      const item = loadMannequinCollection(key).find(i => i.id === id);
+      if (!item) return;
+
+      const urlInput = document.getElementById('mannequin-store-url-input');
+      if (urlInput && item.sourceUrl) urlInput.value = item.sourceUrl;
+
+      const classified = classifyGarmentFromInput(item.sourceUrl || item.clothUrl, item.title, item.cutKey || 'auto');
+      const specWithCloth = { ...classified.spec, renderActualCloth: true };
+
+      if (item.cutKey === 'jersey' && (item.img || '').includes('sen')) {
+        setMannequinGarmentTexture('studio');
+      } else {
+        selectMannequinGarment('store_' + Date.now(), item.title, item.clothUrl || item.img, null, specWithCloth);
+      }
+
+      activeBridgeClothEntry = item;
+      updateMannequinLinkPreviewCard(item.storeName || 'Store', `${item.cutLabel || specWithCloth.label} · Draped`, item.img || item.clothUrl);
+      if (kind !== 'recent') {
+        addMannequinRecentItem({ ...item, timestamp: Date.now() });
+      }
+      showStudioToast(`👗 Draped "${item.title}" onto 3D Mannequin!`);
+    }
+
+    function setMannequinRackTab(tabName, btn) {
+      activeMannequinRackTab = tabName || 'capsule';
+      document.querySelectorAll('.mannequin-rack-tab').forEach(b => {
+        const isActive = b.getAttribute('data-rack-tab') === activeMannequinRackTab;
+        b.className = isActive
+          ? 'mannequin-rack-tab px-2.5 py-1 rounded-lg bg-lavender text-midnight font-bold transition'
+          : 'mannequin-rack-tab px-2.5 py-1 rounded-lg text-white/80 hover:text-lavender transition';
+      });
+      const capEl = document.getElementById('mannequin-rack-capsule');
+      const recEl = document.getElementById('mannequin-rack-recent');
+      const savEl = document.getElementById('mannequin-rack-saved');
+      if (capEl) capEl.classList.toggle('hidden', activeMannequinRackTab !== 'capsule');
+      if (recEl) recEl.classList.toggle('hidden', activeMannequinRackTab !== 'recent');
+      if (savEl) savEl.classList.toggle('hidden', activeMannequinRackTab !== 'saved');
+      renderMannequinRecentAndSaved();
+    }
+
+    function renderMannequinRecentAndSaved() {
+      const esc = typeof escapeWishlistHtml === 'function' ? escapeWishlistHtml : (s => String(s || ''));
+      const recent = loadMannequinCollection(MANNEQUIN_RECENT_KEY);
+      const saved = loadMannequinCollection(MANNEQUIN_SAVED_KEY);
+
+      const recCount = document.getElementById('mannequin-recent-count');
+      const savCount = document.getElementById('mannequin-saved-count');
+      if (recCount) recCount.textContent = String(recent.length);
+      if (savCount) savCount.textContent = String(saved.length);
+
+      // Update Bridge inline Recent strip
+      const strip = document.getElementById('mannequin-bridge-recent-strip');
+      if (strip) {
+        if (recent.length === 0) {
+          strip.classList.add('hidden');
+          strip.classList.remove('flex');
+        } else {
+          strip.classList.remove('hidden');
+          strip.classList.add('flex');
+          strip.innerHTML = `<span class="text-lavender font-mono font-bold uppercase mr-1">Recent Store Clothes:</span>` +
+            recent.slice(0, 5).map(item => `
+              <button type="button" onclick="drapeMannequinRackItem('recent', '${esc(item.id)}')" class="flex items-center gap-1.5 pl-1 pr-2 py-0.5 rounded-lg bg-surface-light border border-border hover:border-lavender text-white/90 transition max-w-[175px]">
+                <img src="${esc(item.img || item.clothUrl)}" class="w-4 h-4 rounded object-cover">
+                <span class="truncate font-mono text-[10px]">${esc(item.title)}</span>
+              </button>
+            `).join('') +
+            `<button type="button" onclick="setMannequinRackTab('recent', document.querySelector('[data-rack-tab=\\'recent\\']'))" class="ml-auto text-[10px] font-mono text-lavender underline hover:text-white">Open Recent (${recent.length}) →</button>`;
+        }
+      }
+
+      const buildRackHtml = (items, kind) => {
+        if (items.length === 0) {
+          return `
+            <div class="col-span-full py-6 text-center rounded-xl bg-black/50 border border-dashed border-border space-y-1.5">
+              <p class="text-xs text-white/75">${kind === 'recent' ? 'No recent store links or custom clothes yet — paste any link above to drape it here.' : 'No saved dresses or clothes yet — click "Save Active Cloth" or bookmark any recent item.'}</p>
+            </div>
+          `;
+        }
+        return items.map(item => `
+          <div class="rounded-xl bg-surface-light border border-border hover:border-lavender/70 p-2 flex flex-col justify-between gap-1.5 transition group">
+            <div>
+              <div class="relative w-full h-24 rounded-lg overflow-hidden bg-black mb-1.5 cursor-pointer" onclick="drapeMannequinRackItem('${kind}', '${esc(item.id)}')">
+                <img src="${esc(item.img || item.clothUrl)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-1 left-1 text-[8px] px-1.5 py-0.5 rounded bg-black/80 text-lavender font-mono font-bold uppercase">${esc(item.storeName || 'Store')}</span>
+                <button type="button" onclick="event.stopPropagation(); removeMannequinRackItem('${kind}', '${esc(item.id)}')" title="Remove" class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/80 text-white/75 hover:text-rose-400 flex items-center justify-center text-[9px]">✕</button>
+              </div>
+              <h5 class="text-[11px] font-semibold text-ivory truncate">${esc(item.title)}</h5>
+              <p class="text-[9px] text-white/65 font-mono truncate">${esc(item.cutLabel || 'Draped Fit')}</p>
+            </div>
+            <div class="flex items-center gap-1 pt-1 border-t border-white/10">
+              <button type="button" onclick="drapeMannequinRackItem('${kind}', '${esc(item.id)}')" class="flex-1 py-1 rounded-lg bg-lavender text-midnight font-bold text-[10px] hover:bg-white transition">Drape 3D</button>
+              ${kind === 'recent' ? `<button type="button" onclick="saveRecentMannequinItemById('${esc(item.id)}')" title="Save to Saved Tab" class="px-2 py-1 rounded-lg bg-black/60 border border-border hover:border-lavender text-lavender text-[10px] font-bold">★</button>` : ''}
+            </div>
+          </div>
+        `).join('');
+      };
+
+      const recGrid = document.getElementById('mannequin-rack-recent');
+      const savGrid = document.getElementById('mannequin-rack-saved');
+      if (recGrid) recGrid.innerHTML = buildRackHtml(recent, 'recent');
+      if (savGrid) savGrid.innerHTML = buildRackHtml(saved, 'saved');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function shareMannequinBridgeLink() {
+      const urlInput = document.getElementById('mannequin-store-url-input');
+      const targetUrl = (activeBridgeClothEntry && activeBridgeClothEntry.sourceUrl)
+        || (urlInput ? urlInput.value.trim() : '')
+        || activeMannequinGarmentUrl;
+      const cutKey = (activeBridgeClothEntry && activeBridgeClothEntry.cutKey) || activeMannequinSpecCut() || 'slip';
+      const shareParams = new URLSearchParams();
+      if (targetUrl) shareParams.set('dress', targetUrl);
+      shareParams.set('cut', cutKey);
+      shareParams.set('size', currentMannequinSize || 'M');
+      if (activeMannequinGarmentTitle) shareParams.set('title', activeMannequinGarmentTitle);
+      const baseHref = window.location.href.split('?')[0].split('#')[0];
+      const fullShareUrl = `${baseHref}?${shareParams.toString()}`;
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(fullShareUrl).catch(() => {});
+      }
+      showStudioToast('🔗 External shareable 3D dress link copied to clipboard!');
+      return fullShareUrl;
+    }
+
+    function checkExternalDressUrlParam() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const extDress = params.get('dress') || params.get('store_url') || params.get('url');
+        if (!extDress) return;
+        const cutParam = params.get('cut') || 'auto';
+        const sizeParam = params.get('size');
+        const titleParam = params.get('title') || '';
+        openStudio('mannequin');
+        setTimeout(() => {
+          if (sizeParam && typeof setMannequinSize === 'function' && GARMENT_SIZE_CHART[sizeParam]) {
+            setMannequinSize(sizeParam, null);
+          }
+          const urlInput = document.getElementById('mannequin-store-url-input');
+          const silSelect = document.getElementById('mannequin-link-silhouette');
+          if (urlInput) urlInput.value = extDress;
+          if (silSelect && cutParam) silSelect.value = cutParam;
+          loadStoreLinkOnMannequin(extDress, titleParam, cutParam);
+        }, 280);
+      } catch (e) {}
+    }
+
+    async function loadStoreLinkOnMannequin(overrideUrl, overrideTitle, overrideCut, overridePreviewUrl) {
+      const urlInput = document.getElementById('mannequin-store-url-input');
+      const silSelect = document.getElementById('mannequin-link-silhouette');
+      const drapeBtn = document.getElementById('mannequin-drape-link-btn');
+      const rawInput = (overrideUrl !== undefined ? overrideUrl : (urlInput ? urlInput.value : '')).trim();
+      const normalizedUrl = normalizeExternalStoreInput(rawInput);
+
+      if (!normalizedUrl) {
+        showStudioToast('Paste any external store link, share text, or cloth image URL (https://...).');
+        return;
+      }
+      if (urlInput && !overrideUrl) urlInput.value = normalizedUrl;
+
+      const origBtnHtml = drapeBtn ? drapeBtn.innerHTML : '';
+      if (drapeBtn) {
+        drapeBtn.disabled = true;
+        drapeBtn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Loading External Link...`;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      const forcedCut = overrideCut || (silSelect ? silSelect.value : 'auto');
+      const initialClass = classifyGarmentFromInput(normalizedUrl, overrideTitle || '', forcedCut);
+
+      let resolvedSourceUrl = normalizedUrl;
+      let extractedTitle = overrideTitle || '';
+      let rawExtractedImg = overridePreviewUrl || (initialClass.isImageUrl ? normalizedUrl : '');
+      let clothImgUrl = '';
+      let blockedNotice = false;
+
+      if (!rawExtractedImg && /^https?:\/\//i.test(normalizedUrl)) {
+        // 1. Try localhost /api/extract-garment if served locally
+        if (isLocalServerOrigin()) {
+          try {
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 5500);
+            const resp = await fetch('/api/extract-garment?url=' + encodeURIComponent(normalizedUrl), { signal: ctrl.signal });
+            clearTimeout(timer);
+            if (resp.ok) {
+              const data = await resp.json();
+              if (data.finalUrl) resolvedSourceUrl = data.finalUrl;
+              if (data.title && !extractedTitle) extractedTitle = data.title;
+              if (data.ok && data.imageUrl) {
+                rawExtractedImg = data.imageUrl;
+                clothImgUrl = data.proxiedUrl || data.imageUrl;
+              } else if (data.blocked) {
+                blockedNotice = true;
+              }
+            }
+          } catch (e) {}
+        }
+
+        // 2. Fallback to public client-side OpenGraph API (works on GitHub Pages / Vercel / Netlify / static origins!)
+        if (!rawExtractedImg) {
+          try {
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 5500);
+            const mlResp = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(normalizedUrl), { signal: ctrl.signal });
+            clearTimeout(timer);
+            if (mlResp.ok) {
+              const mlData = await mlResp.json();
+              const info = mlData && mlData.data ? mlData.data : null;
+              if (info && info.url) resolvedSourceUrl = info.url;
+              if (info && info.title && !extractedTitle) extractedTitle = info.title;
+              if (info && info.image && info.image.url) {
+                rawExtractedImg = info.image.url;
+                blockedNotice = false;
+              }
+            }
+          } catch (e) {}
+        }
+      }
+
+      if (drapeBtn) {
+        drapeBtn.disabled = false;
+        drapeBtn.innerHTML = origBtnHtml;
+      }
+
+      const classified = classifyGarmentFromInput(resolvedSourceUrl, extractedTitle, forcedCut);
+      const bestRawImg = rawExtractedImg || classified.previewUrl;
+
+      if (!clothImgUrl) {
+        if (bestRawImg.startsWith('data:image/') || bestRawImg.startsWith('./') || bestRawImg.startsWith('/api/proxy-image')) {
+          clothImgUrl = bestRawImg;
+        } else if (isLocalServerOrigin()) {
+          clothImgUrl = '/api/proxy-image?url=' + encodeURIComponent(bestRawImg);
+        } else {
+          clothImgUrl = bestRawImg; // createTailoredGarmentAtlas automatically falls back to https://wsrv.nl CORS relay
+        }
+      }
+
+      const displayPreviewUrl = isLocalServerOrigin()
+        ? (rawExtractedImg ? bestRawImg : classified.previewUrl)
+        : (rawExtractedImg || classified.previewUrl);
+
+      const specWithCloth = { ...classified.spec, renderActualCloth: true };
+
+      if (classified.cutKey === 'jersey') {
+        setMannequinGarmentTexture('studio');
+      } else {
+        selectMannequinGarment('store_' + Date.now(), classified.title, clothImgUrl, null, specWithCloth);
+      }
+
+      const entry = {
+        id: 'rec_' + Date.now(),
+        title: classified.title,
+        storeName: classified.storeName,
+        cutKey: classified.cutKey,
+        cutLabel: specWithCloth.label,
+        sourceUrl: resolvedSourceUrl,
+        img: displayPreviewUrl,
+        clothUrl: clothImgUrl,
+        timestamp: Date.now()
+      };
+      addMannequinRecentItem(entry);
+
+      updateMannequinLinkPreviewCard(
+        classified.storeName,
+        blockedNotice ? `${specWithCloth.label} · Store blocked page (use Paste Image)` : `${specWithCloth.label} · External Cloth Draped`,
+        displayPreviewUrl
+      );
+
+      if (typeof TRYON_RESULTS !== 'undefined') {
+        TRYON_RESULTS[classified.title] = {
+          afterImg: displayPreviewUrl,
+          frontImg: displayPreviewUrl,
+          threeQuarterImg: displayPreviewUrl,
+          profileImg: displayPreviewUrl,
+          silhouette: `${classified.storeName} · ${specWithCloth.label}`,
+          drape: 'External Store Cloth 3D Drape',
+          tension: 'Contoured (99.4%)',
+          summary: `Imported from ${classified.storeName}: External link draped on Size ${currentMannequinSize}`
+        };
+      }
+
+      showStudioToast(
+        blockedNotice
+          ? `Store protected page HTML — right-click the dress -> "Copy Image" & use "Paste Copied Cloth Image" for exact pattern!`
+          : `👗 Draped "${classified.title}" from ${classified.storeName} & added to Recent!`
+      );
+    }
+
+    function pasteClothImageToMannequin() {
+      if (navigator.clipboard && navigator.clipboard.read) {
+        navigator.clipboard.read().then(items => {
+          let found = false;
+          for (const item of items) {
+            const imgType = item.types.find(t => t.startsWith('image/'));
+            if (imgType) {
+              item.getType(imgType).then(blob => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const dataUrl = e.target.result;
+                  const forcedCut = document.getElementById('mannequin-link-silhouette')?.value || 'auto';
+                  const classified = classifyGarmentFromInput('clipboard-cloth.png', 'Copied Store Cloth', forcedCut);
+                  const specWithCloth = { ...classified.spec, renderActualCloth: true };
+                  selectMannequinGarment('clip_' + Date.now(), classified.title, dataUrl, null, specWithCloth);
+                  addMannequinRecentItem({
+                    id: 'rec_' + Date.now(),
+                    title: classified.title,
+                    storeName: 'Clipboard Copy',
+                    cutKey: classified.cutKey,
+                    cutLabel: specWithCloth.label,
+                    sourceUrl: '',
+                    img: dataUrl,
+                    clothUrl: dataUrl,
+                    timestamp: Date.now()
+                  });
+                  updateMannequinLinkPreviewCard('Clipboard Copy', `${specWithCloth.label} · Live Cloth Draped`, dataUrl);
+                  showStudioToast(`👗 Draped copied store cloth onto 3D Mannequin & added to Recent!`);
+                };
+                reader.readAsDataURL(blob);
+              });
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            showStudioToast('No cloth image in clipboard yet — right-click "Copy Image" on any store or pick a file.');
+            document.getElementById('mannequin-custom-tee-input')?.click();
+          }
+        }).catch(() => {
+          document.getElementById('mannequin-custom-tee-input')?.click();
+        });
+      } else {
+        document.getElementById('mannequin-custom-tee-input')?.click();
+      }
+    }
+
+    function tryQuickStoreLinkOnMannequin(storeUrl, title, forcedCut, previewUrl) {
+      const urlInput = document.getElementById('mannequin-store-url-input');
+      const silSelect = document.getElementById('mannequin-link-silhouette');
+      if (urlInput) urlInput.value = storeUrl;
+      if (silSelect && forcedCut) silSelect.value = forcedCut;
+      loadStoreLinkOnMannequin(storeUrl, title, forcedCut, previewUrl);
+    }
+
     function handleMannequinCustomUpload(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
         const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ');
-        selectMannequinGarment('upload_' + Date.now(), cleanName || 'My Custom Tee', e.target.result, null);
+        const classified = classifyGarmentFromInput(file.name, cleanName, document.getElementById('mannequin-link-silhouette')?.value || 'auto');
+        const specWithCloth = { ...classified.spec, renderActualCloth: true };
+        selectMannequinGarment('upload_' + Date.now(), cleanName || 'My Custom Dress', e.target.result, null, specWithCloth);
+        addMannequinRecentItem({
+          id: 'rec_' + Date.now(),
+          title: cleanName || 'Uploaded Dress',
+          storeName: 'Uploaded File',
+          cutKey: classified.cutKey,
+          cutLabel: specWithCloth.label,
+          sourceUrl: '',
+          img: e.target.result,
+          clothUrl: e.target.result,
+          timestamp: Date.now()
+        });
+        updateMannequinLinkPreviewCard('Uploaded File', `${specWithCloth.label} · Draped`, e.target.result);
         if (typeof showStudioToast === 'function') {
-          showStudioToast(`👕 Draped "${cleanName}" on Size ${currentMannequinSize} 3D Form!`);
+          showStudioToast(`👗 Draped "${cleanName}" (${specWithCloth.label}) & added to Recent!`);
         }
       };
       reader.readAsDataURL(file);
@@ -4809,7 +5891,7 @@
       if (activeMannequinGarmentKey === 'sen_jersey' || activeMannequinGarmentUrl.includes('sen-jersey') || activeMannequinGarmentUrl.includes('sen_mannequin')) {
         switchARGarment('sen_jersey', activeMannequinGarmentTitle, null);
       } else {
-        applyCustomWebGarment(activeMannequinGarmentUrl, activeMannequinGarmentTitle, activeMannequinGarmentKey);
+        applyCustomWebGarment(activeMannequinGarmentUrl, activeMannequinGarmentTitle, activeMannequinGarmentKey, true);
       }
 
       showStudioToast(`🎥 Transferred "${activeMannequinGarmentTitle}" (Size ${currentMannequinSize}) to Live Camera AR!`);
@@ -6113,8 +7195,454 @@
       }
     }
 
+    // =========================================================================
+    // 🧍 NEURAL TWIN CLOTHING COMPOSITOR (TWIN!-Style Real Outfit Try-On Render)
+    // =========================================================================
+    const TWIN_IMG_CACHE = new Map();
+
+    function loadTwinCorsImage(url) {
+      if (!url) return Promise.resolve(null);
+      if (TWIN_IMG_CACHE.has(url)) return Promise.resolve(TWIN_IMG_CACHE.get(url));
+      const queue = typeof buildExternalCorsImageQueue === 'function' ? buildExternalCorsImageQueue(url) : [url];
+      return new Promise((resolve) => {
+        const tryIdx = (idx) => {
+          if (idx >= queue.length) { resolve(null); return; }
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            TWIN_IMG_CACHE.set(url, img);
+            resolve(img);
+          };
+          img.onerror = () => tryIdx(idx + 1);
+          img.src = queue[idx];
+        };
+        tryIdx(0);
+      });
+    }
+
+    function shadeHexColor(hex, delta) {
+      try {
+        const clean = hex.replace('#', '');
+        const num = parseInt(clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean, 16);
+        const r = Math.max(0, Math.min(255, ((num >> 16) & 255) + delta));
+        const g = Math.max(0, Math.min(255, ((num >> 8) & 255) + delta));
+        const b = Math.max(0, Math.min(255, (num & 255) + delta));
+        return `rgb(${r},${g},${b})`;
+      } catch (e) {
+        return '#d69e76';
+      }
+    }
+
+    async function composeTwinOutfitRender(opts) {
+      const {
+        top = null,       // { title, img, key }
+        bottom = null,    // { title, img, key }
+        layer = null,     // { title, img, key }
+        angle = 'front'
+      } = opts || {};
+
+      const twin = (typeof aiTwinProfile !== 'undefined') ? aiTwinProfile : { name: 'User', bust: 36, waist: 28, hips: 38, shape: 'Athletic', size: 'M', skinHex: '#D69E76', avatar: '' };
+      const W = 480, H = 640;
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      // Load Twin avatar + all active garment photos in parallel
+      const [avatarImg, topImg, bottomImg, layerImg] = await Promise.all([
+        loadTwinCorsImage(twin.avatar),
+        top && top.img ? loadTwinCorsImage(top.img) : Promise.resolve(null),
+        bottom && bottom.img ? loadTwinCorsImage(bottom.img) : Promise.resolve(null),
+        layer && layer.img ? loadTwinCorsImage(layer.img) : Promise.resolve(null)
+      ]);
+
+      // 1. Studio Editorial Backdrop
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+      bgGrad.addColorStop(0, '#16161d');
+      bgGrad.addColorStop(0.55, '#0c0c10');
+      bgGrad.addColorStop(1, '#050507');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      const halo = ctx.createRadialGradient(W * 0.5, 220, 20, W * 0.5, 240, 260);
+      halo.addColorStop(0, 'rgba(250, 204, 21, 0.14)');
+      halo.addColorStop(0.55, 'rgba(255, 255, 255, 0.04)');
+      halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, W, H);
+
+      // Floor studio shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      ctx.beginPath();
+      ctx.ellipse(W * 0.5, 608, 92, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Angle perspective scaling
+      const yawShift = angle === 'threequarter' ? 10 : (angle === 'profile' ? 18 : 0);
+      const yawScaleL = angle === 'threequarter' ? 0.86 : (angle === 'profile' ? 0.62 : 1.0);
+      const yawScaleR = angle === 'threequarter' ? 1.04 : (angle === 'profile' ? 0.92 : 1.0);
+      const cx = W * 0.5 + yawShift * 0.25;
+
+      // Body proportions calibrated from AI Twin
+      const bustScale = (twin.bust || 36) / 36;
+      const waistScale = (twin.waist || 28) / 28;
+      const hipScale = (twin.hips || 38) / 38;
+      const shoulderL = 70 * bustScale * yawScaleL;
+      const shoulderR = 70 * bustScale * yawScaleR;
+      const chestL = 56 * bustScale * yawScaleL;
+      const chestR = 56 * bustScale * yawScaleR;
+      const waistL = 42 * waistScale * yawScaleL;
+      const waistR = 42 * waistScale * yawScaleR;
+      const hipL = 60 * hipScale * yawScaleL;
+      const hipR = 60 * hipScale * yawScaleR;
+
+      const skin = twin.skinHex || '#D69E76';
+      const skinHi = shadeHexColor(skin, 22);
+      const skinSh = shadeHexColor(skin, -32);
+      const skinGrad = ctx.createLinearGradient(cx - 75, 110, cx + 75, 420);
+      skinGrad.addColorStop(0, skinHi);
+      skinGrad.addColorStop(0.55, skin);
+      skinGrad.addColorStop(1, skinSh);
+
+      // Helper to paint textured garment inside active clip path
+      function fillClippedGarment(pathFn, garmentInfo, gImg, yTop, yBottom) {
+        const classified = typeof classifyGarmentFromInput === 'function'
+          ? classifyGarmentFromInput(garmentInfo?.img || '', garmentInfo?.title || '', garmentInfo?.key || 'auto')
+          : { spec: { base: '#18181b', accent: '#facc15', trim: '#09090b', style: 'shirt' } };
+        const spec = classified.spec;
+
+        ctx.save();
+        pathFn();
+        ctx.clip();
+
+        // Base fabric color
+        const baseG = ctx.createLinearGradient(cx, yTop, cx, yBottom);
+        baseG.addColorStop(0, spec.base || '#1c1917');
+        baseG.addColorStop(1, spec.trim || '#09090b');
+        ctx.fillStyle = baseG;
+        ctx.fillRect(0, yTop - 10, W, yBottom - yTop + 20);
+
+        // Actual copied cloth image projection fitted cleanly across garment region
+        if (gImg) {
+          const sw = gImg.naturalWidth || gImg.width;
+          const sh = gImg.naturalHeight || gImg.height;
+          const sx = sw * 0.14;
+          const sy = sh * 0.14;
+          const sW = sw * 0.72;
+          const sH = sh * 0.74;
+          const destW = Math.max(shoulderL + shoulderR + 68, hipL + hipR + 90);
+          ctx.globalAlpha = 0.92;
+          ctx.drawImage(gImg, sx, sy, sW, sH, cx - destW * 0.5, yTop - 6, destW, (yBottom - yTop) + 12);
+          ctx.globalAlpha = 1.0;
+        }
+
+        // 3D cylindrical studio lighting & waist/drape contours
+        const cyl = ctx.createLinearGradient(cx - shoulderL - 25, 0, cx + shoulderR + 25, 0);
+        cyl.addColorStop(0.0, 'rgba(0,0,0,0.44)');
+        cyl.addColorStop(0.24, 'rgba(0,0,0,0.06)');
+        cyl.addColorStop(0.48, 'rgba(255,255,255,0.14)');
+        cyl.addColorStop(0.76, 'rgba(0,0,0,0.08)');
+        cyl.addColorStop(1.0, 'rgba(0,0,0,0.48)');
+        ctx.fillStyle = cyl;
+        ctx.fillRect(0, yTop - 10, W, yBottom - yTop + 20);
+
+        // Subtle torso waist shadow + cloth fold shadows
+        const foldGrad = ctx.createRadialGradient(cx, 255, 8, cx, 255, 90);
+        foldGrad.addColorStop(0, 'rgba(255,255,255,0.08)');
+        foldGrad.addColorStop(0.6, 'rgba(0,0,0,0.0)');
+        foldGrad.addColorStop(1, 'rgba(0,0,0,0.22)');
+        ctx.fillStyle = foldGrad;
+        ctx.fillRect(0, yTop - 10, W, yBottom - yTop + 20);
+        ctx.restore();
+
+        // Crisp subtle atelier seam outline
+        ctx.save();
+        pathFn();
+        ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 2. Anatomical Head / Neck / Torso & Limbs Base
+      // Arms
+      ctx.fillStyle = skinGrad;
+      ctx.beginPath();
+      ctx.moveTo(cx - shoulderL + 4, 160);
+      ctx.quadraticCurveTo(cx - shoulderL - 26 * yawScaleL, 240, cx - waistL - 36 * yawScaleL, 355);
+      ctx.lineTo(cx - waistL - 18 * yawScaleL, 358);
+      ctx.quadraticCurveTo(cx - shoulderL - 8 * yawScaleL, 248, cx - chestL + 6, 198);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(cx + shoulderR - 4, 160);
+      ctx.quadraticCurveTo(cx + shoulderR + 26 * yawScaleR, 240, cx + waistR + 36 * yawScaleR, 355);
+      ctx.lineTo(cx + waistR + 18 * yawScaleR, 358);
+      ctx.quadraticCurveTo(cx + shoulderR + 8 * yawScaleR, 248, cx + chestR - 6, 198);
+      ctx.closePath();
+      ctx.fill();
+
+      // Sculpted Legs (Visible beneath skirts/dresses or cleanly hidden behind trousers)
+      ctx.fillStyle = skinGrad;
+      [
+        [-1, yawScaleL],
+        [1, yawScaleR]
+      ].forEach(([sign, ys]) => {
+        const legCx = cx + sign * 25 * ys;
+        ctx.beginPath();
+        ctx.moveTo(legCx - 20 * ys, 340);
+        ctx.lineTo(legCx + 20 * ys, 340);
+        ctx.quadraticCurveTo(legCx + 15 * ys, 480, legCx + 10 * ys, 594);
+        ctx.lineTo(legCx - 10 * ys, 594);
+        ctx.quadraticCurveTo(legCx - 15 * ys, 480, legCx - 20 * ys, 340);
+        ctx.closePath();
+        ctx.fill();
+      });
+
+      // Torso Neck + Décolletage + Body Base
+      ctx.fillStyle = skinGrad;
+      ctx.beginPath();
+      ctx.moveTo(cx - 18, 114);
+      ctx.lineTo(cx + 18, 114);
+      ctx.quadraticCurveTo(cx + 22, 138, cx + shoulderR, 158);
+      ctx.lineTo(cx + waistR, 290);
+      ctx.lineTo(cx + hipR, 358);
+      ctx.lineTo(cx - hipL, 358);
+      ctx.lineTo(cx - waistL, 290);
+      ctx.lineTo(cx - shoulderL, 158);
+      ctx.quadraticCurveTo(cx - 22, 138, cx - 18, 114);
+      ctx.closePath();
+      ctx.fill();
+
+      // Subtle minimal footwear heels/sneakers at base y=592..610
+      ctx.fillStyle = '#18181b';
+      ctx.beginPath();
+      ctx.ellipse(cx - 25 * yawScaleL, 598, 14 * yawScaleL, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx + 25 * yawScaleR, 598, 14 * yawScaleR, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Determine Top Cut & Whether Top Is a Full Dress
+      const topClass = top && typeof classifyGarmentFromInput === 'function'
+        ? classifyGarmentFromInput(top.img || '', top.title || '', top.key || 'auto')
+        : null;
+      const topStyle = topClass ? topClass.spec.style : 'shirt';
+      const isDress = ['slip', 'bodycon', 'aline', 'maxi', 'kurta'].includes(topStyle);
+
+      // 3A. Bottom Layer (Rendered only if not wearing a full dress)
+      if (!isDress && bottom) {
+        const bClass = typeof classifyGarmentFromInput === 'function'
+          ? classifyGarmentFromInput(bottom.img || '', bottom.title || '', bottom.key || 'auto')
+          : null;
+        const isSkirt = bClass && (bClass.cutKey.includes('dress') || (bottom.title || '').toLowerCase().includes('skirt'));
+
+        if (isSkirt) {
+          const skirtPath = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx - waistL - 1, 278);
+            ctx.lineTo(cx + waistR + 1, 278);
+            ctx.quadraticCurveTo(cx + hipR + 14, 360, cx + hipR + 28, 492);
+            ctx.quadraticCurveTo(cx, 504, cx - hipL - 28, 492);
+            ctx.quadraticCurveTo(cx - hipL - 14, 360, cx - waistL - 1, 278);
+            ctx.closePath();
+          };
+          fillClippedGarment(skirtPath, bottom, bottomImg, 278, 504);
+        } else {
+          // Tailored Trousers / Straight Jeans / Cargos
+          const pantsPath = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx - waistL - 2, 278);
+            ctx.lineTo(cx + waistR + 2, 278);
+            ctx.quadraticCurveTo(cx + hipR + 5, 345, cx + hipR - 8, 594);
+            ctx.lineTo(cx + 9 * yawScaleR, 594);
+            ctx.lineTo(cx + 2, 376);
+            ctx.lineTo(cx - 2, 376);
+            ctx.lineTo(cx - 9 * yawScaleL, 594);
+            ctx.lineTo(cx - hipL + 8, 594);
+            ctx.quadraticCurveTo(cx - hipL - 5, 345, cx - waistL - 2, 278);
+            ctx.closePath();
+          };
+          fillClippedGarment(pantsPath, bottom, bottomImg, 278, 594);
+        }
+      }
+
+      // 3B. Main Dress OR Top Silhouette
+      if (top) {
+        if (isDress) {
+          const flareAdd = topStyle === 'maxi' ? 56 : (topStyle === 'aline' ? 46 : (topStyle === 'slip' ? 28 : 8));
+          const hemY = topStyle === 'maxi' ? 568 : (topStyle === 'kurta' ? 465 : 495);
+          const isSleeveless = topClass.spec.sleeveless;
+
+          const dressPath = () => {
+            ctx.beginPath();
+            if (isSleeveless) {
+              // Fitted bodice + sweetheart/scoop neckline + slim shoulder straps
+              ctx.moveTo(cx - shoulderL * 0.64, 152);
+              ctx.lineTo(cx - shoulderL * 0.50, 152);
+              ctx.lineTo(cx - chestL * 0.62, 188);
+              ctx.quadraticCurveTo(cx, 206, cx + chestR * 0.62, 188);
+              ctx.lineTo(cx + shoulderR * 0.50, 152);
+              ctx.lineTo(cx + shoulderR * 0.64, 152);
+              ctx.quadraticCurveTo(cx + chestR + 4, 212, cx + waistR + 2, 286);
+            } else {
+              // Sleeved kurta / dress bodice
+              ctx.moveTo(cx - 26, 148);
+              ctx.quadraticCurveTo(cx, 182, cx + 26, 148);
+              ctx.lineTo(cx + shoulderR + 6, 162);
+              ctx.lineTo(cx + shoulderR + 24 * yawScaleR, 282);
+              ctx.lineTo(cx + shoulderR + 6 * yawScaleR, 286);
+              ctx.lineTo(cx + waistR + 2, 232);
+              ctx.lineTo(cx + waistR + 3, 286);
+            }
+            ctx.quadraticCurveTo(cx + hipR + flareAdd * 0.45, (286 + hemY) * 0.5, cx + hipR + flareAdd, hemY);
+            ctx.quadraticCurveTo(cx, hemY + 14, cx - hipL - flareAdd, hemY);
+            ctx.quadraticCurveTo(cx - hipL - flareAdd * 0.45, (286 + hemY) * 0.5, cx - waistL - 3, 286);
+            if (!isSleeveless) {
+              ctx.lineTo(cx - waistL - 2, 232);
+              ctx.lineTo(cx - shoulderL - 6 * yawScaleL, 286);
+              ctx.lineTo(cx - shoulderL - 24 * yawScaleL, 282);
+              ctx.lineTo(cx - shoulderL - 6, 162);
+            } else {
+              ctx.quadraticCurveTo(cx - chestL - 4, 212, cx - shoulderL * 0.64, 152);
+            }
+            ctx.closePath();
+          };
+          fillClippedGarment(dressPath, top, topImg, 148, hemY + 14);
+        } else {
+          // Tailored Shirt / Tee / Jersey / Corset Top
+          const isShortSleeve = ['jersey', 'tee', 'shirt'].includes(topStyle);
+          const sleeveDropY = isShortSleeve ? 242 : 340;
+          const sleeveOutX = isShortSleeve ? 20 : 28;
+          const hemTopY = topStyle === 'corset' ? 255 : 292;
+
+          const topPath = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx - 26, 146);
+            ctx.quadraticCurveTo(cx, 174, cx + 26, 146);
+            ctx.lineTo(cx + shoulderR + 5, 160);
+            ctx.lineTo(cx + shoulderR + sleeveOutX * yawScaleR, sleeveDropY);
+            ctx.lineTo(cx + waistR + (isShortSleeve ? 16 : 18) * yawScaleR, sleeveDropY + 4);
+            ctx.lineTo(cx + chestR, 212);
+            ctx.lineTo(cx + waistR + 4, hemTopY);
+            ctx.quadraticCurveTo(cx, hemTopY + 8, cx - waistL - 4, hemTopY);
+            ctx.lineTo(cx - chestL, 212);
+            ctx.lineTo(cx - waistL - (isShortSleeve ? 16 : 18) * yawScaleL, sleeveDropY + 4);
+            ctx.lineTo(cx - shoulderL - sleeveOutX * yawScaleL, sleeveDropY);
+            ctx.lineTo(cx - shoulderL - 5, 160);
+            ctx.closePath();
+          };
+          fillClippedGarment(topPath, top, topImg, 146, hemTopY + 8);
+        }
+      }
+
+      // 3C. Optional Open-Front Tailored Outerwear Layer (Blazer / Biker Jacket / Hoodie)
+      if (layer) {
+        const lClass = typeof classifyGarmentFromInput === 'function'
+          ? classifyGarmentFromInput(layer.img || '', layer.title || '', layer.key || 'auto')
+          : null;
+        const isClosedHoodie = lClass && lClass.cutKey === 'hoodie';
+        const jacketHemY = isClosedHoodie ? 302 : 332;
+
+        if (isClosedHoodie) {
+          const hoodiePath = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx - 30, 144);
+            ctx.quadraticCurveTo(cx, 166, cx + 30, 144);
+            ctx.lineTo(cx + shoulderR + 10, 160);
+            ctx.lineTo(cx + shoulderR + 34 * yawScaleR, 345);
+            ctx.lineTo(cx + waistR + 18 * yawScaleR, 348);
+            ctx.lineTo(cx + chestR + 4, 218);
+            ctx.lineTo(cx + waistR + 8, jacketHemY);
+            ctx.lineTo(cx - waistL - 8, jacketHemY);
+            ctx.lineTo(cx - chestL - 4, 218);
+            ctx.lineTo(cx - waistL - 18 * yawScaleL, 348);
+            ctx.lineTo(cx - shoulderL - 34 * yawScaleL, 345);
+            ctx.lineTo(cx - shoulderL - 10, 160);
+            ctx.closePath();
+          };
+          fillClippedGarment(hoodiePath, layer, layerImg, 144, jacketHemY);
+        } else {
+          // Open-Front Blazer / Biker Jacket revealing layered Top + Bottom underneath!
+          const leftPanel = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx - 28, 146);
+            ctx.lineTo(cx - 12, 272);
+            ctx.lineTo(cx - 14, jacketHemY);
+            ctx.lineTo(cx - hipL * 0.78, jacketHemY);
+            ctx.lineTo(cx - chestL - 4, 218);
+            ctx.lineTo(cx - waistL - 20 * yawScaleL, 346);
+            ctx.lineTo(cx - shoulderL - 32 * yawScaleL, 342);
+            ctx.lineTo(cx - shoulderL - 8, 158);
+            ctx.closePath();
+          };
+          const rightPanel = () => {
+            ctx.beginPath();
+            ctx.moveTo(cx + 28, 146);
+            ctx.lineTo(cx + 12, 272);
+            ctx.lineTo(cx + 14, jacketHemY);
+            ctx.lineTo(cx + hipR * 0.78, jacketHemY);
+            ctx.lineTo(cx + chestR + 4, 218);
+            ctx.lineTo(cx + waistR + 20 * yawScaleR, 346);
+            ctx.lineTo(cx + shoulderR + 32 * yawScaleR, 342);
+            ctx.lineTo(cx + shoulderR + 8, 158);
+            ctx.closePath();
+          };
+          fillClippedGarment(leftPanel, layer, layerImg, 146, jacketHemY);
+          fillClippedGarment(rightPanel, layer, layerImg, 146, jacketHemY);
+        }
+      }
+
+      // 4. Composite User's AI Twin Selfie Head & Face seamlessly at top
+      const headCx = cx;
+      const headCy = 86;
+      if (avatarImg) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(headCx, headCy, 44, 54, 0, 0, Math.PI * 2);
+        ctx.clip();
+        const aw = avatarImg.naturalWidth || avatarImg.width;
+        const ah = avatarImg.naturalHeight || avatarImg.height;
+        const sizeSq = Math.min(aw, ah);
+        const sx = (aw - sizeSq) * 0.5;
+        const sy = Math.max(0, (ah - sizeSq) * 0.12);
+        ctx.drawImage(avatarImg, sx, sy, sizeSq, sizeSq * 1.15, headCx - 54, headCy - 58, 108, 122);
+        // Subtle studio radial vignette to feather edges onto dark background
+        const headMask = ctx.createRadialGradient(headCx, headCy, 28, headCx, headCy, 56);
+        headMask.addColorStop(0, 'rgba(0,0,0,0)');
+        headMask.addColorStop(1, 'rgba(14,14,18,0.55)');
+        ctx.fillStyle = headMask;
+        ctx.fillRect(headCx - 55, headCy - 60, 110, 120);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = skinGrad;
+        ctx.beginPath();
+        ctx.ellipse(headCx, headCy, 26, 34, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 5. Crisp Micro Atelier Studio Spec Tag at lower corner
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(14, H - 38, W - 28, 26, 8);
+      else ctx.rect(14, H - 38, W - 28, 26);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(250, 204, 21, 0.45)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'left';
+      const labelTitle = [top?.title, layer?.title].filter(Boolean).join(' + ') || 'AI Twin Fit';
+      ctx.fillText(`AI TWIN · ${String(twin.name || 'User').toUpperCase()} · SIZE ${twin.size || 'M'}`, 24, H - 21);
+      ctx.fillStyle = '#e5e7eb';
+      ctx.textAlign = 'right';
+      ctx.fillText(labelTitle.slice(0, 28), W - 24, H - 21);
+
+      return canvas.toDataURL('image/png');
+    }
+
     let isExecuting = false;
-    function executeTryOn() {
+    async function executeTryOn() {
       if (isExecuting) return;
       if (typeof getAvailableCredits === 'function' && getAvailableCredits() < 5) {
         showStudioToast('Need 5 Credits for Neural Body Fit — upgrade to Plus or Pro for 150–600 CR!');
@@ -6124,8 +7652,53 @@
       isExecuting = true;
       const btn = document.getElementById('btn-generate-tryon');
       const originalText = btn.innerHTML;
-      btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Neural Anatomical Body Warping & Fitting...`;
+      btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Rendering Outfit on Your AI Twin...`;
       lucide.createIcons();
+
+      const baseRes = TRYON_RESULTS[selectedGarmentName] || TRYON_RESULTS['Emerald Silk Slip Dress'];
+      const classified = typeof classifyGarmentFromInput === 'function'
+        ? classifyGarmentFromInput(baseRes.afterImg || '', selectedGarmentName, 'auto')
+        : null;
+      const isOuterwearLayer = classified && ['blazer', 'biker', 'hoodie'].includes(classified.cutKey);
+      const isBottomOnly = (selectedGarmentName || '').toLowerCase().includes('jeans') || (selectedGarmentName || '').toLowerCase().includes('cargo');
+
+      const outfitSpec = (window._pendingMixMatchOutfit) ? window._pendingMixMatchOutfit : (
+        isOuterwearLayer
+          ? {
+              top: { title: 'Fitted Cotton Base Tee', img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80', key: 'tee' },
+              bottom: { title: "Levi's Straight Jeans", img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80', key: 'pants' },
+              layer: { title: selectedGarmentName, img: baseRes.afterImg, key: classified ? classified.cutKey : 'blazer' }
+            }
+          : isBottomOnly
+            ? {
+                top: { title: 'Relaxed White Tee', img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80', key: 'tee' },
+                bottom: { title: selectedGarmentName, img: baseRes.afterImg, key: 'pants' },
+                layer: null
+              }
+            : {
+                top: { title: selectedGarmentName, img: baseRes.afterImg, key: classified ? classified.cutKey : 'slip' },
+                bottom: ['slip', 'bodycon', 'aline_dress', 'maxi_dress', 'kurta'].includes(classified?.cutKey)
+                  ? null
+                  : { title: "Levi's Straight Jeans", img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80', key: 'pants' },
+                layer: null
+              }
+      );
+      window._pendingMixMatchOutfit = null;
+
+      try {
+        const [frontRender, threeQRender, profileRender] = await Promise.all([
+          composeTwinOutfitRender({ ...outfitSpec, angle: 'front' }),
+          composeTwinOutfitRender({ ...outfitSpec, angle: 'threequarter' }),
+          composeTwinOutfitRender({ ...outfitSpec, angle: 'profile' })
+        ]);
+        TRYON_RESULTS[selectedGarmentName] = {
+          ...baseRes,
+          afterImg: frontRender,
+          frontImg: frontRender,
+          threeQuarterImg: threeQRender,
+          profileImg: profileRender
+        };
+      } catch (e) {}
 
       setTimeout(() => {
         btn.innerHTML = originalText;
@@ -6133,7 +7706,19 @@
 
         const result = TRYON_RESULTS[selectedGarmentName] || TRYON_RESULTS['Emerald Silk Slip Dress'];
         const afterImg = document.getElementById('after-img');
-        if (afterImg) afterImg.src = result.afterImg;
+        const beforeImg = document.getElementById('before-img');
+        const sliderEl = document.getElementById('slider-container');
+        if (beforeImg && sliderEl) {
+          if (typeof aiTwinProfile !== 'undefined' && aiTwinProfile.avatar && beforeImg.src.includes('unsplash')) {
+            beforeImg.src = aiTwinProfile.avatar;
+          }
+          beforeImg.style.width = (sliderEl.clientWidth || 398) + 'px';
+        }
+        if (afterImg) {
+          if (currentVtonAngle === 'threequarter') afterImg.src = result.threeQuarterImg || result.afterImg;
+          else if (currentVtonAngle === 'profile') afterImg.src = result.profileImg || result.afterImg;
+          else afterImg.src = result.frontImg || result.afterImg;
+        }
 
         const specSil = document.getElementById('spec-silhouette');
         if (specSil) specSil.textContent = result.silhouette;
@@ -6156,7 +7741,7 @@
           spendCredits(5, 'Neural Body Fit · ' + selectedGarmentName);
         }
         lucide.createIcons();
-      }, 2000);
+      }, 950);
     }
 
     const sliderContainer = document.getElementById('slider-container');
@@ -6164,14 +7749,42 @@
     if (sliderContainer) {
       function updateSplit(clientX) {
         const rect = sliderContainer.getBoundingClientRect();
+        const beforeImg = document.getElementById('before-img');
+        if (beforeImg && rect.width > 0) beforeImg.style.width = rect.width + 'px';
         const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
         beforeWrapper.style.width = (x / rect.width) * 100 + '%';
       }
       sliderContainer.addEventListener('mousemove', e => updateSplit(e.clientX));
       sliderContainer.addEventListener('touchmove', e => updateSplit(e.touches[0].clientX));
+      window.addEventListener('resize', () => {
+        const beforeImg = document.getElementById('before-img');
+        if (beforeImg && sliderContainer.clientWidth > 0) beforeImg.style.width = sliderContainer.clientWidth + 'px';
+      });
     }
 
-    // Stylist Chat
+    // Stylist Chat & Genius Mode
+    let isGeniusModeActive = true;
+
+    function toggleGeniusMode() {
+      isGeniusModeActive = !isGeniusModeActive;
+      const btn = document.getElementById('btn-toggle-genius-mode');
+      const pill = document.getElementById('genius-mode-pill');
+      const label = document.getElementById('genius-toggle-label');
+      if (btn) {
+        btn.className = isGeniusModeActive
+          ? 'px-3 py-1.5 rounded-xl bg-lavender text-midnight font-mono font-bold text-[10px] flex items-center gap-1.5 shadow-md hover:bg-white transition'
+          : 'px-3 py-1.5 rounded-xl bg-surface-light border border-border text-white/75 font-mono font-bold text-[10px] flex items-center gap-1.5 hover:border-lavender transition';
+      }
+      if (pill) {
+        pill.textContent = isGeniusModeActive ? 'Genius Mode ON' : 'Standard Mode';
+        pill.className = isGeniusModeActive
+          ? 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-lavender text-midnight uppercase'
+          : 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-surface-light text-white/70 uppercase border border-border';
+      }
+      if (label) label.textContent = isGeniusModeActive ? 'Genius Mode: ON' : 'Genius Mode: OFF';
+      showStudioToast(isGeniusModeActive ? '⚡ Genius Mode enabled: Multi-brand AI Twin styling unlocked.' : 'Switched AI Stylist to concise mode.');
+    }
+
     function sendStylistPrompt(text) {
       document.getElementById('stylist-input').value = text;
       submitStylistChat();
@@ -6179,36 +7792,73 @@
 
     function buildStylistRecommendation(promptText) {
       const q = promptText.toLowerCase();
-      if (q.includes('office') || q.includes('work') || q.includes('friday') || q.includes('blazer') || q.includes('meeting')) {
+      const shape = (typeof aiTwinProfile !== 'undefined' && aiTwinProfile.shape) ? aiTwinProfile.shape : 'Athletic';
+      const size = (typeof aiTwinProfile !== 'undefined' && aiTwinProfile.size) ? aiTwinProfile.size : 'M';
+      const geniusNote = isGeniusModeActive
+        ? `<div class="mt-1.5 p-2 rounded-xl bg-black/55 border border-lavender/30 text-[10px] font-mono text-white/85"><span class="text-lavender font-bold">⚡ GENIUS FIT NOTE (${shape} · Size ${size}):</span> Tailored across 2–3 stores to balance proportions with clean shoulder/waist drape.</div>`
+        : '';
+
+      if (q.includes('revenge') || q.includes('cocktail') || q.includes('party') || q.includes('night') || q.includes('date')) {
         return {
-          copy: 'Sharp Smart-Casual Friday edit: layer the <strong>Zara Charcoal Wool Blazer</strong> (₹4,990) over a crisp tee with your <strong>Levi\'s 501 Straight Jeans</strong> for clean structure.',
-          arKey: 'blazer',
-          arTitle: 'Zara Charcoal Wool Blazer',
-          price: '₹4,990'
-        };
-      }
-      if (q.includes('party') || q.includes('date') || q.includes('night') || q.includes('dress') || q.includes('evening') || q.includes('wedding')) {
-        return {
-          copy: 'Evening Runway Atelier pick: step into the <strong>Zara Emerald Silk Slip Dress</strong> (₹3,990) paired with minimalist heels — balanced drape in Live AR.',
+          copy: `Statement Revenge Look: pair the <strong>Zara Asymmetric Leather Biker</strong> (layer) over the <strong>H&amp;M Ribbed Bodycon Midi Dress</strong> or <strong>Zara Emerald Silk Slip Dress</strong> (₹1,999).${geniusNote}`,
           arKey: 'dress_emerald',
           arTitle: 'Zara Emerald Silk Slip Dress',
-          price: '₹3,990'
+          price: '₹3,990',
+          mixPreset: { topIdx: 2, bottomIdx: 1, layerIdx: 1 },
+          vibeQuery: promptText
         };
       }
-      if (q.includes('tech') || q.includes('gaming') || q.includes('esports') || q.includes('jersey') || q.includes('college') || q.includes('fest')) {
+      if (q.includes('red') || q.includes('revealing') || q.includes('modest') || q.includes('evening') || q.includes('wedding')) {
         return {
-          copy: 'Campus & Tech Fest standout: pair the <strong>Sentinels 2026 Pro Jersey</strong> (₹4,499) with relaxed dark denim or layered overshirt for breathable all-day fit.',
+          copy: `Chic Balanced Silhouette: wear the <strong>H&amp;M Crimson Midi Dress</strong> layered effortlessly under a structured <strong>Mast &amp; Harbour Charcoal Blazer</strong>—elegant coverage without losing waist definition.${geniusNote}`,
+          arKey: 'dress_crimson',
+          arTitle: 'H&M Crimson Ribbed Bodycon',
+          price: '₹2,499',
+          mixPreset: { topIdx: 3, bottomIdx: 1, layerIdx: 0 },
+          vibeQuery: promptText
+        };
+      }
+      if (q.includes('office') || q.includes('work') || q.includes('friday') || q.includes('blazer') || q.includes('meeting') || q.includes('jeans')) {
+        return {
+          copy: `Sharp Multi-Brand Friday Edit: layer the <strong>Zara Charcoal Wool Blazer</strong> (₹4,990) over a crisp <strong>H&amp;M Linen Shirt</strong> paired with <strong>Levi's 501 Straight Jeans</strong>.${geniusNote}`,
+          arKey: 'blazer',
+          arTitle: 'Zara Charcoal Wool Blazer',
+          price: '₹4,990',
+          mixPreset: { topIdx: 0, bottomIdx: 0, layerIdx: 0 },
+          vibeQuery: promptText
+        };
+      }
+      if (q.includes('tech') || q.includes('gaming') || q.includes('esports') || q.includes('jersey') || q.includes('college') || q.includes('fest') || q.includes('street')) {
+        return {
+          copy: `Campus &amp; Tech Streetwear Edit: style the <strong>Sentinels 2026 Pro Jersey</strong> or <strong>Zudio Graphic Tee</strong> with relaxed dark cargos and <strong>GAP Arch Fleece Hoodie</strong>.${geniusNote}`,
           arKey: 'sentinels',
           arTitle: 'Sentinels 2026 Pro Jersey',
-          price: '₹4,499'
+          price: '₹4,499',
+          mixPreset: { topIdx: 1, bottomIdx: 2, layerIdx: 2 },
+          vibeQuery: promptText
         };
       }
       return {
-        copy: 'Curated Everyday Atelier combo: pair your <strong>Classic Levi\'s 501 Jeans</strong> from Smart Wardrobe with the <strong>Snitch Cuban Relaxed Shirt</strong> (₹999 on Snitch India).',
+        copy: `Cross-Brand Everyday Atelier Edit: mix your <strong>Levi's 501 Straight Jeans</strong> with the <strong>Snitch Cuban Relaxed Shirt</strong> (₹999) + optional lightweight overshirt.${geniusNote}`,
         arKey: 'shirt',
         arTitle: 'Snitch Cuban Relaxed Shirt',
-        price: '₹999'
+        price: '₹999',
+        mixPreset: { topIdx: 0, bottomIdx: 0, layerIdx: 1 },
+        vibeQuery: promptText
       };
+    }
+
+    function openStylistPresetInMixMatch(topIdx, bottomIdx, layerIdx, label) {
+      if (typeof mixMatchSelection !== 'undefined') {
+        mixMatchSelection.top = topIdx;
+        mixMatchSelection.bottom = bottomIdx;
+        mixMatchSelection.layer = layerIdx;
+        if (typeof renderMixMatchStudio === 'function') renderMixMatchStudio();
+      }
+      switchTab('shop');
+      const panel = document.getElementById('twin-mixmatch-panel');
+      if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showStudioToast(`✨ Loaded "${label}" into Cross-Brand Mix & Match!`);
     }
 
     function submitStylistChat() {
@@ -6226,21 +7876,29 @@
       chat.scrollTop = chat.scrollHeight;
 
       const rec = buildStylistRecommendation(val);
+      const mp = rec.mixPreset || { topIdx: 0, bottomIdx: 0, layerIdx: 0 };
+      const safeTitle = rec.arTitle.replace(/'/g, "\\'");
       setTimeout(() => {
         const aiMsg = document.createElement('div');
         aiMsg.className = 'flex items-start gap-2';
         aiMsg.innerHTML = `
-          <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">AI</div>
-          <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border border-border max-w-[85%] text-white leading-relaxed text-xs space-y-2">
-            <p>${rec.copy}</p>
-            <div class="flex flex-wrap items-center gap-2 pt-1">
-              <button onclick="tryInLiveAR('${rec.arKey}', '${rec.arTitle.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-sage text-midnight font-bold rounded-lg text-[10px] flex items-center gap-1 shadow-md hover:bg-white transition">
-                <i data-lucide="video" class="w-3 h-3"></i> Try in Live AR
+          <div class="w-6 h-6 rounded-full bg-lavender/20 text-lavender flex items-center justify-center text-[10px] font-bold mt-1">${isGeniusModeActive ? '⚡' : 'AI'}</div>
+          <div class="bg-surface p-3 rounded-2xl rounded-tl-sm border ${isGeniusModeActive ? 'border-lavender/50' : 'border-border'} max-w-[88%] text-white leading-relaxed text-xs space-y-2">
+            <div>${rec.copy}</div>
+            <div class="flex flex-wrap items-center gap-1.5 pt-1">
+              <button onclick="tryOnMyTwin('${rec.arKey}', '${safeTitle}')" class="px-2.5 py-1 bg-lavender text-midnight font-bold rounded-lg text-[10px] flex items-center gap-1 shadow-md hover:bg-white transition">
+                <i data-lucide="user" class="w-3 h-3"></i> Try on AI Twin
               </button>
-              <button onclick="switchTab('shop')" class="px-2.5 py-1 bg-surface-light border border-border text-white/90 font-semibold rounded-lg text-[10px] hover:border-lavender transition">
-                View in Shop
+              <button onclick="tryInLiveAR('${rec.arKey}', '${safeTitle}')" class="px-2.5 py-1 bg-sage text-midnight font-bold rounded-lg text-[10px] flex items-center gap-1 shadow-md hover:bg-white transition">
+                <i data-lucide="video" class="w-3 h-3"></i> Live AR
               </button>
-              <span class="text-[10px] text-sage font-mono">Est: ${rec.price}</span>
+              <button onclick="openStylistPresetInMixMatch(${mp.topIdx}, ${mp.bottomIdx}, ${mp.layerIdx}, '${safeTitle}')" class="px-2.5 py-1 bg-surface-light border border-lavender/40 text-lavender font-semibold rounded-lg text-[10px] hover:bg-lavender hover:text-midnight transition">
+                Mix &amp; Match
+              </button>
+              <button onclick="switchTab('shop'); applyVibe('${safeTitle}')" class="px-2.5 py-1 bg-surface-light border border-border text-white/90 font-semibold rounded-lg text-[10px] hover:border-lavender transition">
+                Match Store Pieces
+              </button>
+              <span class="text-[10px] text-sage font-mono ml-auto">Est: ${rec.price}</span>
             </div>
           </div>
         `;
@@ -6609,6 +8267,11 @@
       setStat('profile-stat-size', aiTwinProfile.size);
       setStat('profile-stat-fit', aiTwinProfile.fitStyle);
       setStat('profile-stat-bw', `${aiTwinProfile.bust}" / ${aiTwinProfile.waist}"`);
+
+      const mmAvatar = document.getElementById('mixmatch-twin-avatar');
+      if (mmAvatar) mmAvatar.src = aiTwinProfile.avatar;
+      setStat('mixmatch-twin-name', `${aiTwinProfile.name} · AI Twin`);
+      setStat('mixmatch-twin-specs', `${aiTwinProfile.height}cm · ${aiTwinProfile.shape} · Size ${aiTwinProfile.size}`);
     }
 
     function resetTwinDefaults() {
@@ -6633,6 +8296,7 @@
       } catch (e) {}
 
       syncAITwinUI();
+      if (typeof renderMixMatchLiveTwinComposite === 'function') renderMixMatchLiveTwinComposite();
 
       // Sync measurements to 3D Mannequin Studio if checked
       const syncCheckbox = document.getElementById('twin-sync-mannequin');
@@ -6650,34 +8314,366 @@
       closeTwinModal();
     }
 
+    // =========================================================================
+    // ✨ TWIN! FEATURE PARITY ENGINE: AI TWIN TRY-ON, VIBE SEARCH, SCREENSHOT & MIX-MATCH
+    // =========================================================================
+    const MIXMATCH_CATALOG = {
+      top: [
+        { id: 'mm_top_linen', title: 'H&M Relaxed Linen Shirt', brand: 'H&M', price: 1499, img: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80', key: 'hm_shirt', arKey: 'shirt' },
+        { id: 'mm_top_sen', title: 'Sentinels Pro Jersey 2026', brand: 'Maxesport · SEN', price: 4499, img: './sen_mannequin_front.jpg', key: 'sen_jersey', arKey: 'sentinels' },
+        { id: 'mm_top_slip', title: 'Emerald Silk Slip Dress', brand: 'Zara Studio', price: 3990, img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', key: 'dress_emerald', arKey: 'dress_emerald' },
+        { id: 'mm_top_crimson', title: 'Crimson Ribbed Bodycon Midi', brand: 'H&M', price: 1999, img: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80', key: 'dress_bodycon', arKey: 'dress_crimson' }
+      ],
+      bottom: [
+        { id: 'mm_bot_jeans', title: "Levi's 501 Straight Jeans", brand: "Levi's", price: 2499, img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80', key: 'pants', arKey: 'pants' },
+        { id: 'mm_bot_cargo', title: 'Parachute Wide Cargo Pants', brand: 'SHEIN', price: 1350, img: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', key: 'pants', arKey: 'pants' },
+        { id: 'mm_bot_skirt', title: 'Satin Bias Midi Skirt / Paired', brand: 'Myntra', price: 1599, img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=400&q=80', key: 'aline_dress', arKey: 'dress_floral' }
+      ],
+      layer: [
+        { id: 'mm_lay_blazer', title: 'Charcoal Wool Tailored Blazer', brand: 'Zara · Myntra', price: 4990, img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', key: 'blazer', arKey: 'blazer' },
+        { id: 'mm_lay_biker', title: 'Asymmetric Moto Biker Jacket', brand: 'Zara Studio', price: 3299, img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80', key: 'biker', arKey: 'biker' },
+        { id: 'mm_lay_hoodie', title: 'GAP Arch Logo Fleece Hoodie', brand: 'AJIO · GAP', price: 2199, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80', key: 'gap_hoodie', arKey: 'hoodie' }
+      ]
+    };
+    const mixMatchSelection = { top: 0, bottom: 0, layer: 0 };
+
+    function renderMixMatchStudio() {
+      const esc = typeof escapeWishlistHtml === 'function' ? escapeWishlistHtml : (s => String(s || ''));
+      const slots = ['top', 'bottom', 'layer'];
+      const slotLabels = { top: 'Top / Dress Base', bottom: 'Bottom Pairing', layer: 'Outerwear Layer' };
+      let totalInr = 0;
+      const storeSet = new Set();
+
+      slots.forEach(slot => {
+        const list = MIXMATCH_CATALOG[slot];
+        const idx = mixMatchSelection[slot] % list.length;
+        const piece = list[idx];
+        totalInr += piece.price || 0;
+        storeSet.add((piece.brand || '').split('·')[0].trim());
+        const el = document.getElementById(`mixmatch-slot-${slot}`);
+        if (!el) return;
+        el.innerHTML = `
+          <div class="flex items-center justify-between text-[9px] font-mono">
+            <span class="uppercase font-bold text-lavender">${slotLabels[slot]}</span>
+            <button type="button" onclick="cycleMixMatchSlot('${slot}')" class="px-1.5 py-0.5 rounded bg-black/60 border border-border hover:border-lavender text-white/85 hover:text-lavender transition">Swap ↻</button>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <img src="${esc(piece.img)}" class="w-12 h-14 rounded-lg object-cover border border-white/15 shrink-0">
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-mono text-white/60 uppercase block truncate">${esc(piece.brand)}</span>
+              <h5 class="text-[11px] font-bold text-ivory truncate">${esc(piece.title)}</h5>
+              <span class="text-[11px] font-mono font-bold text-lavender">₹${Number(piece.price || 0).toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      const totalEl = document.getElementById('mixmatch-total-label');
+      if (totalEl) {
+        totalEl.textContent = `Total: ₹${totalInr.toLocaleString('en-IN')} · ${storeSet.size} Brands`;
+      }
+      if (window.lucide) lucide.createIcons();
+      renderMixMatchLiveTwinComposite();
+    }
+
+    let mixMatchRenderSeq = 0;
+    function renderMixMatchLiveTwinComposite() {
+      if (typeof composeTwinOutfitRender !== 'function') return;
+      const top = MIXMATCH_CATALOG.top[mixMatchSelection.top % MIXMATCH_CATALOG.top.length];
+      const bot = MIXMATCH_CATALOG.bottom[mixMatchSelection.bottom % MIXMATCH_CATALOG.bottom.length];
+      const lay = MIXMATCH_CATALOG.layer[mixMatchSelection.layer % MIXMATCH_CATALOG.layer.length];
+      const reqId = ++mixMatchRenderSeq;
+      composeTwinOutfitRender({ top, bottom: bot, layer: lay, angle: 'front' }).then(dataUrl => {
+        if (reqId !== mixMatchRenderSeq) return;
+        const img = document.getElementById('mixmatch-twin-avatar');
+        if (img && dataUrl) img.src = dataUrl;
+      }).catch(() => {});
+    }
+
+    function cycleMixMatchSlot(slot) {
+      if (!MIXMATCH_CATALOG[slot]) return;
+      mixMatchSelection[slot] = (mixMatchSelection[slot] + 1) % MIXMATCH_CATALOG[slot].length;
+      renderMixMatchStudio();
+    }
+
+    function randomizeMixMatch() {
+      ['top', 'bottom', 'layer'].forEach(slot => {
+        mixMatchSelection[slot] = Math.floor(Math.random() * MIXMATCH_CATALOG[slot].length);
+      });
+      renderMixMatchStudio();
+      showStudioToast('🎲 Shuffled a new cross-brand outfit on your AI Twin!');
+    }
+
+    function addPieceToMixMatch(itemTitle, itemBrand, itemPrice, itemImg, itemKey) {
+      const lower = String(itemTitle || '').toLowerCase();
+      let targetSlot = 'top';
+      if (lower.includes('blazer') || lower.includes('jacket') || lower.includes('biker') || lower.includes('hoodie') || lower.includes('coat')) {
+        targetSlot = 'layer';
+      } else if (lower.includes('jean') || lower.includes('cargo') || lower.includes('pant') || lower.includes('skirt') || lower.includes('trouser')) {
+        targetSlot = 'bottom';
+      }
+      const numPrice = parseInt(String(itemPrice || '1999').replace(/[^0-9]/g, ''), 10) || 1999;
+      const list = MIXMATCH_CATALOG[targetSlot];
+      const existingIdx = list.findIndex(i => i.title === itemTitle);
+      if (existingIdx >= 0) {
+        mixMatchSelection[targetSlot] = existingIdx;
+      } else {
+        list.unshift({
+          id: 'mm_' + Date.now(),
+          title: itemTitle,
+          brand: itemBrand || 'Shop Pick',
+          price: numPrice,
+          img: itemImg,
+          key: itemKey || 'shirt',
+          arKey: itemKey || 'shirt'
+        });
+        mixMatchSelection[targetSlot] = 0;
+      }
+      renderMixMatchStudio();
+      const panel = document.getElementById('twin-mixmatch-panel');
+      if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showStudioToast(`✨ Added "${itemTitle}" to Mix & Match (${targetSlot.toUpperCase()})!`);
+    }
+
+    function tryMixMatchOnTwin() {
+      const top = MIXMATCH_CATALOG.top[mixMatchSelection.top % MIXMATCH_CATALOG.top.length];
+      const bot = MIXMATCH_CATALOG.bottom[mixMatchSelection.bottom % MIXMATCH_CATALOG.bottom.length];
+      const lay = MIXMATCH_CATALOG.layer[mixMatchSelection.layer % MIXMATCH_CATALOG.layer.length];
+      const comboName = `${top.title} + ${lay.title}`;
+      window._pendingMixMatchOutfit = { top, bottom: bot, layer: lay };
+      TRYON_RESULTS[comboName] = {
+        afterImg: top.img,
+        frontImg: top.img,
+        threeQuarterImg: lay.img,
+        profileImg: top.img,
+        silhouette: `${aiTwinProfile.shape} Cross-Brand Mix`,
+        drape: 'Layered Multi-Brand',
+        tension: 'Tailored Fit (99.1%)',
+        summary: `AI Twin (${aiTwinProfile.name} · ${aiTwinProfile.height}cm · Size ${aiTwinProfile.size}) wearing ${top.brand} + ${bot.brand} + ${lay.brand}`
+      };
+      tryOnMyTwin(top.arKey || 'shirt', comboName);
+    }
+
+    function tryMixMatchOnMannequin() {
+      const top = MIXMATCH_CATALOG.top[mixMatchSelection.top % MIXMATCH_CATALOG.top.length];
+      openStudio('mannequin');
+      setTimeout(() => {
+        if (typeof selectMannequinGarment === 'function') {
+          const classified = typeof classifyGarmentFromInput === 'function'
+            ? classifyGarmentFromInput(top.img, top.title, top.key || 'auto')
+            : null;
+          selectMannequinGarment(top.key || 'shirt', top.title, top.img, null, classified ? classified.spec : null);
+        }
+        showStudioToast(`👗 Draped Mix & Match lead piece "${top.title}" on 3D Mannequin!`);
+      }, 150);
+    }
+
+    function saveMixMatchToWardrobe() {
+      const top = MIXMATCH_CATALOG.top[mixMatchSelection.top % MIXMATCH_CATALOG.top.length];
+      const bot = MIXMATCH_CATALOG.bottom[mixMatchSelection.bottom % MIXMATCH_CATALOG.bottom.length];
+      const lay = MIXMATCH_CATALOG.layer[mixMatchSelection.layer % MIXMATCH_CATALOG.layer.length];
+      if (typeof loadWardrobeItems === 'function' && typeof persistWardrobeItems === 'function') {
+        const items = loadWardrobeItems();
+        items.unshift({
+          id: 'w-mix-' + Date.now(),
+          name: `${top.title} + ${lay.title}`,
+          brand: `${top.brand} × ${bot.brand}`,
+          category: 'Dresses',
+          fabric: 'Mix & Match · Saved Look',
+          wears: 1,
+          img: top.img,
+          arKey: top.arKey || 'shirt',
+          mannequinKey: top.key || 'shirt'
+        });
+        persistWardrobeItems(items);
+        if (typeof renderWardrobe === 'function') renderWardrobe();
+      }
+      showStudioToast('Saved complete cross-brand Mix & Match outfit to My Smart Wardrobe!');
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       syncAITwinUI();
+      renderMixMatchStudio();
     });
+
     function tryOnMyTwin(garmentKey, garmentName) {
+      const beforeImg = document.getElementById('before-img');
+      if (beforeImg && aiTwinProfile && aiTwinProfile.avatar) {
+        beforeImg.src = aiTwinProfile.avatar;
+      }
+
+      if (typeof TRYON_RESULTS !== 'undefined' && !TRYON_RESULTS[garmentName]) {
+        const catalogHit = Object.values(SHOP_CATALOG_MAP || {}).find(c =>
+          c.title.toLowerCase() === String(garmentName || '').toLowerCase()
+        );
+        const classified = typeof classifyGarmentFromInput === 'function'
+          ? classifyGarmentFromInput(garmentKey || '', garmentName || '', 'auto')
+          : null;
+        const resolvedImg = (catalogHit && catalogHit.img) || (classified && classified.previewUrl) || 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80';
+        TRYON_RESULTS[garmentName] = {
+          afterImg: resolvedImg,
+          frontImg: resolvedImg,
+          threeQuarterImg: resolvedImg,
+          profileImg: resolvedImg,
+          silhouette: `${aiTwinProfile.shape} · ${aiTwinProfile.fitStyle}`,
+          drape: classified ? classified.spec.label : 'Tailored Fit',
+          tension: `Size ${aiTwinProfile.size} Matched (99.3%)`,
+          summary: `AI Twin (${aiTwinProfile.name} · ${aiTwinProfile.height}cm · Bust ${aiTwinProfile.bust}" / Waist ${aiTwinProfile.waist}") wearing ${garmentName}`
+        };
+      }
+
+      if (typeof selectedGarmentName !== 'undefined') selectedGarmentName = garmentName;
       openStudio('photo');
-      document.getElementById('selected-garment-title').textContent = garmentName;
+      const titleEl = document.getElementById('selected-garment-title');
+      if (titleEl) titleEl.textContent = garmentName;
       executeTryOn();
     }
-    function applyVibe(vibeText) { document.getElementById('vibe-search-input').value = vibeText; handleVibeSearch(); }
+
+    function applyVibe(vibeText) {
+      const input = document.getElementById('vibe-search-input');
+      if (input) input.value = vibeText;
+      handleVibeSearch();
+    }
+
+    function clearVibeSearch() {
+      const box = document.getElementById('twin-vibe-results');
+      if (box) box.classList.add('hidden');
+      const input = document.getElementById('vibe-search-input');
+      if (input) input.value = '';
+      document.querySelectorAll('.store-brand-section').forEach(s => { s.style.opacity = '1'; });
+    }
+
+    function scoreAndMatchCatalog(queryText) {
+      const q = String(queryText || '').toLowerCase();
+      const budgetMatch = q.match(/(?:under|below|<|₹)\s*([\d,.]+)\s*(k)?/i);
+      let maxPrice = Infinity;
+      if (budgetMatch) {
+        let num = parseFloat(budgetMatch[1].replace(/,/g, ''));
+        if (budgetMatch[2] && budgetMatch[2].toLowerCase() === 'k') num *= 1000;
+        if (Number.isFinite(num) && num > 0) maxPrice = num;
+      }
+
+      const pool = Object.values(SHOP_CATALOG_MAP || {});
+      const fallbackPool = [
+        { id: 'v_slip', title: 'Emerald Silk Slip Dress', brand: 'ZARA · H&M', price: '₹3,990', img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=400&q=80', garmentKey: 'dress_emerald', buyUrl: 'https://www2.hm.com/' },
+        { id: 'v_bodycon', title: 'Crimson Ribbed Bodycon Midi Dress', brand: 'H&M', price: '₹1,999', img: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80', garmentKey: 'dress_crimson', buyUrl: 'https://www2.hm.com/' },
+        { id: 'v_blazer', title: 'Charcoal Wool Tailored Blazer', brand: 'MYNTRA', price: '₹4,990', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80', garmentKey: 'blazer', buyUrl: 'https://www.myntra.com/' },
+        { id: 'v_linen', title: 'Relaxed Linen Resort Shirt', brand: 'SNITCH · H&M', price: '₹999', img: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80', garmentKey: 'shirt', buyUrl: 'https://www.snitch.co.in/' },
+        { id: 'v_kurta', title: 'Mulberry Silk Anarkali Gown', brand: 'FABINDIA', price: '₹3,490', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80', garmentKey: 'dress_anarkali', buyUrl: 'https://www.fabindia.com/' },
+        { id: 'v_cargo', title: 'High-Waist Parachute Cargo', brand: 'SHEIN', price: '₹1,350', img: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80', garmentKey: 'pants', buyUrl: 'https://www.shein.com/' }
+      ];
+      const candidates = pool.length >= 6 ? pool : [...pool, ...fallbackPool];
+
+      const scored = candidates.map(item => {
+        const hay = `${item.title} ${item.brand} ${item.garmentKey}`.toLowerCase();
+        let score = 0;
+        if (q.includes('revenge') && (hay.includes('slip') || hay.includes('bodycon') || hay.includes('biker') || hay.includes('corset') || hay.includes('satin'))) score += 6;
+        if ((q.includes('blazer') || q.includes('office') || q.includes('jeans')) && (hay.includes('blazer') || hay.includes('jean') || hay.includes('linen') || hay.includes('shirt') || hay.includes('trouser'))) score += 6;
+        if ((q.includes('red') || q.includes('crimson') || q.includes('ruby')) && (hay.includes('crimson') || hay.includes('red') || hay.includes('midi') || hay.includes('dress'))) score += 6;
+        if ((q.includes('old money') || q.includes('brunch') || q.includes('linen')) && (hay.includes('linen') || hay.includes('blazer') || hay.includes('slip') || hay.includes('chino'))) score += 5;
+        if ((q.includes('street') || q.includes('korean') || q.includes('oversized')) && (hay.includes('hoodie') || hay.includes('cargo') || hay.includes('tee') || hay.includes('cuban') || hay.includes('sen'))) score += 5;
+        if ((q.includes('festive') || q.includes('indo') || q.includes('kurta')) && (hay.includes('kurta') || hay.includes('anarkali') || hay.includes('silk') || hay.includes('ethnic'))) score += 6;
+
+        q.split(/\s+/).filter(w => w.length > 2).forEach(word => {
+          if (hay.includes(word)) score += 3;
+        });
+
+        const itemNumPrice = parseInt(String(item.price || '1500').replace(/[^0-9]/g, ''), 10) || 1500;
+        if (maxPrice < Infinity) {
+          score += itemNumPrice <= maxPrice ? 3 : -4;
+        }
+        return { item, score };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+      const top = scored.filter(s => s.score > 0).slice(0, 6).map(s => s.item);
+      return top.length > 0 ? top : candidates.slice(0, 6);
+    }
+
+    function renderTwinSearchResults(label, items, screenshotDataUrl) {
+      const esc = typeof escapeWishlistHtml === 'function' ? escapeWishlistHtml : (s => String(s || ''));
+      const box = document.getElementById('twin-vibe-results');
+      const grid = document.getElementById('twin-vibe-grid');
+      const titleEl = document.getElementById('twin-vibe-query-label');
+      const ssWrap = document.getElementById('twin-vibe-screenshot-wrap');
+      const ssImg = document.getElementById('twin-vibe-screenshot-img');
+      if (!box || !grid) return;
+
+      if (titleEl) titleEl.textContent = label;
+      if (ssWrap && ssImg) {
+        if (screenshotDataUrl) {
+          ssImg.src = screenshotDataUrl;
+          ssWrap.classList.remove('hidden');
+        } else {
+          ssWrap.classList.add('hidden');
+        }
+      }
+
+      grid.innerHTML = items.map(item => `
+        <div class="p-3 rounded-xl bg-surface border border-border hover:border-lavender/70 flex gap-3 items-center transition">
+          <img src="${esc(item.img)}" class="w-16 h-20 rounded-lg object-cover border border-white/10 shrink-0">
+          <div class="min-w-0 flex-1 space-y-1">
+            <span class="text-[9px] font-mono font-bold text-lavender uppercase block truncate">${esc(item.brand || 'Store Match')}</span>
+            <h5 class="text-xs font-bold text-ivory truncate">${esc(item.title)}</h5>
+            <span class="text-[11px] font-mono font-bold text-white block">${esc(item.price || '₹1,499')}</span>
+            <div class="flex flex-wrap gap-1 pt-0.5">
+              <button type="button" onclick="tryOnMyTwin('${esc(item.garmentKey || 'dress_emerald')}', '${esc(item.title).replace(/'/g, "\\'")}')" class="px-2 py-0.5 rounded bg-lavender text-midnight font-bold text-[10px] hover:bg-white transition">Try Twin</button>
+              <button type="button" onclick="addPieceToMixMatch('${esc(item.title).replace(/'/g, "\\'")}', '${esc(item.brand || 'Store').replace(/'/g, "\\'")}', '${esc(item.price || '1499')}', '${esc(item.img)}', '${esc(item.garmentKey || 'shirt')}')" class="px-2 py-0.5 rounded bg-surface-light border border-lavender/40 text-lavender font-bold text-[10px] hover:bg-lavender hover:text-midnight transition">+ Mix</button>
+              ${item.buyUrl ? `<a href="${esc(item.buyUrl)}" target="_blank" class="px-2 py-0.5 rounded bg-black/60 border border-border text-white/85 text-[10px] hover:border-lavender">Buy ↗</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      box.classList.remove('hidden');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (window.lucide) lucide.createIcons();
+    }
+
     function handleVibeSearch() {
       const input = document.getElementById('vibe-search-input');
       const val = input ? input.value.trim() : '';
-      if (!val) return;
-      const sections = document.querySelectorAll('.store-brand-section');
-      sections.forEach(s => { s.style.opacity = '0.4'; });
-      setTimeout(() => {
-        sections.forEach(s => { s.style.opacity = '1'; });
-        if (typeof showStudioToast === 'function') {
-          showStudioToast(`🔍 Yuri Vibe Search matched outfits for "${val}"`);
-        }
-      }, 350);
+      if (!val) {
+        clearVibeSearch();
+        return;
+      }
+      const matches = scoreAndMatchCatalog(val);
+      renderTwinSearchResults(`${matches.length} Cross-Brand Matches for "${val}"`, matches, null);
+      if (typeof showStudioToast === 'function') {
+        showStudioToast(`🔍 Matched ${matches.length} cross-brand outfits for "${val}"!`);
+      }
     }
+
     function triggerScreenshotUpload() { document.getElementById('screenshot-file-input').click(); }
     function handleScreenshotUpload(event) {
-      if (event.target.files[0]) {
-        showStudioToast('Neural Segmentation Engine: Detected Cuban Shirt + Cargos. Finding matches...');
-        switchTab('shop');
-      }
+      const file = event.target?.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        const img = new Image();
+        img.onload = () => {
+          const palette = typeof sampleGarmentPaletteFromImage === 'function' ? sampleGarmentPaletteFromImage(img) : null;
+          let hintQuery = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ');
+          if (palette && palette.base) {
+            const hex = palette.base;
+            const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            if (r > g + 35 && r > b + 35) hintQuery += ' red crimson dress';
+            else if (g > r + 20 && g > b + 15) hintQuery += ' emerald silk dress';
+            else if (b > r + 25) hintQuery += ' navy linen streetwear';
+            else if (r > 180 && g > 180 && b > 170) hintQuery += ' linen old money shirt';
+            else hintQuery += ' black blazer revenge outfit';
+          } else {
+            hintQuery += ' blazer linen dress';
+          }
+          const matches = scoreAndMatchCatalog(hintQuery);
+          switchTab('shop');
+          renderTwinSearchResults('Screenshot Segmented · Similar Looks Across Brands', matches, dataUrl);
+          showStudioToast('📸 Screenshot analyzed! Found cross-brand matches ready for your AI Twin.');
+        };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
     }
 
     // =========================================================================
@@ -7045,8 +9041,15 @@
       openStudio('mannequin');
       setTimeout(() => {
         if (typeof selectMannequinGarment === 'function') {
+          const cutMap = { dress_emerald: 'slip', dress_crimson: 'maxi_dress', dress_floral: 'aline_dress', dress_anarkali: 'kurta', hoodie: 'hoodie', shirt: 'shirt' };
           const key = item.garmentKey === 'sen_jersey' ? 'sen_jersey' : ('wishlist_' + item.id);
-          selectMannequinGarment(key, item.title, item.img, null);
+          const classified = typeof classifyGarmentFromInput === 'function'
+            ? classifyGarmentFromInput(item.img, item.title, cutMap[item.garmentKey] || 'auto')
+            : null;
+          selectMannequinGarment(key, item.title, item.img, null, classified ? classified.spec : null);
+          if (typeof updateMannequinLinkPreviewCard === 'function') {
+            updateMannequinLinkPreviewCard(item.brand || 'Shop Wishlist', `${classified ? classified.spec.label : 'Dress'} · Draped`, item.img);
+          }
         }
         if (typeof showStudioToast === 'function') {
           showStudioToast(`👗 Draped "${item.title}" onto 3D Mannequin!`);
@@ -7140,7 +9143,8 @@
         showStudioToast('Enter a product image URL or choose one of the store presets below.');
         return;
       }
-      applyCustomWebGarment(url, 'Web Extracted Garment');
+      const classified = typeof classifyGarmentFromInput === 'function' ? classifyGarmentFromInput(url, '') : null;
+      applyCustomWebGarment(url, classified ? classified.title : 'Web Extracted Garment', classified ? classified.cutKey : 'dress_emerald');
       closeUniversalDropModal();
     }
 
@@ -7161,12 +9165,18 @@
       }
     }
 
-    function applyCustomWebGarment(imgUrl, title, garmentKeyHint) {
+    function applyCustomWebGarment(imgUrl, title, garmentKeyHint, skipMannequinSync) {
       const scanOverlay = document.getElementById('anywear-scanning-overlay');
       const scanImg = document.getElementById('scan-preview-img');
       const scanStatus = document.getElementById('scan-status-text');
+      const classified = typeof classifyGarmentFromInput === 'function'
+        ? classifyGarmentFromInput(imgUrl, title || '', garmentKeyHint || 'auto')
+        : { storeName: 'Store', title: title || 'Custom Web Garment', cutKey: garmentKeyHint || 'dress_emerald', previewUrl: imgUrl, spec: null };
 
-      if (scanImg) scanImg.src = imgUrl;
+      const effectiveImgUrl = classified.previewUrl || imgUrl;
+      const finalTitle = (title && title !== 'Web Extracted Garment') ? title : classified.title;
+
+      if (scanImg) scanImg.src = effectiveImgUrl;
       if (scanOverlay) scanOverlay.classList.remove('hidden');
 
       setTimeout(() => {
@@ -7180,46 +9190,58 @@
       setTimeout(() => {
         if (scanOverlay) scanOverlay.classList.add('hidden');
 
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          currentCustomGarmentImg = img;
-          currentCustomGarmentTitle = title || 'Custom Web Garment';
-
-          if (garmentKeyHint) {
-            currentGarmentKey = garmentKeyHint;
-          } else {
-            currentGarmentKey = 'dress_emerald';
-          }
+        const finalizeCustomLoad = (loadedImg, resolvedUrl) => {
+          currentCustomGarmentImg = loadedImg;
+          currentCustomGarmentTitle = finalTitle;
+          currentGarmentKey = garmentKeyHint || classified.cutKey || 'dress_emerald';
 
           const titleEl = document.getElementById('current-ar-garment-name');
-          if (titleEl) titleEl.textContent = '🌐 ' + (title || 'Custom Garment');
+          if (titleEl) titleEl.textContent = '🌐 ' + finalTitle;
 
-          // Register in Photo VTON
-          TRYON_RESULTS[title] = {
-            afterImg: imgUrl,
-            frontImg: imgUrl,
-            threeQuarterImg: imgUrl,
-            profileImg: imgUrl,
-            silhouette: 'Custom Universal Web Fit',
+          TRYON_RESULTS[finalTitle] = {
+            afterImg: resolvedUrl,
+            frontImg: resolvedUrl,
+            threeQuarterImg: resolvedUrl,
+            profileImg: resolvedUrl,
+            silhouette: `${classified.storeName} · Custom Web Fit`,
             drape: 'Decart Neural Drape',
             tension: 'Contoured (99.6%)',
             summary: 'Decart Lucy V-TON: 99.6% Accuracy · Background Removed · Contoured to Body Geometry'
           };
-          selectedGarmentName = title;
+          selectedGarmentName = finalTitle;
           const photoTitleEl = document.getElementById('selected-garment-title');
-          if (photoTitleEl) photoTitleEl.textContent = title;
+          if (photoTitleEl) photoTitleEl.textContent = finalTitle;
 
           autoFitGarment();
 
+          if (!skipMannequinSync && typeof selectMannequinGarment === 'function') {
+            selectMannequinGarment('web_' + Date.now(), finalTitle, resolvedUrl, null, classified.spec);
+            if (typeof updateMannequinLinkPreviewCard === 'function') {
+              updateMannequinLinkPreviewCard(classified.storeName, `${classified.spec ? classified.spec.label : 'Dress'} · Synced`, resolvedUrl);
+            }
+          }
+
           const badge = document.getElementById('auto-fit-badge');
           if (badge) {
-            badge.textContent = `✓ ${title} Isolated & Draped with Decart Lucy V-TON`;
+            badge.textContent = `✓ ${finalTitle} Isolated & Draped with Decart Lucy V-TON`;
             badge.classList.remove('hidden');
             setTimeout(() => badge.classList.add('hidden'), 4000);
           }
         };
-        img.src = imgUrl;
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => finalizeCustomLoad(img, effectiveImgUrl);
+        img.onerror = () => {
+          // Graceful fallback if external URL fails CORS/network so 3D Mannequin + AR never stall
+          const fallbackUrl = 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80';
+          const fbImg = new Image();
+          fbImg.crossOrigin = 'anonymous';
+          fbImg.onload = () => finalizeCustomLoad(fbImg, fallbackUrl);
+          fbImg.onerror = () => finalizeCustomLoad(null, fallbackUrl);
+          fbImg.src = fallbackUrl;
+        };
+        img.src = effectiveImgUrl;
       }, 1500);
     }
 
@@ -7622,10 +9644,12 @@
       }
     }
 
-    // Initialize Universal Drop, Clipboard, Smart Wardrobe & Credit Subscription on boot
+    // Initialize Universal Drop, Clipboard, Smart Wardrobe, Mannequin Recent/Saved & External Link Loader on boot
     initUniversalDrop();
     renderWardrobe();
     renderSubscriptionUI();
+    renderMannequinRecentAndSaved();
+    checkExternalDressUrlParam();
 
   </script>
 
