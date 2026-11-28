@@ -192,11 +192,13 @@
 
       <!-- Right Action Controls -->
       <div class="flex items-center gap-2 sm:gap-2.5">
-        <div class="flex items-center gap-1.5 bg-surface px-3 py-1.5 rounded-xl border border-lavender/30 text-xs text-lavender font-mono font-bold shadow-inner">
+        <button type="button" onclick="openSubscriptionModal()" title="Manage Plan & Monthly Credits" class="flex items-center gap-1.5 bg-surface hover:bg-surface-light px-2.5 sm:px-3 py-1.5 rounded-xl border border-lavender/40 hover:border-lavender text-xs text-lavender font-mono font-bold shadow-inner transition group cursor-pointer">
+          <span id="header-plan-badge" class="px-1.5 py-0.5 rounded bg-lavender/20 text-lavender text-[9px] font-bold tracking-wider uppercase">FREE</span>
           <span class="w-1.5 h-1.5 rounded-full bg-lavender animate-pulse"></span>
           <span id="credit-count">25</span>
           <span class="hidden sm:inline text-[10px] tracking-wider">CR</span>
-        </div>
+          <span class="text-[10px] text-white/70 group-hover:text-lavender transition">+</span>
+        </button>
 
         <button onclick="switchTab('profile')" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-lavender/20 to-white/5 border border-lavender/40 flex items-center justify-center text-lavender hover:bg-lavender hover:text-midnight transition" title="User Profile">
           <i data-lucide="user" class="w-4 h-4"></i>
@@ -2557,10 +2559,91 @@
                 <span id="profile-stat-bw" class="font-mono font-bold text-white">36" / 28"</span>
               </div>
             </div>
-            <div class="pt-1 flex justify-center">
+            <div class="pt-1 flex justify-center gap-2 flex-wrap">
               <button onclick="openTwinModal()" class="px-4 py-1.5 rounded-full bg-lavender text-midnight text-xs font-bold shadow-md hover:bg-white transition flex items-center gap-1.5">
                 <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Edit My AI Twin
               </button>
+              <button onclick="openSubscriptionModal()" class="px-4 py-1.5 rounded-full bg-surface-light border border-lavender/40 text-lavender text-xs font-bold hover:bg-lavender hover:text-midnight transition flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i> Upgrade Plan & Credits
+              </button>
+            </div>
+          </div>
+
+          <!-- Credit Subscription & Cost Control Hub -->
+          <div class="p-5 rounded-2xl bg-surface border border-lavender/35 space-y-4 atelier-frame">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-[0.18em] text-lavender font-bold">Business Model · Credit Subscription</span>
+                <h4 class="text-base font-display font-bold text-ivory mt-0.5 flex items-center gap-2">
+                  <span>Current Plan:</span>
+                  <span id="profile-plan-badge" class="px-2 py-0.5 rounded bg-lavender text-midnight text-xs font-mono font-extrabold">FREE · ₹0</span>
+                </h4>
+                <p id="profile-plan-desc" class="text-xs text-white/75 mt-0.5">Starter credits to try it and build a wardrobe</p>
+              </div>
+              <button onclick="openSubscriptionModal()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-sage to-lavender text-midnight text-xs font-extrabold shadow-md hover:opacity-95 transition flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Change Plan / Top-Up
+              </button>
+            </div>
+
+            <!-- Credit Quota Bar -->
+            <div class="p-3.5 rounded-xl bg-black/60 border border-border space-y-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-white/75">Monthly Credit Allowance</span>
+                <span id="profile-credit-fraction" class="text-lavender font-bold">25 / 25 CR</span>
+              </div>
+              <div class="w-full h-2.5 rounded-full bg-surface-light overflow-hidden border border-white/10">
+                <div id="profile-credit-bar" class="h-full rounded-full bg-gradient-to-r from-lavender to-sage transition-all duration-300" style="width: 100%"></div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2 text-[10px] text-white/65 font-mono">
+                <span>Neural Photo VTON: 5 CR/render · Live AR & 3D Mannequin: Free</span>
+                <span id="profile-cost-track" class="text-sage">Tracked Avg: ₹2.40 / AI Fit</span>
+              </div>
+            </div>
+
+            <!-- Quick Tier Selector -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div class="p-3 rounded-xl bg-surface-light border border-border flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-mono font-bold text-white/70 uppercase">Free</span>
+                    <span class="text-xs font-mono font-bold text-ivory">₹0</span>
+                  </div>
+                  <p class="text-xs font-bold text-lavender mt-1">25 CR / mo</p>
+                  <p class="text-[10px] text-white/70 mt-0.5">Starter credits & wardrobe builder</p>
+                </div>
+                <button onclick="subscribePlan('free')" id="profile-btn-free" class="w-full py-1.5 rounded-lg bg-black/50 border border-white/15 text-[11px] font-bold text-white/80 hover:border-lavender transition">Active Plan</button>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-light border border-lavender/50 flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-mono font-bold text-lavender uppercase">Plus</span>
+                    <span class="text-xs font-mono font-bold text-ivory">₹199/mo</span>
+                  </div>
+                  <p class="text-xs font-bold text-lavender mt-1">150 CR / mo</p>
+                  <p class="text-[10px] text-white/70 mt-0.5">More credits & full AI stylist access</p>
+                </div>
+                <button onclick="subscribePlan('plus')" id="profile-btn-plus" class="w-full py-1.5 rounded-lg bg-lavender text-midnight text-[11px] font-bold hover:bg-white transition">Upgrade +150 CR</button>
+              </div>
+              <div class="p-3 rounded-xl bg-gradient-to-br from-lavender/20 to-black border border-lavender flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-mono font-bold text-lavender uppercase">Pro</span>
+                    <span class="text-xs font-mono font-bold text-ivory">₹499/mo</span>
+                  </div>
+                  <p class="text-xs font-bold text-sage mt-1">600 CR / mo</p>
+                  <p class="text-[10px] text-white/70 mt-0.5">Highest quota + early video try-on</p>
+                </div>
+                <button onclick="subscribePlan('pro')" id="profile-btn-pro" class="w-full py-1.5 rounded-lg bg-gradient-to-r from-sage to-lavender text-midnight text-[11px] font-extrabold hover:opacity-95 transition">Go Pro +600 CR</button>
+              </div>
+            </div>
+
+            <!-- Credit Ledger -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-white/60">
+                <span>Recent Credit Activity</span>
+                <span>Official Retailer Partner Feed Active</span>
+              </div>
+              <div id="profile-credit-history" class="space-y-1 text-[11px] font-mono"></div>
             </div>
           </div>
         </div>
@@ -6033,6 +6116,11 @@
     let isExecuting = false;
     function executeTryOn() {
       if (isExecuting) return;
+      if (typeof getAvailableCredits === 'function' && getAvailableCredits() < 5) {
+        showStudioToast('Need 5 Credits for Neural Body Fit — upgrade to Plus or Pro for 150–600 CR!');
+        if (typeof openSubscriptionModal === 'function') openSubscriptionModal();
+        return;
+      }
       isExecuting = true;
       const btn = document.getElementById('btn-generate-tryon');
       const originalText = btn.innerHTML;
@@ -6064,10 +6152,8 @@
           resultCard.classList.remove('hidden');
           resultCard.scrollIntoView({ behavior: 'smooth' });
         }
-        const creditEl = document.getElementById('credit-count');
-        if (creditEl) {
-          const currentCredits = parseInt(creditEl.textContent, 10);
-          creditEl.textContent = String(Math.max(0, (Number.isFinite(currentCredits) ? currentCredits : 25) - 5));
+        if (typeof spendCredits === 'function') {
+          spendCredits(5, 'Neural Body Fit · ' + selectedGarmentName);
         }
         lucide.createIcons();
       }, 2000);
@@ -7322,9 +7408,224 @@
       }
     }
 
-    // Initialize Universal Drop, Clipboard & Smart Wardrobe on boot
+    // =========================================================================
+    // 💳 CREDIT SUBSCRIPTION & BUSINESS MODEL ENGINE (FREE / PLUS / PRO)
+    // =========================================================================
+    const SUBSCRIPTION_STORAGE_KEY = 'yuri_subscription_v1';
+    const SUBSCRIPTION_PLANS = {
+      free: {
+        id: 'free',
+        badge: 'FREE',
+        name: 'Free',
+        price: '₹0',
+        monthlyCredits: 25,
+        summary: 'Starter credits to try it and build a wardrobe',
+        costPerRender: '₹2.40 / AI Fit'
+      },
+      plus: {
+        id: 'plus',
+        badge: 'PLUS',
+        name: 'Plus',
+        price: '₹199/mo',
+        monthlyCredits: 150,
+        summary: 'More credits and full AI stylist access',
+        costPerRender: '₹1.85 / AI Fit'
+      },
+      pro: {
+        id: 'pro',
+        badge: 'PRO',
+        name: 'Pro',
+        price: '₹499/mo',
+        monthlyCredits: 600,
+        summary: 'Highest quota plus early live and video try-on',
+        costPerRender: '₹1.20 / AI Fit'
+      }
+    };
+
+    function loadSubscriptionState() {
+      try {
+        const raw = localStorage.getItem(SUBSCRIPTION_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && SUBSCRIPTION_PLANS[parsed.planId]) {
+            return {
+              planId: parsed.planId,
+              credits: Number.isFinite(parsed.credits) ? parsed.credits : SUBSCRIPTION_PLANS[parsed.planId].monthlyCredits,
+              quota: Number.isFinite(parsed.quota) ? parsed.quota : SUBSCRIPTION_PLANS[parsed.planId].monthlyCredits,
+              history: Array.isArray(parsed.history) ? parsed.history.slice(0, 5) : []
+            };
+          }
+        }
+      } catch (e) {}
+      return {
+        planId: 'free',
+        credits: 25,
+        quota: 25,
+        history: [
+          { label: 'Free Starter Monthly Allowance', delta: '+25 CR', time: 'Cycle Active' }
+        ]
+      };
+    }
+
+    function saveSubscriptionState(state) {
+      try {
+        localStorage.setItem(SUBSCRIPTION_STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function getAvailableCredits() {
+      return loadSubscriptionState().credits;
+    }
+
+    function spendCredits(amount, actionLabel) {
+      const state = loadSubscriptionState();
+      if (state.credits < amount) return false;
+      state.credits = Math.max(0, state.credits - amount);
+      state.history.unshift({
+        label: actionLabel || 'Neural VTON Render',
+        delta: `-${amount} CR`,
+        time: 'Just now'
+      });
+      state.history = state.history.slice(0, 5);
+      saveSubscriptionState(state);
+      renderSubscriptionUI();
+      return true;
+    }
+
+    function subscribePlan(planId) {
+      const plan = SUBSCRIPTION_PLANS[planId];
+      if (!plan) return;
+      const state = loadSubscriptionState();
+      if (state.planId === planId && planId === 'free') {
+        showStudioToast('Already on Free Starter Plan (25 CR monthly quota).');
+        return;
+      }
+
+      if (planId === 'free') {
+        state.planId = 'free';
+        state.quota = 25;
+        state.credits = Math.min(state.credits, 25) || 25;
+        state.history.unshift({ label: 'Switched to Free Starter Plan', delta: '25 CR cap', time: 'Just now' });
+      } else {
+        state.planId = planId;
+        state.quota = plan.monthlyCredits;
+        state.credits = state.credits + plan.monthlyCredits;
+        state.history.unshift({ label: `Subscribed ${plan.name} (${plan.price})`, delta: `+${plan.monthlyCredits} CR`, time: 'Just now' });
+      }
+      state.history = state.history.slice(0, 5);
+      saveSubscriptionState(state);
+      renderSubscriptionUI();
+      showStudioToast(
+        planId === 'free'
+          ? 'Switched to Free Plan (25 CR/mo quota).'
+          : `Activated YURI ${plan.name} (${plan.price}) — +${plan.monthlyCredits} Credits added!`
+      );
+    }
+
+    function buyCreditTopup(amount, priceLabel) {
+      const state = loadSubscriptionState();
+      state.credits += amount;
+      state.quota = Math.max(state.quota, state.credits);
+      state.history.unshift({
+        label: `Credit Top-Up Pack (${priceLabel})`,
+        delta: `+${amount} CR`,
+        time: 'Just now'
+      });
+      state.history = state.history.slice(0, 5);
+      saveSubscriptionState(state);
+      renderSubscriptionUI();
+      showStudioToast(`Added +${amount} Credits (${priceLabel}) to your YURI account!`);
+    }
+
+    function openSubscriptionModal() {
+      const modal = document.getElementById('subscription-modal');
+      if (!modal) return;
+      renderSubscriptionUI();
+      modal.classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeSubscriptionModal() {
+      const modal = document.getElementById('subscription-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderSubscriptionUI() {
+      const state = loadSubscriptionState();
+      const plan = SUBSCRIPTION_PLANS[state.planId] || SUBSCRIPTION_PLANS.free;
+      const esc = typeof escapeWishlistHtml === 'function' ? escapeWishlistHtml : (s => String(s || ''));
+
+      const headerCredits = document.getElementById('credit-count');
+      if (headerCredits) headerCredits.textContent = String(state.credits);
+
+      const headerBadge = document.getElementById('header-plan-badge');
+      if (headerBadge) {
+        headerBadge.textContent = plan.badge;
+        headerBadge.className = state.planId === 'pro'
+          ? 'px-1.5 py-0.5 rounded bg-gradient-to-r from-sage to-lavender text-midnight text-[9px] font-extrabold tracking-wider uppercase'
+          : state.planId === 'plus'
+            ? 'px-1.5 py-0.5 rounded bg-lavender text-midnight text-[9px] font-extrabold tracking-wider uppercase'
+            : 'px-1.5 py-0.5 rounded bg-lavender/20 text-lavender text-[9px] font-bold tracking-wider uppercase';
+      }
+
+      const profileBadge = document.getElementById('profile-plan-badge');
+      if (profileBadge) profileBadge.textContent = `${plan.badge} · ${plan.price}`;
+
+      const profileDesc = document.getElementById('profile-plan-desc');
+      if (profileDesc) profileDesc.textContent = plan.summary;
+
+      const fractionEl = document.getElementById('profile-credit-fraction');
+      if (fractionEl) fractionEl.textContent = `${state.credits} / ${state.quota} CR`;
+
+      const barEl = document.getElementById('profile-credit-bar');
+      if (barEl) {
+        const pct = Math.min(100, Math.round((state.credits / Math.max(1, state.quota)) * 100));
+        barEl.style.width = `${pct}%`;
+      }
+
+      const costTrack = document.getElementById('profile-cost-track');
+      if (costTrack) costTrack.textContent = `Tracked Avg: ${plan.costPerRender}`;
+
+      const subQuota = document.getElementById('sub-modal-active-summary');
+      if (subQuota) subQuota.textContent = `${plan.badge} PLAN (${plan.price}) · ${state.credits} CR available`;
+
+      ['free', 'plus', 'pro'].forEach(id => {
+        const pBtn = document.getElementById(`profile-btn-${id}`);
+        if (pBtn) {
+          if (state.planId === id) {
+            pBtn.textContent = '✓ Current Plan';
+          } else {
+            pBtn.textContent = id === 'free' ? 'Switch to Free' : id === 'plus' ? 'Upgrade +150 CR' : 'Go Pro +600 CR';
+          }
+        }
+        const mCard = document.getElementById(`sub-card-${id}`);
+        const mBtn = document.getElementById(`sub-btn-${id}`);
+        if (mCard) {
+          if (state.planId === id) mCard.classList.add('ring-2', 'ring-lavender');
+          else mCard.classList.remove('ring-2', 'ring-lavender');
+        }
+        if (mBtn) {
+          mBtn.textContent = state.planId === id
+            ? (id === 'free' ? '✓ Active Plan' : `✓ Active (+Renew ${SUBSCRIPTION_PLANS[id].monthlyCredits} CR)`)
+            : (id === 'free' ? 'Switch to Free' : id === 'plus' ? 'Get Plus · +150 CR' : 'Go Pro · +600 CR');
+        }
+      });
+
+      const historyEl = document.getElementById('profile-credit-history');
+      if (historyEl) {
+        historyEl.innerHTML = state.history.map(item => `
+          <div class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
+            <span class="text-white/85 truncate pr-2">${esc(item.label)}</span>
+            <span class="${String(item.delta).startsWith('-') ? 'text-rose-400' : 'text-lavender'} font-bold whitespace-nowrap">${esc(item.delta)} · ${esc(item.time)}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Initialize Universal Drop, Clipboard, Smart Wardrobe & Credit Subscription on boot
     initUniversalDrop();
     renderWardrobe();
+    renderSubscriptionUI();
 
   </script>
 
@@ -7428,6 +7729,146 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 💳 MODAL 5: YURI BUSINESS MODEL & CREDIT SUBSCRIPTIONS                    -->
+  <!-- ========================================================================= -->
+  <div id="subscription-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[115] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-surface border border-lavender/45 rounded-3xl max-w-4xl w-full p-5 sm:p-7 space-y-5 shadow-2xl relative atelier-frame my-auto">
+      <button type="button" onclick="closeSubscriptionModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-light border border-border text-white/90 hover:text-white flex items-center justify-center text-sm shadow-md">✕</button>
+
+      <div class="pr-8">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-lavender font-bold">Business Model · How YURI Earns</span>
+          <span id="sub-modal-active-summary" class="text-[10px] font-mono bg-lavender/15 text-lavender border border-lavender/35 px-2.5 py-0.5 rounded-full font-bold">FREE PLAN (₹0) · 25 CR available</span>
+        </div>
+        <h3 class="text-lg sm:text-2xl font-display font-extrabold text-ivory tracking-tight uppercase mt-1.5 leading-tight">
+          Free try-ons bring users, subscriptions and retailer clicks bring revenue
+        </h3>
+      </div>
+
+      <!-- 3 Tier Subscription Matrix + Cost Control Sidebar (Slide 06 Layout) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+        <div class="lg:col-span-8 space-y-3 flex flex-col justify-between">
+          <!-- 3 Tiers -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- FREE -->
+            <div id="sub-card-free" class="p-4 rounded-2xl bg-black/70 border border-border flex flex-col justify-between gap-3 transition">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold tracking-[0.18em] text-white/70 uppercase">Free</span>
+                  <span class="text-[10px] font-mono text-white/60">25 CR/mo</span>
+                </div>
+                <div class="text-2xl font-display font-extrabold text-ivory mt-1">₹0</div>
+                <p class="text-[11px] text-white/75 mt-1.5 leading-relaxed">Starter credits to try it and build a wardrobe</p>
+                <ul class="mt-2.5 space-y-1 text-[10px] font-mono text-white/70">
+                  <li>✦ 25 Neural VTON Credits/mo</li>
+                  <li>✦ Live AR & 3D Form Free</li>
+                </ul>
+              </div>
+              <button type="button" id="sub-btn-free" onclick="subscribePlan('free')" class="w-full py-2 rounded-xl bg-surface-light border border-border text-white/90 text-[11px] font-bold hover:border-lavender transition">
+                Switch to Free
+              </button>
+            </div>
+
+            <!-- PLUS -->
+            <div id="sub-card-plus" class="p-4 rounded-2xl bg-[#111018] border border-lavender/60 flex flex-col justify-between gap-3 relative transition">
+              <span class="absolute -top-2.5 right-3 px-2 py-0.5 rounded bg-lavender text-midnight text-[9px] font-mono font-extrabold tracking-wider">POPULAR</span>
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold tracking-[0.18em] text-lavender uppercase">Plus</span>
+                  <span class="text-[10px] font-mono text-lavender font-bold">150 CR/mo</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span class="text-2xl font-display font-extrabold text-ivory">₹199</span>
+                  <span class="text-xs font-mono text-white/65">/mo</span>
+                </div>
+                <p class="text-[11px] text-white/80 mt-1.5 leading-relaxed">More credits and full AI stylist access</p>
+                <ul class="mt-2.5 space-y-1 text-[10px] font-mono text-white/80">
+                  <li>✦ 150 Neural Credits/mo (6×)</li>
+                  <li>✦ Full AI Stylist Lookbooks</li>
+                </ul>
+              </div>
+              <button type="button" id="sub-btn-plus" onclick="subscribePlan('plus')" class="w-full py-2 rounded-xl bg-lavender text-midnight text-[11px] font-extrabold hover:bg-white transition shadow-lg">
+                Get Plus · +150 CR
+              </button>
+            </div>
+
+            <!-- PRO -->
+            <div id="sub-card-pro" class="p-4 rounded-2xl bg-gradient-to-br from-lavender/25 via-[#18150c] to-black border border-lavender flex flex-col justify-between gap-3 transition shadow-lg shadow-lavender/10">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold tracking-[0.18em] text-sage uppercase">Pro</span>
+                  <span class="text-[10px] font-mono text-sage font-bold">600 CR/mo</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span class="text-2xl font-display font-extrabold text-ivory">₹499</span>
+                  <span class="text-xs font-mono text-white/65">/mo</span>
+                </div>
+                <p class="text-[11px] text-white/85 mt-1.5 leading-relaxed">Highest quota plus early live and video try-on</p>
+                <ul class="mt-2.5 space-y-1 text-[10px] font-mono text-sage">
+                  <li>✦ 600 Neural Credits/mo (24×)</li>
+                  <li>✦ Early Live AR Video Capture</li>
+                </ul>
+              </div>
+              <button type="button" id="sub-btn-pro" onclick="subscribePlan('pro')" class="w-full py-2 rounded-xl bg-gradient-to-r from-sage to-lavender text-midnight text-[11px] font-extrabold hover:opacity-95 transition shadow-lg">
+                Go Pro · +600 CR
+              </button>
+            </div>
+          </div>
+
+          <!-- Instant Top-Up Packs + Affiliate Commissions Banner -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+            <div class="sm:col-span-7 p-3.5 rounded-2xl bg-black/70 border border-border flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-lavender text-midnight font-mono font-extrabold text-sm flex items-center justify-center shrink-0">%</div>
+              <div>
+                <span class="text-[10px] font-mono font-bold tracking-[0.16em] text-lavender uppercase block">Affiliate Commissions</span>
+                <p class="text-[11px] text-white/80 leading-snug mt-0.5">Shopper taps Buy, lands on the original retailer, and YURI earns a commission.</p>
+              </div>
+            </div>
+            <div class="sm:col-span-5 p-3 rounded-2xl bg-black/70 border border-lavender/35 flex flex-col justify-between gap-2">
+              <span class="text-[10px] font-mono font-bold tracking-[0.14em] text-white/75 uppercase">Need Instant Extra Credits?</span>
+              <div class="grid grid-cols-2 gap-1.5">
+                <button type="button" onclick="buyCreditTopup(50, '₹79')" class="py-1.5 px-2 rounded-lg bg-surface-light border border-lavender/40 text-lavender text-[10px] font-mono font-bold hover:bg-lavender hover:text-midnight transition">+50 CR · ₹79</button>
+                <button type="button" onclick="buyCreditTopup(200, '₹249')" class="py-1.5 px-2 rounded-lg bg-surface-light border border-sage/50 text-sage text-[10px] font-mono font-bold hover:bg-sage hover:text-midnight transition">+200 CR · ₹249</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Control Panel -->
+        <div class="lg:col-span-4 p-4 sm:p-5 rounded-2xl bg-black/75 border border-lavender/35 flex flex-col justify-between space-y-3">
+          <div class="space-y-3">
+            <span class="text-[10px] font-mono font-bold tracking-[0.2em] text-lavender uppercase block">Cost Control</span>
+            <div class="text-xs text-white/80 leading-relaxed">
+              <strong class="text-ivory">Credit quotas.</strong> Each plan has a monthly try-on allowance enforced automatically in 3D Studio.
+            </div>
+            <div class="text-xs text-white/80 leading-relaxed">
+              <strong class="text-ivory">Cost tracking.</strong> AI cost per result is measured to tune pricing across Live AR & Photo VTON.
+            </div>
+            <div class="text-xs text-white/80 leading-relaxed">
+              <strong class="text-ivory">Official partners.</strong> Only authorised retailer feeds (Zara, Myntra, Snitch, Maxesport, AJIO) earn commissions.
+            </div>
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-white/60">
+            <span>VTON Inference Cost</span>
+            <span class="text-sage font-bold">5 CR / Render</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Step Funnel Rail -->
+      <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono font-bold">
+        <button type="button" onclick="closeSubscriptionModal(); openStudio('photo');" class="flex-1 min-w-[120px] py-2 px-3 rounded-full bg-surface-light border border-border text-white/90 hover:border-lavender transition text-center tracking-wider">TRY FREE</button>
+        <span class="hidden sm:inline text-lavender">→</span>
+        <button type="button" onclick="closeSubscriptionModal(); switchTab('wardrobe');" class="flex-1 min-w-[120px] py-2 px-3 rounded-full bg-lavender/20 border border-lavender/40 text-lavender hover:bg-lavender hover:text-midnight transition text-center tracking-wider">BUILD WARDROBE</button>
+        <span class="hidden sm:inline text-lavender">→</span>
+        <button type="button" onclick="subscribePlan('plus')" class="flex-1 min-w-[120px] py-2 px-3 rounded-full bg-lavender text-midnight hover:bg-white transition text-center tracking-wider">UPGRADE</button>
+        <span class="hidden sm:inline text-lavender">→</span>
+        <button type="button" onclick="closeSubscriptionModal(); switchTab('shop');" class="flex-1 min-w-[120px] py-2 px-3 rounded-full bg-gradient-to-r from-sage to-amber-300 text-midnight hover:opacity-95 transition text-center tracking-wider">BUY AND EARN</button>
+      </div>
     </div>
   </div>
 
